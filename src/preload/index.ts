@@ -1,8 +1,21 @@
-import { contextBridge } from 'electron'
+import { contextBridge, ipcRenderer } from 'electron'
 import { electronAPI } from '@electron-toolkit/preload'
+import { LoginRequest, LoginResponse } from '@shared/interfaces/login.types'
 
 // Custom APIs for renderer
-const api = {}
+const api = {
+  /**
+   * Renderer --->>> Main
+   */
+  loginSteam: (data: LoginRequest): Promise<LoginResponse> => {
+    return ipcRenderer.invoke('main:game-session-login', data)
+  },
+
+  /**
+   * Main --->>> Renderer
+   */
+  onEventMsg: (callback) => ipcRenderer.on('renderer:event-msg', (_event, value) => callback(value))
+}
 
 // Use `contextBridge` APIs to expose Electron APIs to
 // renderer only if context isolation is enabled, otherwise
