@@ -2,6 +2,11 @@ import { app, shell, BrowserWindow } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
+import SteamUser from 'steam-user'
+import GlobalOffensive from 'globaloffensive'
+import SteamSession from './steam-session'
+import { setupCsgoListeners, setupSteamListeners } from './steam-listeners'
+import { setupSessionIPC } from './ipc/session-ipc'
 
 function createWindow(): void {
   // Create the browser window.
@@ -76,9 +81,10 @@ SteamSession.getInstance().initializeUser(user)
 SteamSession.getInstance().initializeCsgo(csgo)
 
 // On successful login, it will setup steam and csgo listeners
-setupLoginListeners()
-setupInventoryIPC()
+setupSteamListeners()
+setupCsgoListeners()
 setupSessionIPC()
+// setupInventoryIPC()
 
 // Clean up when app is about to quit
 app.on('before-quit', () => {

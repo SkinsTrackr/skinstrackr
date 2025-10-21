@@ -1,20 +1,23 @@
-import { contextBridge, ipcRenderer } from 'electron'
+import { contextBridge, ipcRenderer } from 'electron/renderer'
 import { electronAPI } from '@electron-toolkit/preload'
-import { LoginRequest, LoginResponse } from '@shared/interfaces/login.types'
+import { GameSessionEvent, SteamLoginRequest, SteamSessionEvent } from '@shared/interfaces/session.types'
 
 // Custom APIs for renderer
 const api = {
   /**
    * Renderer --->>> Main
    */
-  loginSteam: (data: LoginRequest): Promise<LoginResponse> => {
-    return ipcRenderer.invoke('main:game-session-login', data)
+  loginSteam: (data: SteamLoginRequest) => {
+    ipcRenderer.send('main:steam-session-login', data)
   },
 
   /**
    * Main --->>> Renderer
    */
-  onEventMsg: (callback) => ipcRenderer.on('renderer:event-msg', (_event, value) => callback(value))
+  onSteamSessionEvent: (callback) =>
+    ipcRenderer.on('renderer:steam-session-event', (_event, value: SteamSessionEvent) => callback(value)),
+  onGameSessionEvent: (callback) =>
+    ipcRenderer.on('renderer:game-session-event', (_event, value: GameSessionEvent) => callback(value))
 }
 
 // Use `contextBridge` APIs to expose Electron APIs to

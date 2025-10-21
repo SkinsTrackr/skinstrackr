@@ -1,16 +1,18 @@
 import { ElectronAPI } from '@electron-toolkit/preload'
-import { LoginRequest, LoginResponse } from '@shared/interfaces/login.types'
+import { GameSessionEvent, SteamLoginRequest } from '@shared/interfaces/session.types'
 
 export interface CustomAPI {
   /**
    * Renderer --->>> Main
    */
-  loginSteam: (data: LoginRequest) => Promise<LoginResponse>
+  loginSteam: (data: SteamLoginRequest) => void
 
   /**
    * Main --->>> Renderer
    */
   onEventMsg: (callback: (value: EventMsg<unknown>) => void) => void
+  onSteamSessionEvent: (callback: (value: SteamSessionEvent) => void) => void
+  onGameSessionEvent: (callback: (value: GameSessionEvent) => void) => void
 }
 
 declare global {
