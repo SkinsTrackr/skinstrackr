@@ -84,7 +84,6 @@ SteamSession.getInstance().initializeCsgo(csgo)
 setupSteamListeners()
 setupCsgoListeners()
 setupSessionIPC()
-// setupInventoryIPC()
 
 // Clean up when app is about to quit
 app.on('before-quit', () => {

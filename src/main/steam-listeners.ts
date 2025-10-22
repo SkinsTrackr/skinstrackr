@@ -1,7 +1,7 @@
 import { BrowserWindow } from 'electron'
 import SteamSession from './steam-session'
 import SteamUser, { EResult } from 'steam-user'
-import { SteamSessionEventType } from '@shared/enums/session-type'
+import { GameSessionEventType, SteamSessionEventType } from '@shared/enums/session-type'
 
 export function setupSteamListeners(): void {
   const user = SteamSession.getInstance().getUser()!
@@ -45,7 +45,7 @@ export function setupSteamListeners(): void {
       session.setLoggedIn(false)
       BrowserWindow.getFocusedWindow()?.webContents.send('renderer:steam-session-event', {
         eventType: SteamSessionEventType.DISCONNECTED_SHOULD_RELOGIN,
-        message: `Got disconnected: ${SteamUser.EResult[err.eresult] || err || 'Unknown error'}`
+        message: `Got disconnected: ${SteamUser.EResult[err.eresult] || err || 'Unknown error'}. Logged out`
       })
     }
     // We are still logged in, but got some other error
@@ -62,7 +62,7 @@ export function setupSteamListeners(): void {
 
     BrowserWindow.getFocusedWindow()?.webContents.send('renderer:steam-session-event', {
       eventType: SteamSessionEventType.DISCONNECTED,
-      message: `Disconnected from Steam: ${SteamUser.EResult[eresult] || msg || 'Unknown reason'}`
+      message: `Disconnected from Steam: ${SteamUser.EResult[eresult] || msg || 'Unknown reason'}. Will attempt to relogin...`
     })
   })
 
@@ -85,9 +85,19 @@ export function setupCsgoListeners(): void {
 
   csgo.on('connectedToGC', () => {
     console.log(`🎮 Connected to CSGO Game Coordinator [${csgo.haveGCSession}]`)
+
+    BrowserWindow.getFocusedWindow()?.webContents.send('renderer:game-session-event', {
+      eventType: GameSessionEventType.CONNECTED,
+      message: `Connected to CSGO Game Coordinator`
+    })
   })
 
   csgo.on('disconnectedFromGC', (reason) => {
     console.log('❌ Disconnected from CSGO GC:', reason)
+
+    BrowserWindow.getFocusedWindow()?.webContents.send('renderer:game-session-event', {
+      eventType: GameSessionEventType.DISCONNECTED,
+      message: `Disconnected from CSGO GC: ${reason}`
+    })
   })
 }
