@@ -5,17 +5,25 @@ import { GameSessionEvent, SteamSessionEvent } from '@shared/interfaces/session.
 import { GameSessionEventType, SteamSessionEventType } from '@shared/enums/session-type'
 import { showToast } from './components/toast'
 import { useEffect, useRef } from 'react'
+import Navbar from './components/navbar'
+import InventoryPage from './pages/inventory'
 
 function App(): React.JSX.Element {
+  const location = useLocation()
+  const hideNavbar = location.pathname === '/login'
   useGlobalEvents()
 
   return (
     <>
       <div className="isolate"></div>
-      <Routes>
-        <Route path="/" element={<LoginPage />} />
-        <Route path="/dashboard" element={<DashboardPage />} />
-      </Routes>
+      {!hideNavbar && <Navbar />}
+      <main className="flex-1 bg-muted/10 p-3">
+        <Routes>
+          {/* <Route path="/" element={<LoginPage />} /> */}
+          <Route path="/overview" element={<DashboardPage />} />
+          <Route path="/inventory" element={<InventoryPage />} />
+        </Routes>
+      </main>
     </>
   )
 }
