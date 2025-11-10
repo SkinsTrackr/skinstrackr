@@ -7,6 +7,9 @@ import GlobalOffensive from 'globaloffensive'
 import SteamSession from './steam-session'
 import { setupCsgoListeners, setupSteamListeners } from './steam-listeners'
 import { setupSessionIPC } from './ipc/session-ipc'
+import { setupInventoryIPC } from './ipc/inventory-ipc'
+import { fetchItems } from './util/item-utils'
+import 'dotenv/config'
 
 function createWindow(): void {
   // Create the browser window.
@@ -84,6 +87,10 @@ SteamSession.getInstance().initializeCsgo(csgo)
 setupSteamListeners()
 setupCsgoListeners()
 setupSessionIPC()
+setupInventoryIPC()
+
+// TODO find better place to init this?
+fetchItems()
 
 // Clean up when app is about to quit
 app.on('before-quit', () => {

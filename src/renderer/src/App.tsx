@@ -10,7 +10,7 @@ import InventoryPage from './pages/inventory'
 
 function App(): React.JSX.Element {
   const location = useLocation()
-  const hideNavbar = location.pathname === '/login'
+  const hideNavbar = location.pathname === '/'
   useGlobalEvents()
 
   return (
@@ -19,7 +19,7 @@ function App(): React.JSX.Element {
       {!hideNavbar && <Navbar />}
       <main className="flex-1 bg-muted/10 p-3">
         <Routes>
-          {/* <Route path="/" element={<LoginPage />} /> */}
+          <Route path="/" element={<LoginPage />} />
           <Route path="/overview" element={<DashboardPage />} />
           <Route path="/inventory" element={<InventoryPage />} />
         </Routes>

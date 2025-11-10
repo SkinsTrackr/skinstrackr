@@ -6,6 +6,7 @@ export interface CustomAPI {
    * Renderer --->>> Main
    */
   loginSteam: (data: SteamLoginRequest) => void
+  loadInventory: () => Promise<ConvertedItem[]>
 
   /**
    * Main --->>> Renderer
