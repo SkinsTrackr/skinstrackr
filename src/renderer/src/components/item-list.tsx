@@ -1,33 +1,36 @@
 import { ScrollArea } from '@/components/ui/scroll-area'
-import { Card, CardContent } from '@/components/ui/card'
 import { FC, useState, useMemo } from 'react'
 import { InputGroup, InputGroupAddon, InputGroupInput } from './ui/input-group'
 import { Search } from 'lucide-react'
-import StorageUnitLogo from '@/assets/storage_unit.png'
 import { Inventory } from '@shared/interfaces/inventory.types'
 
-interface StorageUnitsListProps {
+interface ItemListProps {
   inventory: Inventory
 }
 
-export const StorageUnitsList: FC<StorageUnitsListProps> = ({ inventory }) => {
+export const ItemList: FC<ItemListProps> = ({ inventory }) => {
   const [searchQuery, setSearchQuery] = useState('')
-  const storageUnits = useMemo(
-    () => inventory.inventoryItems.filter((item) => item.isStorageUnit),
-    [inventory.inventoryItems]
+
+  // All items except storage units
+  const items = useMemo(
+    () => [
+      ...inventory.inventoryItems.filter((item) => !item.isStorageUnit),
+      ...Object.values(inventory.containerItems).flat()
+    ],
+    [inventory]
   )
 
-  const filteredUnits = useMemo(
+  const filteredItems = useMemo(
     () =>
-      storageUnits
-        .filter((unit) => (unit.customName || '').toLowerCase().includes(searchQuery.toLowerCase()))
-        .sort((a, b) => (a.customName || '').localeCompare(b.customName || '')),
-    [searchQuery, storageUnits]
+      items
+        .filter((item) => (item.customName || item.hashName || '').toLowerCase().includes(searchQuery.toLowerCase()))
+        .sort((a, b) => (a.customName || a.hashName || '').localeCompare(b.customName || b.hashName || '')),
+    [searchQuery, items]
   )
 
   return (
     <div className="w-55 flex flex-col h-screen">
-      <div className="pr-4">
+      <div className="pl-4">
         <InputGroup>
           <InputGroupInput
             placeholder="Search..."
@@ -38,25 +41,23 @@ export const StorageUnitsList: FC<StorageUnitsListProps> = ({ inventory }) => {
             <Search />
           </InputGroupAddon>
           <InputGroupAddon align="inline-end">
-            {filteredUnits.length}/{storageUnits.length}
+            {filteredItems.length}/{items.length}
           </InputGroupAddon>
         </InputGroup>
       </div>
       <ScrollArea className="h-full mt-5" type="auto">
         <div className="flex flex-col gap-2 mr-4">
-          {filteredUnits.map((unit) => (
-            <Card key={unit.id} className="cursor-pointer hover:bg-accent transition-colors">
+          {/* {filteredItems.map((item) => (
+            <Card key={item.id} className="cursor-pointer hover:bg-accent transition-colors">
               <CardContent className="flex items-center gap-3 px-2 h-8">
                 <img src={StorageUnitLogo} alt="Storage Unit" className="h-15 w-10 object-contain" />
                 <div className="flex flex-col">
-                  <span className="text-sm font-medium">{unit.customName || unit.hashName || 'Storage Unit'}</span>
-                  <span className="text-xs text-muted-foreground pt-1">
-                    {inventory.containerItems[unit.id || '']?.length || 0} items
-                  </span>
+                  <span className="text-sm font-medium">{item.customName || item.hashName || 'Storage Unit'}</span>
+                  <span className="text-xs text-muted-foreground pt-1"></span>
                 </div>
               </CardContent>
             </Card>
-          ))}
+          ))} */}
         </div>
       </ScrollArea>
     </div>

@@ -10,7 +10,7 @@ const navItems = [
   { name: 'Settings', path: '/setting', icon: Settings }
 ]
 
-export default function Navbar() {
+export default function TopNavbar() {
   const [activeTab, setActiveTab] = useState(navItems[0])
   const navigate = useNavigate()
 

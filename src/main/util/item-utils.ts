@@ -16,6 +16,27 @@ import {
   Sticker
 } from '@shared/interfaces/inventory.types'
 
+let qualities: Record<string, Quality> = {}
+let rarities: Record<string, Rarity> = {}
+let charms: Record<string, Charm> = {}
+let commonItems: Record<string, CommonItem> = {}
+let graffitiTints: Record<string, GraffitiPaint> = {}
+let prices: Record<string, ItemPrice> = {}
+let musicKits: Record<string, MusicKit> = {}
+let paints: Record<string, Paint> = {}
+let stickers: Record<string, Sticker> = {}
+
+const DEF_INDEX_STICKER = 1209
+const DEF_INDEX_PATCH = 4609
+const DEF_INDEX_GRAFFITI1 = 1348
+const DEF_INDEX_GRAFFITI2 = 1349
+const DEF_INDEX_MUSIC_KIT = 1314
+const DEF_INDEX_CHARM = 1355
+
+const ATTRIBUTE_GRAFFITI_TINT = 233
+const ATTRIBUTE_MUSIC_KIT_ID = 166
+const ATTRIBUTE_CHARM_ID = 299
+
 export async function fetchItems(): Promise<void> {
   if (!existsSync(env.DATA_DIR)) {
     console.info(`Creating data directory at ./${env.DATA_DIR}`)
@@ -38,64 +59,36 @@ export async function fetchItems(): Promise<void> {
       throw error
     }
   }
+
+  try {
+    console.log('Loading item data from fetched items')
+    qualities = JSON.parse(fs.readFileSync(env.QUALITY_DATA_PATH, 'utf-8')) as Record<string, Quality>
+    rarities = JSON.parse(fs.readFileSync(env.RARITY_DATA_PATH, 'utf-8')) as Record<string, Rarity>
+    charms = JSON.parse(fs.readFileSync(env.CHARM_DATA_PATH, 'utf-8')) as Record<string, Charm>
+    commonItems = JSON.parse(fs.readFileSync(env.COMMON_ITEM_DATA_PATH, 'utf-8')) as Record<string, CommonItem>
+    graffitiTints = JSON.parse(fs.readFileSync(env.GRAFFITI_TINT_DATA_PATH, 'utf-8')) as Record<string, GraffitiPaint>
+    const pricesTemp = JSON.parse(fs.readFileSync(env.PRICE_DATA_PATH, 'utf-8')) as ItemPrice[]
+    prices = Object.fromEntries(pricesTemp.map((item) => [item.market_hash_name, item]))
+    musicKits = JSON.parse(fs.readFileSync(env.MUSIC_KIT_DATA_PATH, 'utf-8')) as Record<string, MusicKit>
+    paints = JSON.parse(fs.readFileSync(env.PAINT_DATA_PATH, 'utf-8')) as Record<string, Paint>
+    stickers = JSON.parse(fs.readFileSync(env.STICKER_DATA_PATH, 'utf-8')) as Record<string, Sticker>
+  } catch (error) {
+    console.error('Failed to load fetched items: ', error)
+    throw error
+  }
 }
 
-let qualities: Record<string, Quality> = {}
-let rarities: Record<string, Rarity> = {}
-let charms: Record<string, Charm> = {}
-let commonItems: Record<string, CommonItem> = {}
-let graffitiTints: Record<string, GraffitiPaint> = {}
-let prices: Record<string, ItemPrice> = {}
-let musicKits: Record<string, MusicKit> = {}
-let paints: Record<string, Paint> = {}
-let stickers: Record<string, Sticker> = {}
-
-const DEF_INDEX_STICKER = 1209
-const DEF_INDEX_GRAFFITI1 = 1348
-const DEF_INDEX_GRAFFITI2 = 1349
-const DEF_INDEX_MUSIC_KIT = 1314
-const DEF_INDEX_CHARM = 1355
-
-const ATTRIBUTE_GRAFFITI_TINT = 233
-const ATTRIBUTE_MUSIC_KIT_ID = 166
-const ATTRIBUTE_CHARM_ID = 299
-
 export function convertInventoryItem(item: GlobalOffensive.InventoryItem): ConvertedItem {
-  if (
-    Object.keys(qualities).length === 0 ||
-    Object.keys(rarities).length === 0 ||
-    Object.keys(prices).length === 0 ||
-    Object.keys(commonItems).length === 0 ||
-    Object.keys(graffitiTints).length === 0 ||
-    Object.keys(musicKits).length === 0 ||
-    Object.keys(paints).length === 0 ||
-    Object.keys(stickers).length === 0
-  ) {
-    try {
-      qualities = JSON.parse(fs.readFileSync(env.QUALITY_DATA_PATH, 'utf-8')) as Record<string, Quality>
-      rarities = JSON.parse(fs.readFileSync(env.RARITY_DATA_PATH, 'utf-8')) as Record<string, Rarity>
-      charms = JSON.parse(fs.readFileSync(env.CHARM_DATA_PATH, 'utf-8')) as Record<string, Charm>
-      commonItems = JSON.parse(fs.readFileSync(env.COMMON_ITEM_DATA_PATH, 'utf-8')) as Record<string, CommonItem>
-      graffitiTints = JSON.parse(fs.readFileSync(env.GRAFFITI_TINT_DATA_PATH, 'utf-8')) as Record<string, GraffitiPaint>
-      const pricesTemp = JSON.parse(fs.readFileSync(env.PRICE_DATA_PATH, 'utf-8')) as ItemPrice[]
-      prices = Object.fromEntries(pricesTemp.map((item) => [item.market_hash_name, item]))
-      musicKits = JSON.parse(fs.readFileSync(env.MUSIC_KIT_DATA_PATH, 'utf-8')) as Record<string, MusicKit>
-      paints = JSON.parse(fs.readFileSync(env.PAINT_DATA_PATH, 'utf-8')) as Record<string, Paint>
-      stickers = JSON.parse(fs.readFileSync(env.STICKER_DATA_PATH, 'utf-8')) as Record<string, Sticker>
-    } catch (error) {
-      console.error('Failed to load quality or rarity data:', error)
-      throw error
-    }
-  }
-
   let hashName: string | undefined = undefined
   let imagePath: string | undefined = undefined
   let dataName: string | undefined = undefined
 
-  // Item is sticker
-  if (item.def_index === DEF_INDEX_STICKER) {
+  const commonItem = commonItems[item.def_index?.toString() || '']
+
+  // Item is sticker or Patch
+  if (item.def_index === DEF_INDEX_STICKER || item.def_index === DEF_INDEX_PATCH) {
     const sticker = stickers[item.stickers?.at(0)?.sticker_id || '']
-    hashName = sticker ? `Sticker | ${sticker.name}` : undefined
+    hashName = sticker ? `${commonItem.name} | ${sticker.name}` : undefined
     imagePath = sticker?.image_path || undefined
     dataName = sticker?.data_name
   }
@@ -104,7 +97,6 @@ export function convertInventoryItem(item: GlobalOffensive.InventoryItem): Conve
   else if (item.def_index === DEF_INDEX_GRAFFITI1 || item.def_index === DEF_INDEX_GRAFFITI2) {
     const graffiti = stickers[item.stickers?.at(0)?.sticker_id || '']
     const tint = graffitiTints[readAttribute(item, ATTRIBUTE_GRAFFITI_TINT) || '']
-    console.log(tint)
 
     if (tint) {
       hashName = graffiti?.name && tint?.name ? `Sealed Graffiti | ${graffiti.name} (${tint.name})` : undefined
@@ -120,7 +112,7 @@ export function convertInventoryItem(item: GlobalOffensive.InventoryItem): Conve
     const musicKit = musicKits[readAttribute(item, ATTRIBUTE_MUSIC_KIT_ID) || '']
     const musicKitName = musicKit?.name
 
-    hashName = musicKitName ? `Music Kit | ${musicKitName}` : undefined
+    hashName = musicKitName ? `${commonItem.name} | ${musicKitName}` : undefined
     imagePath = musicKit?.image_path || undefined
     dataName = musicKit?.data_name
   }
@@ -130,7 +122,7 @@ export function convertInventoryItem(item: GlobalOffensive.InventoryItem): Conve
   else if (item.def_index === DEF_INDEX_CHARM) {
     const charm = charms[readAttribute(item, ATTRIBUTE_CHARM_ID) || '']
 
-    hashName = charm?.name ? `Charm | ${charm.name}` : undefined
+    hashName = charm?.name ? `${commonItem.name} | ${charm.name}` : undefined
     imagePath = charm?.image_path || undefined
     dataName = charm?.data_name
   }
@@ -148,7 +140,7 @@ export function convertInventoryItem(item: GlobalOffensive.InventoryItem): Conve
   // BUT only if we found an item match at all
   if (hashName !== undefined) {
     const quality = qualities[item.quality?.toString() || '']
-    const isStattrak = item.kill_eater_value || item.kill_eater_score_type
+    const isStattrak = item.kill_eater_value !== undefined || item.kill_eater_score_type !== undefined
     const paint = paints[item.paint_index?.toString() || '']
 
     // Stattrak™
@@ -156,7 +148,7 @@ export function convertInventoryItem(item: GlobalOffensive.InventoryItem): Conve
       hashName = 'StatTrak™ ' + hashName
     }
     // ★ or Souvenir
-    if (quality.index === '3' || quality.index === '12') {
+    if (quality.index == '3' || quality.index == '12') {
       hashName = quality.name + ' ' + hashName
     }
 
@@ -166,9 +158,9 @@ export function convertInventoryItem(item: GlobalOffensive.InventoryItem): Conve
       // For weapons with skins and potentially wear condition
       if (imagePath !== undefined && imagePath.includes('econ/weapons/base_weapons')) {
         if (item.paint_wear !== undefined) {
-          imagePath = `econ/default_generated/${dataName}_${paint.data_name}_${getWearName('image', item.paint_wear)}.png`
+          imagePath = `econ/default_generated/${dataName}_${paint.data_name}_${getWearName('image', item.paint_wear)}`
         } else {
-          imagePath = `econ/default_generated/${dataName}_${paint.data_name}.png`
+          imagePath = `econ/default_generated/${dataName}_${paint.data_name}`
         }
       }
 
@@ -179,13 +171,14 @@ export function convertInventoryItem(item: GlobalOffensive.InventoryItem): Conve
   }
 
   return {
+    id: item.id,
     hashName: hashName,
     customName: item.custom_name ? item.custom_name : undefined,
     rarity: rarities[item.rarity?.toString() || ''],
     quality: qualities[item.quality?.toString() || ''],
     imagePath: imagePath,
     price: prices[hashName || '']?.price,
-    jsonData: JSON.stringify(item, null, 2)
+    isStorageUnit: item.casket_contained_item_count !== undefined
   }
 }
 

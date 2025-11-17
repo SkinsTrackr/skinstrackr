@@ -5,18 +5,20 @@ import { GameSessionEvent, SteamSessionEvent } from '@shared/interfaces/session.
 import { GameSessionEventType, SteamSessionEventType } from '@shared/enums/session-type'
 import { showToast } from './components/toast'
 import { useEffect, useRef } from 'react'
-import Navbar from './components/navbar'
+import TopNavbar from './components/top-navbar'
 import InventoryPage from './pages/inventory'
+import { InventoryProvider } from './contexts/InventoryContext'
+import BottomNavbar from './components/bottom-navbar'
 
 function App(): React.JSX.Element {
   const location = useLocation()
-  const hideNavbar = location.pathname === '/'
+  const hideNavbars = location.pathname === '/'
   useGlobalEvents()
 
   return (
-    <>
+    <InventoryProvider>
       <div className="isolate"></div>
-      {!hideNavbar && <Navbar />}
+      {!hideNavbars && <TopNavbar />}
       <main className="flex-1 bg-muted/10 p-3">
         <Routes>
           <Route path="/" element={<LoginPage />} />
@@ -24,7 +26,8 @@ function App(): React.JSX.Element {
           <Route path="/inventory" element={<InventoryPage />} />
         </Routes>
       </main>
-    </>
+      {!hideNavbars && <BottomNavbar />}
+    </InventoryProvider>
   )
 }
 

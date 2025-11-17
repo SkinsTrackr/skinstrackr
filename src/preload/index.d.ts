@@ -6,12 +6,11 @@ export interface CustomAPI {
    * Renderer --->>> Main
    */
   loginSteam: (data: SteamLoginRequest) => void
-  loadInventory: () => Promise<ConvertedItem[]>
+  loadInventory: (force: boolean) => Promise<Inventory>
 
   /**
    * Main --->>> Renderer
    */
-  onEventMsg: (callback: (value: EventMsg<unknown>) => void) => void
   onSteamSessionEvent: (callback: (value: SteamSessionEvent) => void) => void
   onGameSessionEvent: (callback: (value: GameSessionEvent) => void) => void
 }

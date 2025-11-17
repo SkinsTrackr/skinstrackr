@@ -1,7 +1,7 @@
 import { contextBridge, ipcRenderer } from 'electron'
 import { electronAPI } from '@electron-toolkit/preload'
 import { GameSessionEvent, SteamLoginRequest, SteamSessionEvent } from '@shared/interfaces/session.types'
-import { ConvertedItem } from '@shared/interfaces/inventory.types'
+import { Inventory } from '@shared/interfaces/inventory.types'
 
 // Custom APIs for renderer
 const api = {
@@ -11,8 +11,8 @@ const api = {
   loginSteam: (data: SteamLoginRequest) => {
     ipcRenderer.send('main:steam-session-login', data)
   },
-  loadInventory: (): Promise<ConvertedItem[]> => {
-    return ipcRenderer.invoke('main:load-inventory')
+  loadInventory: (force: boolean): Promise<Inventory> => {
+    return ipcRenderer.invoke('main:load-inventory', force)
   },
 
   /**
