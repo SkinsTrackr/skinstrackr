@@ -15,11 +15,12 @@ export function setupInventoryIPC(): void {
    */
   ipcMain.handle('main:load-inventory', async (_event, force: boolean): Promise<Inventory> => {
     let inventory: GlobalOffensive.InventoryItem[] = []
+    const userId = SteamSession.getInstance().getUser()?.steamID?.accountid.toString()
 
     // We want cached version
-    if (!force && fs.existsSync('./data/inventory.bin')) {
+    if (!force && fs.existsSync(`./data/${userId}.bin`)) {
       console.log(`Loading cached inventory`)
-      inventory = await loadInventoryFromFile()
+      inventory = await loadInventoryFromFile(userId!)
     } else {
       console.log(`Loading fresh inventory from Steam`)
       const csgo = SteamSession.getInstance().getCsgo()
@@ -30,7 +31,7 @@ export function setupInventoryIPC(): void {
         .map((item) => item.id) as string[]
       inventory = inventory.concat(await loadAllContainers(casketIds))
 
-      await saveInventoryToFile(inventory)
+      await saveInventoryToFile(inventory, userId!)
     }
 
     console.log(`Loaded inventory with ${inventory.length} items`)
@@ -101,14 +102,14 @@ async function loadContainer(containerId: string): Promise<GlobalOffensive.Inven
   })
 }
 
-async function saveInventoryToFile(inventory: GlobalOffensive.InventoryItem[]): Promise<void> {
+async function saveInventoryToFile(inventory: GlobalOffensive.InventoryItem[], userId: string): Promise<void> {
   const encoded = pack(inventory)
-  await fs.writeFileSync('./data/inventory.bin', encoded)
-  await fs.writeFileSync('./data/inventory.json', JSON.stringify(inventory, null, 2), 'utf-8')
+  await fs.writeFileSync(`./data/${userId}.bin`, encoded)
+  await fs.writeFileSync(`./data/${userId}_inventory.json`, JSON.stringify(inventory, null, 2), 'utf-8') // Just for testing TODO Remove
 }
 
-async function loadInventoryFromFile(): Promise<GlobalOffensive.InventoryItem[]> {
-  const loaded = await fs.readFileSync('./data/inventory.bin')
+async function loadInventoryFromFile(userId: string): Promise<GlobalOffensive.InventoryItem[]> {
+  const loaded = await fs.readFileSync(`./data/${userId}.bin`)
   const decoded = unpack(loaded) as GlobalOffensive.InventoryItem[]
   return decoded
 }

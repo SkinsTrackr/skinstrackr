@@ -26,7 +26,7 @@ export const StorageUnitsList: FC<StorageUnitsListProps> = ({ inventory }) => {
   )
 
   return (
-    <div className="w-55 flex flex-col h-screen">
+    <div className="w-55 flex flex-col h-full">
       <div className="pr-4">
         <InputGroup>
           <InputGroupInput
@@ -42,12 +42,16 @@ export const StorageUnitsList: FC<StorageUnitsListProps> = ({ inventory }) => {
           </InputGroupAddon>
         </InputGroup>
       </div>
-      <ScrollArea className="h-full mt-5" type="auto">
+      <ScrollArea className="flex-1 min-h-0 mt-5" type="auto">
         <div className="flex flex-col gap-2 mr-4">
           {filteredUnits.map((unit) => (
             <Card key={unit.id} className="cursor-pointer hover:bg-accent transition-colors">
               <CardContent className="flex items-center gap-3 px-2 h-8">
-                <img src={StorageUnitLogo} alt="Storage Unit" className="h-15 w-10 object-contain" />
+                <img
+                  src={window.env.ICONS_BASE_URL + '/' + (unit.imagePath || '') + '.png'}
+                  alt="Storage Unit"
+                  className="h-15 w-10 object-contain"
+                />
                 <div className="flex flex-col">
                   <span className="text-sm font-medium">{unit.customName || unit.hashName || 'Storage Unit'}</span>
                   <span className="text-xs text-muted-foreground pt-1">

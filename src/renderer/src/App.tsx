@@ -17,16 +17,17 @@ function App(): React.JSX.Element {
 
   return (
     <InventoryProvider>
-      <div className="isolate"></div>
-      {!hideNavbars && <TopNavbar />}
-      <main className="flex-1 bg-muted/10 p-3">
-        <Routes>
-          <Route path="/" element={<LoginPage />} />
-          <Route path="/overview" element={<DashboardPage />} />
-          <Route path="/inventory" element={<InventoryPage />} />
-        </Routes>
-      </main>
-      {!hideNavbars && <BottomNavbar />}
+      <div className="flex h-full flex-col overflow-hidden">
+        {!hideNavbars && <TopNavbar />}
+        <main className="flex-1 overflow-hidden bg-muted/10">
+          <Routes>
+            <Route path="/" element={<LoginPage />} />
+            <Route path="/overview" element={<DashboardPage />} />
+            <Route path="/inventory" element={<InventoryPage />} />
+          </Routes>
+        </main>
+        {!hideNavbars && <BottomNavbar />}
+      </div>
     </InventoryProvider>
   )
 }

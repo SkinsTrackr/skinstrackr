@@ -19,5 +19,6 @@ declare global {
   interface Window {
     electron: ElectronAPI
     api: CustomAPI
+    env: { ICONS_BASE_URL: string }
   }
 }

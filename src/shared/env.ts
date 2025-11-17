@@ -5,7 +5,12 @@ const envSchema = z.object({
   ITEMS_BASE_URL: z.string(),
   ICONS_BASE_URL: z.string(),
 
-  ITEM_FILES: z.string().transform((val) => val.split(',')),
+  ITEM_FILES: z
+    .string()
+    .default(
+      'item_prices.json,charms.json,common_items.json,graffiti_tints.json,music_kits.json,paints.json,qualities.json,rarities.json,stickers.json'
+    )
+    .transform((val) => val.split(',')),
 
   // Default variables
   DATA_DIR: z.string().default('data'),

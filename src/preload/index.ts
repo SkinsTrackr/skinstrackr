@@ -2,6 +2,7 @@ import { contextBridge, ipcRenderer } from 'electron'
 import { electronAPI } from '@electron-toolkit/preload'
 import { GameSessionEvent, SteamLoginRequest, SteamSessionEvent } from '@shared/interfaces/session.types'
 import { Inventory } from '@shared/interfaces/inventory.types'
+import { env } from '@shared/env'
 
 // Custom APIs for renderer
 const api = {
@@ -31,6 +32,9 @@ if (process.contextIsolated) {
   try {
     contextBridge.exposeInMainWorld('electron', electronAPI)
     contextBridge.exposeInMainWorld('api', api)
+    contextBridge.exposeInMainWorld('env', {
+      ICONS_BASE_URL: env.ICONS_BASE_URL
+    })
   } catch (error) {
     console.error(error)
   }
