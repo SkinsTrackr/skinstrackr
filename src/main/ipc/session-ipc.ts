@@ -4,12 +4,7 @@ import { SteamLoginRequest } from '@shared/interfaces/session.types'
 import SteamSession from '../steam-session'
 
 export function setupSessionIPC(): void {
-  console.log('Setting up Session IPC handlers...')
-
-  ipcMain.on('main:steam-session-login', async (_event, loginRequest: SteamLoginRequest) => {
-    console.log('Received Steam session login request:', loginRequest)
-
-    // Convert LoginRequest to LogOnDetailsNameToken
+  ipcMain.handle('main:steam-session-login', async (_event, loginRequest: SteamLoginRequest): Promise<void> => {
     const details: LogOnDetailsNameToken = {
       anonymous: false,
       accountName: loginRequest.account_name,
@@ -18,12 +13,10 @@ export function setupSessionIPC(): void {
       autoRelogin: true
     }
 
-    console.log('Logging in with details:', details)
-    SteamSession.getInstance().loginUserToSteam(details)
+    return SteamSession.getInstance().loginUserToSteam(details)
   })
 
-  ipcMain.on('main:cache-session-login', async (_event, userId: string) => {
-    SteamSession.getInstance().loginCachedUser(userId)
-    console.log(`Cached session login for user: ${userId}`)
+  ipcMain.handle('main:cache-session-login', async (_event, userId: string): Promise<void> => {
+    return SteamSession.getInstance().loginCachedUser(userId)
   })
 }

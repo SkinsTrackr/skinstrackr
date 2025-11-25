@@ -74,7 +74,7 @@ function calculateTotalValue(inventory: ConvertedInventory): number {
 
 function timeAgo(unixSeconds: number): string {
   const now = Date.now()
-  const then = unixSeconds * 1000
+  const then = unixSeconds
   const diff = Math.max(0, now - then)
 
   const sec = Math.floor(diff / 1000)

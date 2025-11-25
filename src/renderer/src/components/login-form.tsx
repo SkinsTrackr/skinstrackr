@@ -7,16 +7,21 @@ import { Field, FieldGroup, FieldLabel } from '@/components/ui/field'
 import { Input } from '@/components/ui/input'
 import { LoginRequest } from '@shared/interfaces/login.types'
 import { useState } from 'react'
+import { useNavigate } from 'react-router'
+import { useSession } from '@/contexts/SessionContext'
 
 export function LoginForm({ className, ...props }: React.ComponentProps<'div'>) {
   const [token, setToken] = useState('')
+  const navigate = useNavigate()
+  const { loginSteam } = useSession()
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
 
     try {
       const tokenDetails = JSON.parse(token) as LoginRequest
-      await window.api.loginSteam(tokenDetails)
+      await loginSteam(tokenDetails)
+      navigate('/overview')
     } catch (err) {
       console.error('Login error:', err)
     }

@@ -8,18 +8,10 @@ import { useInventory } from '@/contexts/InventoryContext'
 export default function BottomNavbar(): JSX.Element {
   const { totalItems, totalValue, loadInventory, isLoading, lastRefresh } = useInventory()
   const [isConnected] = useState(true)
-  //   const loadedInventoryOnce = useRef(false)
 
   const handleRefresh = useCallback(async (): Promise<void> => {
     await loadInventory(true)
   }, [loadInventory])
-
-  //   useEffect(() => {
-  //     if (loadedInventoryOnce.current) return
-  //     loadedInventoryOnce.current = true
-
-  //     handleRefresh()
-  //   }, [handleRefresh])
 
   return (
     <div className="w-full border-t border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">

@@ -5,7 +5,7 @@ import { GameSessionEventType, SteamSessionEventType } from '@shared/enums/sessi
 import { accounts } from './util/client-store-utils'
 
 export function setupSteamListeners(): void {
-  const user = SteamSession.getInstance().getUser()!
+  const user = SteamSession.getInstance().getUser()
 
   console.log('Setting up Steam listeners...')
 
