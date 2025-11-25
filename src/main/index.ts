@@ -8,8 +8,9 @@ import SteamSession from './steam-session'
 import { setupCsgoListeners, setupSteamListeners } from './steam-listeners'
 import { setupSessionIPC } from './ipc/session-ipc'
 import { setupInventoryIPC } from './ipc/inventory-ipc'
-import { fetchItems } from './util/item-utils'
+import { fetchItemData } from './util/item-utils'
 import 'dotenv/config'
+import { setupClientStoreIPC } from './ipc/client-store-ipc'
 
 function createWindow(): void {
   // Create the browser window.
@@ -46,7 +47,7 @@ function createWindow(): void {
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.whenReady().then(() => {
+app.whenReady().then(async () => {
   // Set app user model id for windows
   electronApp.setAppUserModelId('com.electron')
 
@@ -56,6 +57,27 @@ app.whenReady().then(() => {
   app.on('browser-window-created', (_, window) => {
     optimizer.watchWindowShortcuts(window)
   })
+
+  /////////////////////////////////////////////////////
+  // Initialize Steam session and listeners/IPCs
+  /////////////////////////////////////////////////////
+  const user = new SteamUser()
+  const csgo = new GlobalOffensive(user)
+  SteamSession.getInstance().initializeUser(user)
+  SteamSession.getInstance().initializeCsgo(csgo)
+
+  setupSteamListeners()
+  setupCsgoListeners()
+  setupSessionIPC()
+  setupInventoryIPC()
+  setupClientStoreIPC()
+
+  try {
+    await fetchItemData()
+    console.log('Items fetched successfully')
+  } catch (error) {
+    console.error('Failed to fetch items during app initialization:', error)
+  }
 
   createWindow()
 
@@ -74,23 +96,6 @@ app.on('window-all-closed', () => {
     app.quit()
   }
 })
-
-/////////////////////////////////////////////////////
-// Initialize Steam session and listeners/IPCs
-/////////////////////////////////////////////////////
-const user = new SteamUser()
-const csgo = new GlobalOffensive(user)
-SteamSession.getInstance().initializeUser(user)
-SteamSession.getInstance().initializeCsgo(csgo)
-
-// On successful login, it will setup steam and csgo listeners
-setupSteamListeners()
-setupCsgoListeners()
-setupSessionIPC()
-setupInventoryIPC()
-
-// TODO find better place to init this?
-fetchItems()
 
 // Clean up when app is about to quit
 app.on('before-quit', () => {

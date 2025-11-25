@@ -7,31 +7,57 @@ import { showToast } from './components/toast'
 import { useEffect, useRef } from 'react'
 import TopNavbar from './components/top-navbar'
 import InventoryPage from './pages/inventory'
-import { InventoryProvider } from './contexts/InventoryContext'
+import { useInventory } from './contexts/InventoryContext'
 import BottomNavbar from './components/bottom-navbar'
+import { useClientStore } from './contexts/ClientStoreContext'
 
 function App(): React.JSX.Element {
   const location = useLocation()
+  const navigate = useNavigate()
+  const { loadSettings } = useClientStore()
+  const { loadInventory } = useInventory()
   const hideNavbars = location.pathname === '/'
+  const checkedDefaultAccount = useRef(false)
+
   useGlobalEvents()
 
+  // Login default account if cache exists
+  useEffect(() => {
+    if (checkedDefaultAccount.current) return
+    checkedDefaultAccount.current = true
+
+    const checkDefaultAccount = async (): Promise<void> => {
+      try {
+        const loadedSettings = await loadSettings()
+        if (loadedSettings.defaultAccountID) {
+          await window.api.loginCache(loadedSettings.defaultAccountID)
+          await loadInventory(false)
+          navigate('/overview')
+        }
+      } catch (error) {
+        console.error('Failed to check default account:', error)
+      }
+    }
+
+    checkDefaultAccount()
+  }, [loadSettings, loadInventory, location.pathname, navigate])
+
   return (
-    <InventoryProvider>
-      <div className="flex h-full flex-col overflow-hidden">
-        {!hideNavbars && <TopNavbar />}
-        <main className="flex-1 overflow-hidden bg-muted/10">
-          <Routes>
-            <Route path="/" element={<LoginPage />} />
-            <Route path="/overview" element={<DashboardPage />} />
-            <Route path="/inventory" element={<InventoryPage />} />
-          </Routes>
-        </main>
-        {!hideNavbars && <BottomNavbar />}
-      </div>
-    </InventoryProvider>
+    <div className="flex h-full flex-col overflow-hidden">
+      {!hideNavbars && <TopNavbar />}
+      <main className="flex-1 overflow-hidden bg-muted/10">
+        <Routes>
+          <Route path="/" element={<LoginPage />} />
+          <Route path="/overview" element={<DashboardPage />} />
+          <Route path="/inventory" element={<InventoryPage />} />
+        </Routes>
+      </main>
+      {!hideNavbars && <BottomNavbar />}
+    </div>
   )
 }
 
+// TODO use context?
 function useGlobalEvents(): void {
   const navigate = useNavigate()
   const location = useLocation()
@@ -58,8 +84,10 @@ function useGlobalEvents(): void {
           // TODO give option to force logout other session?
           showToast('Login failed: Another session is active', 'error')
           break
+        case SteamSessionEventType.DISCONNECTED_LOGOUT:
+          showToast(value.message, 'info')
+          break
         case SteamSessionEventType.DISCONNECTED:
-          // TODO unless user manually logged out
           showToast(value.message, 'error')
           break
         case SteamSessionEventType.DISCONNECTED_SHOULD_RELOGIN:

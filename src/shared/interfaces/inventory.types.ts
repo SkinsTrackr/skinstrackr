@@ -1,6 +1,22 @@
-export interface Inventory {
+import GlobalOffensive from 'globaloffensive'
+
+/**
+ * Raw inventory data as received from cs2
+ * Should only be used in backend
+ */
+export interface RawInventory {
+  items: GlobalOffensive.InventoryItem[]
+  lastRefresh: number // Timestamp of last inventory refresh
+}
+
+/**
+ * Converted inventory data with additional metadata
+ * Used by frontend
+ */
+export interface ConvertedInventory {
   inventoryItems: ConvertedItem[]
   containerItems: Record<string, ConvertedItem[]>
+  lastRefresh: number // Timestamp of last inventory refresh
 }
 
 export interface ConvertedItem {

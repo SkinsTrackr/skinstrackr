@@ -1,4 +1,4 @@
-import { JSX, useState } from 'react'
+import { JSX, useState, useEffect, useCallback, useRef } from 'react'
 import { Button } from './ui/button'
 import { Separator } from './ui/separator'
 import { RefreshCw, User } from 'lucide-react'
@@ -6,14 +6,20 @@ import { cn } from '@/lib/utils'
 import { useInventory } from '@/contexts/InventoryContext'
 
 export default function BottomNavbar(): JSX.Element {
-  const { totalItems, totalValue, loadInventory, isLoading } = useInventory()
-  const [lastUpdate, setLastUpdate] = useState('13d ago')
+  const { totalItems, totalValue, loadInventory, isLoading, lastRefresh } = useInventory()
   const [isConnected] = useState(true)
+  //   const loadedInventoryOnce = useRef(false)
 
-  const handleRefresh = async (): Promise<void> => {
-    await loadInventory()
-    setLastUpdate('Now')
-  }
+  const handleRefresh = useCallback(async (): Promise<void> => {
+    await loadInventory(true)
+  }, [loadInventory])
+
+  //   useEffect(() => {
+  //     if (loadedInventoryOnce.current) return
+  //     loadedInventoryOnce.current = true
+
+  //     handleRefresh()
+  //   }, [handleRefresh])
 
   return (
     <div className="w-full border-t border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -31,12 +37,12 @@ export default function BottomNavbar(): JSX.Element {
 
         {/* Center section - Last update and refresh */}
         <div className="flex items-center space-x-3">
-          <span className="text-sm text-muted-foreground">Last refresh: {lastUpdate}</span>
+          <span className="text-sm text-muted-foreground">Last refresh: {lastRefresh}</span>
           <Separator orientation="vertical" className="h-4" />
           <Button
             variant="ghost"
             size="sm"
-            onClick={handleRefresh}
+            onClick={() => handleRefresh()}
             disabled={isLoading}
             className="h-8 px-3 text-sm hover:bg-accent/10 transition-all duration-200"
           >

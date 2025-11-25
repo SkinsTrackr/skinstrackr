@@ -6,9 +6,10 @@ import GlobalOffensive from 'globaloffensive'
  */
 class SteamSession {
   private static instance: SteamSession | null = null
-  private user: SteamUser | null = null
-  private csgo: GlobalOffensive | null = null
+  private userSession: SteamUser | null = null
+  private csgoSession: GlobalOffensive | null = null
   private loggedIn: boolean = false
+  private cachedSessionUserId: string | null = null
 
   private constructor() {
     /* empty */
@@ -27,16 +28,55 @@ class SteamSession {
 
   initializeUser(user: SteamUser): SteamUser {
     // If an instance exists, disconnect and create new
-    if (this.user) {
-      throw new Error('A SteamSession instance already initialized')
+    if (this.userSession) {
+      throw new Error('A SteamSession user already initialized')
     }
 
-    this.user = user
-    return this.user
+    this.userSession = user
+    return this.userSession
   }
 
-  getUser(): SteamUser | null {
-    return this.user
+  /**
+   * If not logged in, login user to Steam.
+   * Eventually "logs out" cached user if different.
+   */
+  loginUserToSteam(details: SteamUser.LogOnDetailsNameToken): void {
+    this.cachedSessionUserId = null
+
+    this.getUser().logOn(details)
+  }
+
+  /**
+   * If logged into steam keep user, unless different than cached user. Then we log out first.
+   */
+  loginCachedUser(steamId: string): void {
+    if (this.isLoggedIn()) {
+      if (this.getSteamId() === steamId) {
+        console.warn('Already logged in to the requested cached user:', steamId)
+        return
+      }
+
+      // TODO test this
+      console.log('Logging out from current user before logging in to cached user:', steamId)
+      this.getUser().logOff()
+    }
+
+    this.cachedSessionUserId = steamId
+  }
+
+  getSteamId(): string | null {
+    if (this.isLoggedIn()) {
+      if (this.userSession && this.userSession.steamID) {
+        return this.userSession.steamID.getSteamID64()
+      }
+      return null
+    } else {
+      return this.cachedSessionUserId
+    }
+  }
+
+  getUser(): SteamUser {
+    return this.userSession!
   }
 
   isLoggedIn(): boolean {
@@ -48,12 +88,12 @@ class SteamSession {
   }
 
   initializeCsgo(csgo: GlobalOffensive): GlobalOffensive {
-    this.csgo = csgo
-    return this.csgo
+    this.csgoSession = csgo
+    return this.csgoSession
   }
 
   getCsgo(): GlobalOffensive | null {
-    return this.csgo
+    return this.csgoSession
   }
 
   /**
@@ -61,8 +101,8 @@ class SteamSession {
    */
   static destroy(): void {
     if (SteamSession.instance) {
-      SteamSession.instance.user = null
-      SteamSession.instance.csgo = null
+      SteamSession.instance.userSession = null
+      SteamSession.instance.csgoSession = null
       SteamSession.instance = null
     }
   }

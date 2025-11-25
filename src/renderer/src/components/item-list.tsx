@@ -39,8 +39,8 @@ export const ItemList: FC<ItemListProps> = ({ inventory }) => {
   )
 
   return (
-    <div className="w-55 flex flex-col h-screen">
-      <div className="pl-4">
+    <div className="flex flex-col h-screen flex-1">
+      <div className="px-4">
         <InputGroup>
           <InputGroupInput
             placeholder="Search..."
@@ -55,20 +55,63 @@ export const ItemList: FC<ItemListProps> = ({ inventory }) => {
           </InputGroupAddon>
         </InputGroup>
       </div>
-      <ScrollArea className="h-full mt-5" type="auto">
-        <div className="flex flex-col gap-2 mr-4">
+      <ScrollArea className="h-full mt-5 ml-4" type="auto">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-7 gap-2">
           {filteredItems.map((item) => (
-            <Card key={item.id} className="cursor-pointer hover:bg-accent transition-colors">
-              <CardContent className="flex items-center gap-3 px-2 h-8">
-                <img
-                  src={window.env.ICONS_BASE_URL + '/' + (item.imagePath || '') + '.png'}
-                  alt="Storage Unit"
-                  className="h-15 w-10 object-contain"
-                />
-                <div className="flex flex-col">
-                  <span className="text-sm font-medium">{item.customName || item.hashName || 'Storage Unit'}</span>
-                  <span className="text-xs text-muted-foreground pt-1"></span>
+            <Card
+              key={item.id}
+              className="cursor-pointer hover:bg-accent transition-colors relative overflow-hidden py-4"
+            >
+              <CardContent className="flex items-center gap-3 px-2 py-1 h-20">
+                {/* Item Icon */}
+                <div className="relative w-18 h-18 flex-shrink-0 flex items-center justify-center">
+                  <img
+                    src={window.env.ICONS_BASE_URL + '/' + (item.imagePath || '') + '.png'}
+                    alt={item.customName || item.hashName || 'Item'}
+                    className="max-w-full max-h-full object-contain"
+                  />
                 </div>
+
+                {/* Content Area */}
+                <div className="flex flex-col justify-between h-full flex-1 min-w-0">
+                  {/* Item Name */}
+                  <div className="text-left w-full">
+                    <span className="text-xs font-medium leading-tight line-clamp-2 break-words">
+                      {item.customName || item.hashName || 'Unknown Item'}
+                    </span>
+                  </div>
+
+                  {/* Bottom Row: Rarity Bar and Price */}
+                  <div className="flex flex-col gap-1 w-full">
+                    {/* Item Color/Rarity Bar */}
+                    {(item.rarity?.color || item.quality?.color) && (
+                      <div
+                        className="w-full h-1 rounded-full"
+                        style={{
+                          backgroundColor: item.rarity?.color || item.quality?.color || '#888888'
+                        }}
+                      />
+                    )}
+
+                    {/* Item Price */}
+                    <div className="text-left w-full">
+                      {item.price !== undefined && item.price > 0 ? (
+                        <span className="text-xs font-semibold text-green-500 dark:text-green-500">
+                          ${item.price.toFixed(2)}
+                        </span>
+                      ) : (
+                        <span className="text-xs text-muted-foreground">No Price</span>
+                      )}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Float value placeholder - can be implemented when float data is available */}
+                {/* {item.float && (
+                  <span className="text-xs text-muted-foreground">
+                    Float: {item.float.toFixed(4)}
+                  </span>
+                )} */}
               </CardContent>
             </Card>
           ))}

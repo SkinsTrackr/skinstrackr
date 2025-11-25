@@ -2,6 +2,7 @@ import { BrowserWindow } from 'electron'
 import SteamSession from './steam-session'
 import SteamUser, { EResult } from 'steam-user'
 import { GameSessionEventType, SteamSessionEventType } from '@shared/enums/session-type'
+import { accounts } from './util/client-store-utils'
 
 export function setupSteamListeners(): void {
   const user = SteamSession.getInstance().getUser()!
@@ -21,6 +22,9 @@ export function setupSteamListeners(): void {
         username: user.accountInfo?.name
       }
     })
+
+    // Update client-store account info
+    accounts.setAccount(user)
 
     // TODO Check if we are logged in elsewhere with CSGO playing
 
@@ -60,10 +64,17 @@ export function setupSteamListeners(): void {
     SteamSession.getInstance().setLoggedIn(false)
     console.log(`❌ Disconnected from Steam. Code: ${eresult}, Msg: ${msg}`)
 
-    BrowserWindow.getFocusedWindow()?.webContents.send('renderer:steam-session-event', {
-      eventType: SteamSessionEventType.DISCONNECTED,
-      message: `Disconnected from Steam: ${SteamUser.EResult[eresult] || msg || 'Unknown reason'}. Will attempt to relogin...`
-    })
+    if (eresult === EResult.OK) {
+      BrowserWindow.getFocusedWindow()?.webContents.send('renderer:steam-session-event', {
+        eventType: SteamSessionEventType.DISCONNECTED_LOGOUT,
+        message: `Successfully logged out from Steam.`
+      })
+    } else {
+      BrowserWindow.getFocusedWindow()?.webContents.send('renderer:steam-session-event', {
+        eventType: SteamSessionEventType.DISCONNECTED,
+        message: `Disconnected from Steam: ${SteamUser.EResult[eresult] || msg || 'Unknown reason'}. Will attempt to relogin...`
+      })
+    }
   })
 
   // App launch

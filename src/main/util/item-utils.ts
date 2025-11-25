@@ -37,7 +37,7 @@ const ATTRIBUTE_GRAFFITI_TINT = 233
 const ATTRIBUTE_MUSIC_KIT_ID = 166
 const ATTRIBUTE_CHARM_ID = 299
 
-export async function fetchItems(): Promise<void> {
+export async function fetchItemData(): Promise<void> {
   if (!existsSync(env.DATA_DIR)) {
     console.info(`Creating data directory at ./${env.DATA_DIR}`)
     mkdirSync(env.DATA_DIR)

@@ -3,7 +3,6 @@ import { Card, CardContent } from '@/components/ui/card'
 import { FC, useState, useMemo } from 'react'
 import { InputGroup, InputGroupAddon, InputGroupInput } from './ui/input-group'
 import { Search } from 'lucide-react'
-import StorageUnitLogo from '@/assets/storage_unit.png'
 import { Inventory } from '@shared/interfaces/inventory.types'
 
 interface StorageUnitsListProps {
