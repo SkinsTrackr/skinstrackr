@@ -39,7 +39,7 @@ export function setupInventoryIPC(): void {
 
       console.log(`Loading fresh inventory from Steam`)
       const csgo = SteamSession.getInstance().getCsgo()
-      rawInventory.items = csgo?.inventory ?? []
+      rawInventory.items = (csgo?.inventory ?? []).filter((item) => item.casket_id === undefined)
 
       const casketIds = rawInventory.items
         ?.filter((item) => item.casket_contained_item_count && item.id)
