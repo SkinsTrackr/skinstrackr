@@ -3,6 +3,7 @@ import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { LayoutDashboard, BoxesIcon, Settings } from 'lucide-react'
 import { useNavigate } from 'react-router'
+import { JSX } from 'react'
 
 const navItems = [
   { name: 'Overview', path: '/overview', icon: LayoutDashboard },
@@ -10,7 +11,7 @@ const navItems = [
   { name: 'Settings', path: '/setting', icon: Settings }
 ]
 
-export default function TopNavbar() {
+export default function TopNavbar(): JSX.Element {
   const [activeTab, setActiveTab] = useState(navItems[0])
   const navigate = useNavigate()
 

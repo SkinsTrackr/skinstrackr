@@ -15,11 +15,11 @@ createRoot(document.getElementById('root')!).render(
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
       <BrowserRouter>
         <ClientStoreProvider>
-          <SessionProvider>
-            <InventoryProvider>
+          <InventoryProvider>
+            <SessionProvider>
               <App />
-            </InventoryProvider>
-          </SessionProvider>
+            </SessionProvider>
+          </InventoryProvider>
         </ClientStoreProvider>
       </BrowserRouter>
       <Toaster position="bottom-right" expand={true} richColors duration={8000} theme="dark" />

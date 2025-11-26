@@ -7,8 +7,8 @@ export interface CustomAPI {
   /**
    * Renderer --->>> Main
    */
-  loginSteam: (data: SteamLoginRequest) => Promise<void>
-  loginCache: (userId: string) => Promise<void>
+  loginSteam: (data: SteamLoginRequest) => Promise<string>
+  loginCache: (userId: string) => Promise<string>
   loadInventory: (force: boolean) => Promise<ConvertedInventory>
   loadSettings: () => Promise<Settings>
   loadAccounts: () => Promise<Record<string, Account>>

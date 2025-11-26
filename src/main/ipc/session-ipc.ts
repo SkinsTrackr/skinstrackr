@@ -4,7 +4,7 @@ import { SteamLoginRequest } from '@shared/interfaces/session.types'
 import SteamSession from '../steam-session'
 
 export function setupSessionIPC(): void {
-  ipcMain.handle('main:steam-session-login', async (_event, loginRequest: SteamLoginRequest): Promise<void> => {
+  ipcMain.handle('main:steam-session-login', async (_event, loginRequest: SteamLoginRequest): Promise<string> => {
     const details: LogOnDetailsNameToken = {
       anonymous: false,
       accountName: loginRequest.account_name,
@@ -16,7 +16,7 @@ export function setupSessionIPC(): void {
     return SteamSession.getInstance().loginUserToSteam(details)
   })
 
-  ipcMain.handle('main:cache-session-login', async (_event, userId: string): Promise<void> => {
+  ipcMain.handle('main:cache-session-login', async (_event, userId: string): Promise<string> => {
     return SteamSession.getInstance().loginCachedUser(userId)
   })
 }

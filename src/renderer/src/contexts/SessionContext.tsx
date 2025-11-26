@@ -1,23 +1,36 @@
-import { createContext, useContext, ReactNode, JSX, useRef, useEffect } from 'react'
+import { createContext, useContext, ReactNode, JSX, useRef, useEffect, useState } from 'react'
 import { LoginRequest } from '@shared/interfaces/login.types'
 import { GameSessionEvent, SteamSessionEvent } from '@shared/interfaces/session.types'
 import { GameSessionEventType, SteamSessionEventType } from '@shared/enums/session-type'
 import { showToast } from '../components/toast'
 import { useLocation, useNavigate } from 'react-router'
+import { useInventory } from './InventoryContext'
 
 interface SessionContextType {
   loginSteam: (tokenDetails: LoginRequest) => Promise<void>
   loginCache: (steamId: string) => Promise<void>
+  activeSteamId: string
+  isLoggedInSteam: boolean
+  isLoggedInCache: boolean
 }
 
 const SessionContext = createContext<SessionContextType | undefined>(undefined)
 
 export function SessionProvider({ children }: { children: ReactNode }): JSX.Element {
   useGlobalEvents()
+  const { loadInventory } = useInventory()
+
+  const [isLoggedInSteam, setIsLoggedInSteam] = useState(false)
+  const [isLoggedInCache, setIsLoggedInCache] = useState(false)
+  const [activeSteamId, setActiveSteamId] = useState('')
 
   const loginSteam = async (tokenDetails: LoginRequest): Promise<void> => {
     try {
-      await window.api.loginSteam(tokenDetails)
+      const returnedSteamId = await window.api.loginSteam(tokenDetails)
+      setActiveSteamId(returnedSteamId)
+      setIsLoggedInSteam(true)
+      setIsLoggedInCache(false)
+      await loadInventory(false)
     } catch (error) {
       console.error('Failed to load settings:', error)
       throw error
@@ -25,14 +38,22 @@ export function SessionProvider({ children }: { children: ReactNode }): JSX.Elem
   }
   const loginCache = async (steamId: string): Promise<void> => {
     try {
-      await window.api.loginCache(steamId)
+      const returnedSteamId = await window.api.loginCache(steamId)
+      setActiveSteamId(returnedSteamId)
+      setIsLoggedInSteam(false)
+      setIsLoggedInCache(true)
+      await loadInventory(false)
     } catch (error) {
       console.error('Failed to load settings:', error)
       throw error
     }
   }
 
-  return <SessionContext.Provider value={{ loginSteam, loginCache }}>{children}</SessionContext.Provider>
+  return (
+    <SessionContext.Provider value={{ loginSteam, loginCache, activeSteamId, isLoggedInSteam, isLoggedInCache }}>
+      {children}
+    </SessionContext.Provider>
+  )
 }
 
 export function useSession(): SessionContextType {
@@ -57,10 +78,7 @@ function useGlobalEvents(): void {
 
       switch (value.eventType) {
         case SteamSessionEventType.LOGIN_SUCCESS:
-          if (location.pathname == '/') {
-            // navigate('/dashboard')
-            showToast('Logged in successfully!', 'success')
-          }
+          showToast('Logged in successfully!', 'success')
           break
         case SteamSessionEventType.LOGIN_FAILURE:
           showToast(value.message, 'error')

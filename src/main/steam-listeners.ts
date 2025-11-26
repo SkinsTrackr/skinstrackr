@@ -64,7 +64,7 @@ export function setupSteamListeners(): void {
     SteamSession.getInstance().setLoggedIn(false)
     console.log(`❌ Disconnected from Steam. Code: ${eresult}, Msg: ${msg}`)
 
-    if (eresult === EResult.OK) {
+    if (eresult === EResult.NoConnection) {
       BrowserWindow.getFocusedWindow()?.webContents.send('renderer:steam-session-event', {
         eventType: SteamSessionEventType.DISCONNECTED_LOGOUT,
         message: `Successfully logged out from Steam.`

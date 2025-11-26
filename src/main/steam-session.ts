@@ -39,13 +39,14 @@ class SteamSession {
   /**
    * If not logged in, login user to Steam.
    * Eventually "logs out" cached user if different.
+   * @returns SteamID of logged in user
    */
-  async loginUserToSteam(details: SteamUser.LogOnDetailsNameToken): Promise<void> {
-    return new Promise<void>((resolve, reject) => {
+  async loginUserToSteam(details: SteamUser.LogOnDetailsNameToken): Promise<string> {
+    return new Promise<string>((resolve, reject) => {
       const loggedOnListener = (response): void => {
         this.cachedSessionUserId = null
         this.getUser().off('error', errorListener)
-        resolve()
+        resolve(this.getUser().steamID!.getSteamID64()!)
       }
 
       const errorListener = (err: Error & { eresult: number }): void => {
@@ -62,14 +63,15 @@ class SteamSession {
 
   /**
    * If logged into steam keep user, unless different than cached user. Then we log out first.
+   * @returns SteamID of logged in cached user
    */
-  async loginCachedUser(steamId: string): Promise<void> {
-    return new Promise<void>((resolve, reject) => {
+  async loginCachedUser(steamId: string): Promise<string> {
+    return new Promise<string>((resolve, reject) => {
       const disconnectedListener = (eresult: EResult, msg?: string): void => {
         this.getUser().off('error', errorListener)
-        if (eresult === EResult.OK) {
+        if (eresult === EResult.NoConnection) {
           this.cachedSessionUserId = steamId
-          resolve()
+          resolve(steamId)
         } else {
           reject()
         }
@@ -94,7 +96,7 @@ class SteamSession {
         this.getUser().logOff()
       } else {
         this.cachedSessionUserId = steamId
-        resolve()
+        resolve(steamId)
       }
     })
   }

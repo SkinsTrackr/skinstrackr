@@ -12,7 +12,7 @@ import { useSession } from './contexts/SessionContext'
 function App(): React.JSX.Element {
   const location = useLocation()
   const navigate = useNavigate()
-  const { loadSettings } = useClientStore()
+  const { loadSettings, loadAccounts } = useClientStore()
   const { loadInventory } = useInventory()
   const { loginCache } = useSession()
   const hideNavbars = location.pathname === '/'
@@ -29,6 +29,8 @@ function App(): React.JSX.Element {
         if (loadedSettings.defaultAccountID) {
           await loginCache(loadedSettings.defaultAccountID)
           await loadInventory(false)
+          await loadSettings()
+          await loadAccounts()
           navigate('/overview')
         }
       } catch (error) {
@@ -37,7 +39,7 @@ function App(): React.JSX.Element {
     }
 
     checkDefaultAccount()
-  }, [loadSettings, loadInventory, location.pathname, navigate, loginCache])
+  }, [loadSettings, loadAccounts, loadInventory, location.pathname, navigate, loginCache])
 
   return (
     <div className="flex h-full flex-col overflow-hidden">

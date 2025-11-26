@@ -10,10 +10,10 @@ const api = {
   /**
    * Renderer --->>> Main
    */
-  loginSteam: (data: SteamLoginRequest): Promise<void> => {
+  loginSteam: (data: SteamLoginRequest): Promise<string> => {
     return ipcRenderer.invoke('main:steam-session-login', data)
   },
-  loginCache: (userId: string): Promise<void> => {
+  loginCache: (userId: string): Promise<string> => {
     return ipcRenderer.invoke('main:cache-session-login', userId)
   },
   loadInventory: (force: boolean): Promise<ConvertedInventory> => {
