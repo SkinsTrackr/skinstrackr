@@ -78,6 +78,14 @@ export async function fetchItemData(): Promise<void> {
   }
 }
 
+export function getQualities(): Record<string, Quality> {
+  return qualities
+}
+
+export function getRarities(): Record<string, Rarity> {
+  return rarities
+}
+
 export function convertInventoryItem(item: GlobalOffensive.InventoryItem): ConvertedItem {
   let hashName: string | undefined = undefined
   let imagePath: string | undefined = undefined
@@ -171,14 +179,17 @@ export function convertInventoryItem(item: GlobalOffensive.InventoryItem): Conve
   }
 
   return {
-    id: item.id,
+    id: Number(item.id),
     hashName: hashName,
     customName: item.custom_name ? item.custom_name : undefined,
-    rarity: rarities[item.rarity?.toString() || ''],
-    quality: qualities[item.quality?.toString() || ''],
+    rarity: rarities[item.rarity?.toString() || ''].index,
+    quality: qualities[item.quality?.toString() || ''].index,
     imagePath: imagePath,
     price: prices[hashName || '']?.price,
-    isStorageUnit: item.casket_contained_item_count !== undefined
+    isStorageUnit: item.casket_contained_item_count !== undefined,
+    tradable: item.tradable_after ? true : prices[hashName || '']?.price !== undefined ? true : false,
+    containerId: item.casket_id ? item.casket_id : 0,
+    float: item.paint_wear
   }
 }
 

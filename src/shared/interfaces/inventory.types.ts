@@ -15,19 +15,24 @@ export interface RawInventory {
  */
 export interface ConvertedInventory {
   inventoryItems: ConvertedItem[]
-  containerItems: Record<string, ConvertedItem[]>
+  containerItems: Record<number, ConvertedItem[]> // k=containerId
   lastRefresh: number // Timestamp of last inventory refresh
+  qualities: Record<string, Quality> // k=index
+  rarities: Record<string, Rarity> // k=index
 }
 
 export interface ConvertedItem {
-  id?: string
+  id?: number
   hashName?: string
   customName?: string
-  rarity?: Rarity
-  quality?: Quality
+  rarity?: string // index
+  quality?: string // index
   imagePath?: string
   price?: number
   isStorageUnit: boolean
+  containerId: number // ID of the container this item is in, "0" for root-level items
+  tradable: boolean // Whether the item is tradable at all
+  float?: number
 }
 
 export interface Rarity {

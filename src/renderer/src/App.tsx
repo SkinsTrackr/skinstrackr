@@ -4,7 +4,6 @@ import DashboardPage from './pages/dashboard'
 import { useEffect, useRef } from 'react'
 import TopNavbar from './components/top-navbar'
 import InventoryPage from './pages/inventory'
-import { useInventory } from './contexts/InventoryContext'
 import BottomNavbar from './components/bottom-navbar'
 import { useClientStore } from './contexts/ClientStoreContext'
 import { useSession } from './contexts/SessionContext'
@@ -13,7 +12,6 @@ function App(): React.JSX.Element {
   const location = useLocation()
   const navigate = useNavigate()
   const { loadSettings, loadAccounts } = useClientStore()
-  const { loadInventory } = useInventory()
   const { loginCache } = useSession()
   const hideNavbars = location.pathname === '/'
   const checkedDefaultAccount = useRef(false)
@@ -28,7 +26,6 @@ function App(): React.JSX.Element {
         const loadedSettings = await loadSettings()
         if (loadedSettings.defaultAccountID) {
           await loginCache(loadedSettings.defaultAccountID)
-          await loadInventory(false)
           await loadSettings()
           await loadAccounts()
           navigate('/overview')
@@ -39,7 +36,7 @@ function App(): React.JSX.Element {
     }
 
     checkDefaultAccount()
-  }, [loadSettings, loadAccounts, loadInventory, location.pathname, navigate, loginCache])
+  }, [loadSettings, loadAccounts, location.pathname, navigate, loginCache])
 
   return (
     <div className="flex h-full flex-col overflow-hidden">

@@ -17,7 +17,9 @@ export function InventoryProvider({ children }: { children: ReactNode }): JSX.El
   const [inventory, setInventory] = useState<ConvertedInventory>({
     inventoryItems: [],
     containerItems: {},
-    lastRefresh: 0
+    lastRefresh: 0,
+    qualities: {},
+    rarities: {}
   })
   const [isLoading, setIsLoading] = useState(false)
   const [totalValue, setTotalValue] = useState(0)

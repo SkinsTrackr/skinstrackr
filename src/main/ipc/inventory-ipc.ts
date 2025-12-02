@@ -3,7 +3,7 @@ import SteamSession from '../steam-session'
 import GlobalOffensive from 'globaloffensive'
 import Semaphore from '../util/semaphore'
 import { ConvertedItem, ConvertedInventory, RawInventory } from '@shared/interfaces/inventory.types'
-import { convertInventoryItem } from '../util/item-utils'
+import { convertInventoryItem, getQualities, getRarities } from '../util/item-utils'
 import * as fs from 'fs'
 import { pack, unpack } from 'msgpackr'
 
@@ -75,10 +75,25 @@ export function setupInventoryIPC(): void {
       }
     }
 
+    // For testing
+    // for (let i = 0; i < 900000; i++) {
+    //   convertedInventory.push({
+    //     id: `${i + 2000000}`,
+    //     hashName: `Test ItemItemItemItemItemItemItem Item Item Item ItemItemItemItem ${i}`,
+    //     rarity: '1',
+    //     quality: '1',
+    //     isStorageUnit: false,
+    //     containerId: `${i + 1000000}`,
+    //     tradable: true
+    //   })
+    // }
+
     return {
       inventoryItems: convertedInventory,
       containerItems: convertedContainers,
-      lastRefresh: rawInventory.lastRefresh
+      lastRefresh: rawInventory.lastRefresh,
+      qualities: getQualities(),
+      rarities: getRarities()
     }
   })
 }

@@ -7,9 +7,11 @@ import { Inventory } from '@shared/interfaces/inventory.types'
 
 interface StorageUnitsListProps {
   inventory: Inventory
+  selectedUnitsId: number[]
+  setSelectedUnitsId: React.Dispatch<React.SetStateAction<number[]>>
 }
 
-export const StorageUnitsList: FC<StorageUnitsListProps> = ({ inventory }) => {
+export const StorageUnitsList: FC<StorageUnitsListProps> = ({ inventory, selectedUnitsId, setSelectedUnitsId }) => {
   const [searchQuery, setSearchQuery] = useState('')
   const storageUnits = useMemo(
     () => inventory.inventoryItems.filter((item) => item.isStorageUnit),
@@ -44,7 +46,23 @@ export const StorageUnitsList: FC<StorageUnitsListProps> = ({ inventory }) => {
       <ScrollArea className="flex-1 min-h-0 mt-5" type="auto">
         <div className="flex flex-col gap-2 mr-4">
           {filteredUnits.map((unit) => (
-            <Card key={unit.id} className="cursor-pointer hover:bg-accent transition-colors">
+            <Card
+              key={unit.id}
+              className={`cursor-pointer hover:bg-accent transition-colors ${
+                selectedUnitsId.includes(unit.id) ? 'bg-accent' : ''
+              }`}
+              onClick={() => {
+                setSelectedUnitsId((prevIds) => {
+                  if (prevIds.includes(unit.id)) {
+                    console.log('Removing filter for storage unit ID:', unit.id)
+                    console.log(prevIds.filter((id) => id !== unit.id))
+                    return prevIds.filter((id) => id !== unit.id)
+                  } else {
+                    return [...prevIds, unit.id]
+                  }
+                })
+              }}
+            >
               <CardContent className="flex items-center gap-3 px-2 h-8">
                 <img
                   src={window.env.ICONS_BASE_URL + '/' + (unit.imagePath || '') + '.png'}

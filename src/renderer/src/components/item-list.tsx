@@ -2,121 +2,234 @@ import { ScrollArea } from '@/components/ui/scroll-area'
 import { FC, useState, useMemo } from 'react'
 import { InputGroup, InputGroupAddon, InputGroupInput } from './ui/input-group'
 import { Search } from 'lucide-react'
-import { Inventory } from '@shared/interfaces/inventory.types'
-import { Card, CardContent } from './ui/card'
+import { ConvertedInventory, ConvertedItem } from '@shared/interfaces/inventory.types'
+import { applyFilters, applyGrouping, applySorting, ItemListFilter } from '@/lib/item-list-filter'
+import { ItemCard } from './item-card'
+import { DropdownMenu } from '@radix-ui/react-dropdown-menu'
+import {
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger
+} from './ui/dropdown-menu'
+import { Button } from './ui/button'
 
 interface ItemListProps {
-  inventory: Inventory
+  inventory: ConvertedInventory
+  filterStorageUnitsId: number[]
 }
 
-export const ItemList: FC<ItemListProps> = ({ inventory }) => {
-  const [searchQuery, setSearchQuery] = useState('')
+export type FilteredItem = {
+  name: string
+  items: ConvertedItem[]
+}
 
-  // All items except storage units (from both inventory and containers)
-  const items = useMemo(() => {
-    const allItems = [
+export const ItemList: FC<ItemListProps> = ({ inventory, filterStorageUnitsId }) => {
+  const [itemFilter, setItemFilter] = useState<ItemListFilter>({
+    filters: { showNonTradable: false },
+    sort: { sortBy: 'name', sortDir: 'asc' },
+    groupBy: 'none'
+  })
+
+  // Visible items to user (Limited to 1000)
+  // Includes all items in inventory except storage units
+  // 'ungrouped' means no grouping applied to some items or item is unknown
+  const { allItems, filteredItems } = useMemo(() => {
+    const invItems = [
       ...inventory.inventoryItems.filter((item) => !item.isStorageUnit),
       ...Object.values(inventory.containerItems).flat()
     ]
 
-    // Deduplicate items by ID to avoid showing the same item multiple times
-    const seenIds = new Set<string>()
-    return allItems.filter((item) => {
-      if (!item.id) return true // Include items without ID (shouldn't happen but just in case)
-      if (seenIds.has(item.id)) return false // Skip if we've already seen this ID
-      seenIds.add(item.id)
-      return true
-    })
-  }, [inventory])
+    if (filterStorageUnitsId.length !== undefined) {
+      itemFilter.filters = {
+        ...itemFilter.filters,
+        containerIds: filterStorageUnitsId
+      }
+    }
 
-  const filteredItems = useMemo(
-    () =>
-      items
-        .filter((item) => (item.customName || item.hashName || '').toLowerCase().includes(searchQuery.toLowerCase()))
-        .sort((a, b) => (a.customName || a.hashName || '').localeCompare(b.customName || b.hashName || ''))
-        .slice(0, 1000), // Limit to first 1000 items for performance
-    [searchQuery, items]
-  )
+    const filtered = applyFilters(invItems, itemFilter)
+    const sorted = applySorting(filtered, itemFilter)
+    const grouped = applyGrouping(sorted, itemFilter)
+
+    console.log(grouped)
+
+    // grouped.splice(100) // Limit to 1000 items displayed
+
+    return { allItems: invItems, filteredItems: grouped }
+  }, [inventory, itemFilter, filterStorageUnitsId])
 
   return (
-    <div className="flex flex-col h-screen flex-1">
-      <div className="px-4">
-        <InputGroup>
-          <InputGroupInput
-            placeholder="Search..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-          <InputGroupAddon>
-            <Search />
-          </InputGroupAddon>
-          <InputGroupAddon align="inline-end">
-            {filteredItems.length}/{items.length}
-          </InputGroupAddon>
-        </InputGroup>
-      </div>
-      <ScrollArea className="h-full mt-5 ml-4" type="auto">
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-7 gap-2">
-          {filteredItems.map((item) => (
-            <Card
-              key={item.id}
-              className="cursor-pointer hover:bg-accent transition-colors relative overflow-hidden py-4"
-            >
-              <CardContent className="flex items-center gap-3 px-2 py-1 h-20">
-                {/* Item Icon */}
-                <div className="relative w-18 h-18 flex-shrink-0 flex items-center justify-center">
-                  <img
-                    src={window.env.ICONS_BASE_URL + '/' + (item.imagePath || '') + '.png'}
-                    alt={item.customName || item.hashName || 'Item'}
-                    className="max-w-full max-h-full object-contain"
-                  />
-                </div>
+    <div className="flex flex-col h-full flex-1 overflow-hidden">
+      <div className="px-4 flex gap-2 items-center flex-shrink-0">
+        <div className="flex-1">
+          <InputGroup>
+            <InputGroupInput
+              placeholder="Search..."
+              value={itemFilter.filters?.query || ''}
+              onChange={(e) =>
+                setItemFilter((prev) => ({
+                  ...prev,
+                  filters: { ...prev.filters, query: e.target.value }
+                }))
+              }
+            />
+            <InputGroupAddon>
+              <Search />
+            </InputGroupAddon>
+            <InputGroupAddon align="inline-end">{`${filteredItems.length}/${allItems.length}`}</InputGroupAddon>
+          </InputGroup>
+        </div>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="outline">Filter</Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="w-56" align="start">
+            {/* Misc filters */}
+            <DropdownMenuLabel>General</DropdownMenuLabel>
+            <DropdownMenuGroup>
+              <DropdownMenuCheckboxItem
+                onSelect={(event) => event.preventDefault()}
+                checked={itemFilter.filters?.showNonTradable}
+                onCheckedChange={(checked) => {
+                  setItemFilter((prev) => ({
+                    ...prev,
+                    filters: {
+                      ...prev.filters,
+                      showNonTradable: checked
+                    }
+                  }))
+                }}
+              >
+                Non-tradable
+              </DropdownMenuCheckboxItem>
+            </DropdownMenuGroup>
+            {/* Rarity filters */}
+            <DropdownMenuLabel>Rarity</DropdownMenuLabel>
+            <DropdownMenuGroup>
+              {Object.keys(inventory.rarities).map((rarityKey) => {
+                if (rarityKey == '99') return null // skip unused rarity
+                const rarity = inventory.rarities[rarityKey]
+                return (
+                  <DropdownMenuCheckboxItem
+                    key={rarityKey}
+                    onSelect={(event) => event.preventDefault()}
+                    checked={itemFilter.filters?.rarities?.some((r) => r === rarity.index) || false}
+                    onCheckedChange={(checked) => {
+                      setItemFilter((prev) => {
+                        const prevRarities = prev.filters?.rarities || []
+                        let newRarities: string[] = []
+                        if (checked) {
+                          newRarities = [...prevRarities, rarity.index]
+                        } else {
+                          newRarities = prevRarities.filter((r) => r !== rarity.index)
+                        }
 
-                {/* Content Area */}
-                <div className="flex flex-col justify-between h-full flex-1 min-w-0">
-                  {/* Item Name */}
-                  <div className="text-left w-full">
-                    <span className="text-xs font-medium leading-tight line-clamp-2 break-words">
-                      {item.customName || item.hashName || 'Unknown Item'}
-                    </span>
-                  </div>
-
-                  {/* Bottom Row: Rarity Bar and Price */}
-                  <div className="flex flex-col gap-1 w-full">
-                    {/* Item Color/Rarity Bar */}
-                    {(item.rarity?.color || item.quality?.color) && (
+                        return {
+                          ...prev,
+                          filters: {
+                            ...prev.filters,
+                            rarities: newRarities
+                          }
+                        }
+                      })
+                    }}
+                  >
+                    <div className="flex items-center gap-2">
                       <div
-                        className="w-full h-1 rounded-full"
+                        className="w-3 h-3 rounded-full flex-shrink-0"
                         style={{
-                          backgroundColor: item.rarity?.color || item.quality?.color || '#888888'
+                          backgroundColor: rarity.color || '#888888'
                         }}
                       />
-                    )}
-
-                    {/* Item Price */}
-                    <div className="text-left w-full">
-                      {item.price !== undefined && item.price > 0 ? (
-                        <span className="text-xs font-semibold text-green-500 dark:text-green-500">
-                          ${item.price.toFixed(2)}
-                        </span>
-                      ) : (
-                        <span className="text-xs text-muted-foreground">No Price</span>
-                      )}
+                      <span>{rarity.name_default}</span>
                     </div>
-                  </div>
-                </div>
+                  </DropdownMenuCheckboxItem>
+                )
+              })}
+            </DropdownMenuGroup>
+            <DropdownMenuSeparator />
+            {/* Quality filters */}
+            <DropdownMenuLabel>Quality</DropdownMenuLabel>
+            <DropdownMenuGroup>
+              {Object.keys(inventory.qualities).map((qualityKey) => {
+                if (
+                  qualityKey == '0' ||
+                  qualityKey == '1' ||
+                  qualityKey == '2' ||
+                  qualityKey == '4' ||
+                  qualityKey == '5' ||
+                  qualityKey == '6' ||
+                  qualityKey == '7' ||
+                  qualityKey == '8' ||
+                  qualityKey == '10' ||
+                  qualityKey == '11' ||
+                  qualityKey == '13' ||
+                  qualityKey == '14'
+                )
+                  return null // skip unused quality
+                const quality = inventory.qualities[qualityKey]
+                return (
+                  <DropdownMenuCheckboxItem
+                    key={qualityKey}
+                    onSelect={(event) => event.preventDefault()}
+                    checked={itemFilter.filters?.qualities?.some((q) => q === quality.index) || false}
+                    onCheckedChange={(checked) => {
+                      setItemFilter((prev) => {
+                        const prevQualities = prev.filters?.qualities || []
+                        let newQualities: string[] = []
+                        if (checked) {
+                          newQualities = [...prevQualities, quality.index]
+                        } else {
+                          newQualities = prevQualities.filter((q) => q !== quality.index)
+                        }
 
-                {/* Float value placeholder - can be implemented when float data is available */}
-                {/* {item.float && (
-                  <span className="text-xs text-muted-foreground">
-                    Float: {item.float.toFixed(4)}
-                  </span>
-                )} */}
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      </ScrollArea>
+                        return {
+                          ...prev,
+                          filters: {
+                            ...prev.filters,
+                            qualities: newQualities
+                          }
+                        }
+                      })
+                    }}
+                  >
+                    <div className="flex items-center gap-2">
+                      <div
+                        className="w-3 h-3 rounded-full flex-shrink-0"
+                        style={{
+                          backgroundColor: quality.color || '#888888'
+                        }}
+                      />
+                      <span>{quality.name}</span>
+                    </div>
+                  </DropdownMenuCheckboxItem>
+                )
+              })}
+            </DropdownMenuGroup>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
+      {/* Cards list */}
+      <div className="flex-1 mt-5 overflow-hidden">
+        <ScrollArea className="h-full" type="auto">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-7 gap-2 px-4 pb-4">
+            {filteredItems
+              .slice(0, 100)
+              .map((group) =>
+                group.items.map((item, index) => (
+                  <ItemCard
+                    key={`${group.name}-${index}`}
+                    items={group.items}
+                    name={item.hashName || item.customName || 'Unknown Item'}
+                    rarity={inventory.rarities[item.rarity || '']}
+                  />
+                ))
+              )}
+          </div>
+        </ScrollArea>
+      </div>
     </div>
   )
 }
