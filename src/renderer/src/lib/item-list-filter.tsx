@@ -50,7 +50,8 @@ export type ItemListFilter = {
     query?: string
     rarities?: string[] // index
     qualities?: string[] // index
-    showNonTradable?: boolean // tradable items
+    showNonTradable?: boolean // non-tradable items
+    showTradable?: boolean // tradable items
   }
   sort?: {
     sortBy: sortByOption
@@ -85,8 +86,8 @@ export function applyFilters(items: ConvertedItem[], filter: ItemListFilter): Co
       return item.quality !== undefined && f.qualities?.some((q) => q === item.quality)
     })
   }
-  if (f.showNonTradable !== undefined) {
-    items = items.filter((item) => item.tradable !== f.showNonTradable)
+  if (f.showNonTradable !== undefined || f.showTradable !== undefined) {
+    items = items.filter((item) => item.tradable !== f.showNonTradable || item.tradable === f.showTradable)
   }
   return items
 }
