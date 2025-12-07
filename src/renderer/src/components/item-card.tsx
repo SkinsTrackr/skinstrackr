@@ -49,9 +49,16 @@ export const ItemCard: FC<ItemCardProps> = ({ items, name, rarity }) => {
             {/* Item Price */}
             <div className="text-left w-full">
               {items[0].price !== undefined && items[0].price > 0 ? (
-                <span className="text-xs font-semibold text-green-500 dark:text-green-500">
-                  ${(items[0].price * items.length).toFixed(2)}
-                </span>
+                <div>
+                  <span className="text-xs font-semibold text-green-500 dark:text-green-500">
+                    ${items[0].price.toFixed(2)}
+                  </span>
+                  {items.length > 1 ? (
+                    <span className="text-xs font-semibold text-green-700">
+                      {items.length > 1 ? ` | $${(items[0].price * items.length).toFixed(2)}` : ''}
+                    </span>
+                  ) : undefined}
+                </div>
               ) : items[0].tradable ? (
                 <span className="text-xs text-muted-foreground">No Price</span>
               ) : (

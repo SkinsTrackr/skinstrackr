@@ -1,18 +1,18 @@
 import { useEffect, useState } from 'react'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
-import { LayoutDashboard, BoxesIcon, Settings } from 'lucide-react'
+import { LayoutDashboard, Boxes, Settings } from 'lucide-react'
 import { useNavigate } from 'react-router'
 import { JSX } from 'react'
 
 const navItems = [
   { name: 'Overview', path: '/overview', icon: LayoutDashboard },
-  { name: 'Inventory', path: '/inventory', icon: BoxesIcon },
+  { name: 'Inventory', path: '/inventory', icon: Boxes },
   { name: 'Settings', path: '/setting', icon: Settings }
 ]
 
 export default function TopNavbar(): JSX.Element {
-  const [activeTab, setActiveTab] = useState(navItems[0])
+  const [activeTab, setActiveTab] = useState(navItems[1])
   const navigate = useNavigate()
 
   useEffect(() => {

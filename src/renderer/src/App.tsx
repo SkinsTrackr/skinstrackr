@@ -28,7 +28,7 @@ function App(): React.JSX.Element {
           await loginCache(loadedSettings.defaultAccountID)
           await loadSettings()
           await loadAccounts()
-          navigate('/overview')
+          navigate('/inventory')
         }
       } catch (error) {
         console.error('Failed to check default account:', error)

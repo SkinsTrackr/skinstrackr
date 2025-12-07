@@ -21,7 +21,7 @@ export function LoginForm({ className, ...props }: React.ComponentProps<'div'>) 
     try {
       const tokenDetails = JSON.parse(token) as LoginRequest
       await loginSteam(tokenDetails)
-      navigate('/overview')
+      navigate('/inventory')
     } catch (err) {
       console.error('Login error:', err)
     }

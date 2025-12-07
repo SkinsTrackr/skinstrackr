@@ -1,9 +1,9 @@
 import { FilteredItem } from '@/components/item-list'
 import { ConvertedItem } from '@shared/interfaces/inventory.types'
 
-export type sortByOption = 'name' | 'rarity' | 'groupedValue' | 'singleValue'
+export type sortByOption = 'name' | 'rarity' | 'groupedValue' | 'singleValue' | 'groupedCount' | 'floatValue'
 export type sortDirOption = 'asc' | 'desc'
-export type groupByOption = 'nameCommonItems' | 'nameAllItems' | 'none'
+export type groupByOption = 'nonFloatItemsByName' | 'allItemsByName'
 
 export function getSortByLabel(option: sortByOption): string {
   switch (option) {
@@ -15,6 +15,10 @@ export function getSortByLabel(option: sortByOption): string {
       return 'Single Item Value'
     case 'groupedValue':
       return 'Grouped Item Value'
+    case 'groupedCount':
+      return 'Grouped Item Count'
+    case 'floatValue':
+      return 'Float Value'
     default:
       return 'Unknown'
   }
@@ -22,12 +26,10 @@ export function getSortByLabel(option: sortByOption): string {
 
 export function getGroupByLabel(option: groupByOption): string {
   switch (option) {
-    case 'nameCommonItems':
-      return 'Name (Common Items Separated)'
-    case 'nameAllItems':
-      return 'Name (All Items Grouped)'
-    case 'none':
-      return 'No Grouping'
+    case 'nonFloatItemsByName':
+      return 'Name (Non-float Items)'
+    case 'allItemsByName':
+      return 'Name (All items)'
     default:
       return 'Unknown'
   }
@@ -53,7 +55,7 @@ export type ItemListFilter = {
     showNonTradable?: boolean // non-tradable items
     showTradable?: boolean // tradable items
   }
-  sort?: {
+  sort: {
     sortBy: sortByOption
     sortDir: sortDirOption
   }
@@ -92,50 +94,28 @@ export function applyFilters(items: ConvertedItem[], filter: ItemListFilter): Co
   return items
 }
 
-export function applySorting(items: ConvertedItem[], sortBy: ItemListFilter): ConvertedItem[] {
-  const s = sortBy.sort
-  if (!s) return items
-
-  return items.sort((a, b) => {
-    let compare = 0
-    switch (s.sortBy) {
-      case 'name':
-        compare = (a.hashName || '').localeCompare(b.hashName || '')
-        break
-      case 'rarity':
-        compare = (a.rarity || '').localeCompare(b.rarity || '')
-        break
-      case 'singleValue':
-        compare = (a.price || 0) - (b.price || 0)
-        break
-      case 'groupedValue':
-        compare = (a.price || 0) - (b.price || 0)
-        break
-    }
-
-    return s.sortDir === 'asc' ? compare : -compare
-  })
-}
-
 export function applyGrouping(items: ConvertedItem[], groupBy: ItemListFilter): FilteredItem[] {
   const g = groupBy.groupBy
-  if (!g || g === 'none') {
+  if (!g) {
     return items.map((item) => ({ name: item.hashName || item.customName || 'Unknown Item', items: [item] }))
   }
 
   switch (g) {
-    case 'nameCommonItems':
-      return items.reduce((groups, item) => {
+    case 'nonFloatItemsByName': {
+      const itemsss = items.reduce((groups, item) => {
         const itemName = item.hashName || item.customName || 'Unknown Item'
-        if (item.float) groups.push({ name: itemName, items: [item] })
+        if (item.float !== undefined) groups.push({ name: itemName, items: [item] })
         else
           groups.find((group) => group.name === itemName)?.items.push(item) ||
             groups.push({ name: itemName, items: [item] })
 
         return groups
       }, [] as FilteredItem[])
+      console.log(itemsss)
+      return itemsss
+    }
 
-    case 'nameAllItems':
+    case 'allItemsByName':
       return items.reduce((groups, item) => {
         const itemName = item.hashName || item.customName || 'Unknown Item'
         groups.find((group) => group.name === itemName)?.items.push(item) ||
@@ -144,4 +124,42 @@ export function applyGrouping(items: ConvertedItem[], groupBy: ItemListFilter): 
         return groups
       }, [] as FilteredItem[])
   }
+}
+
+export function applySorting(items: FilteredItem[], sortBy: ItemListFilter): FilteredItem[] {
+  const s = sortBy.sort
+  if (!s) return items
+
+  return items.sort((a, b) => {
+    const itemA = a.items[0]
+    const itemB = b.items[0]
+    let compare = 0
+    switch (s.sortBy) {
+      case 'name':
+        compare = (a.name || '').localeCompare(b.name || '')
+        break
+      case 'rarity': {
+        // Convert rarity indices to numbers for proper numeric sorting
+        compare = Number(itemA.rarity || 0) - Number(itemB.rarity || 0)
+        break
+      }
+      case 'singleValue':
+        compare = (itemA.price || 0) - (itemB.price || 0)
+        break
+      case 'groupedValue':
+        compare = (itemA.price || 0) * a.items.length - (itemB.price || 0) * b.items.length
+        break
+      case 'groupedCount':
+        compare = a.items.length - b.items.length
+        break
+      case 'floatValue': {
+        const floatA = itemA.float !== undefined ? itemA.float : s.sortDir === 'asc' ? 1 : 0
+        const floatB = itemB.float !== undefined ? itemB.float : s.sortDir === 'asc' ? 1 : 0
+        compare = floatA - floatB
+        break
+      }
+    }
+
+    return s.sortDir === 'asc' ? compare : -compare
+  })
 }

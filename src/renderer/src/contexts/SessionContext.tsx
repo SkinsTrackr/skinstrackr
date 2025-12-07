@@ -66,7 +66,6 @@ export function useSession(): SessionContextType {
 
 function useGlobalEvents(): void {
   const navigate = useNavigate()
-  const location = useLocation()
   const registered = useRef(false) // Fix double-registration in <StrictMode>
 
   useEffect(() => {
