@@ -12,7 +12,7 @@ const navItems = [
 ]
 
 export default function TopNavbar(): JSX.Element {
-  const [activeTab, setActiveTab] = useState(navItems[1])
+  const [activeTab, setActiveTab] = useState(navItems[0])
   const navigate = useNavigate()
 
   useEffect(() => {

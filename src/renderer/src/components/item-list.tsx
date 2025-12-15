@@ -152,7 +152,11 @@ export const ItemList: FC<ItemListProps> = ({ inventory, transfer, setTransfer }
         <ScrollArea className="h-full" type="auto">
           <div className="px-4 pb-4">
             {/* Transfer Area */}
-            <ItemTransferArea transfer={transfer} />
+            <ItemTransferArea
+              transfer={transfer}
+              containers={{ ...inventory.containerItems, 0: inventory.inventoryItems }}
+              setTransfer={setTransfer}
+            />
 
             {/* Items Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-2">
