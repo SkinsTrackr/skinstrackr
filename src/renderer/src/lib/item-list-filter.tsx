@@ -47,7 +47,7 @@ export function getSortDirLabel(option: sortDirOption): string {
 }
 
 export type ItemListFilter = {
-  filters?: {
+  filters: {
     containerIds?: number[] // ContainerId=0 for root-level items
     query?: string
     rarities?: string[] // index
@@ -59,11 +59,10 @@ export type ItemListFilter = {
     sortBy: sortByOption
     sortDir: sortDirOption
   }
-  groupBy?: groupByOption
+  groupBy: groupByOption
 }
 
-export function applyFilters(items: ConvertedItem[], filter: ItemListFilter): ConvertedItem[] {
-  console.log('Applying filters:', filter)
+export function applyContainerFilter(items: ConvertedItem[], filter: ItemListFilter): ConvertedItem[] {
   const f = filter.filters
   if (!f) return items
 
@@ -72,6 +71,15 @@ export function applyFilters(items: ConvertedItem[], filter: ItemListFilter): Co
       return f.containerIds?.includes(Number(item.containerId))
     })
   }
+
+  return items
+}
+
+export function applyFilters(items: ConvertedItem[], filter: ItemListFilter): ConvertedItem[] {
+  console.log('Applying filters:', filter)
+  const f = filter.filters
+  if (!f) return items
+
   if (f.query && f.query.trim().length > 0) {
     const queryLower = f.query.toLowerCase()
     items = items.filter((item) => {

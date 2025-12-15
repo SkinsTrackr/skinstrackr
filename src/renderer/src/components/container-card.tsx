@@ -1,28 +1,57 @@
-import { ConvertedItem } from '@shared/interfaces/inventory.types'
-import { FC } from 'react'
+import { ConvertedItem, TransferItems } from '@shared/interfaces/inventory.types'
+import { FC, useMemo, useState } from 'react'
 import { Card, CardContent } from './ui/card'
 import { Boxes } from 'lucide-react'
 
 interface ContainerCardProps {
   container: ConvertedItem
   count: number
-  selectedUnitsId: number[]
-  setSelectedUnitsId: React.Dispatch<React.SetStateAction<number[]>>
+  transfer: TransferItems
+  setTransfer: React.Dispatch<React.SetStateAction<TransferItems>>
 }
 
-export const ContainerCard: FC<ContainerCardProps> = ({ container, count, selectedUnitsId, setSelectedUnitsId }) => {
+export const ContainerCard: FC<ContainerCardProps> = ({ container, count, transfer, setTransfer }) => {
+  const [selectable, setSelectable] = useState(true)
+
+  // Whether we can remove or add a container
+  useMemo(() => {
+    if (transfer.mode !== null) {
+      if (container.id === 0) {
+        setSelectable(false)
+      } else {
+        setSelectable(true)
+      }
+    }
+  }, [transfer.mode, container.id])
+
   return (
     <Card
       key={container.id}
-      className={`cursor-pointer hover:bg-accent transition-colors relative ${
-        selectedUnitsId.includes(container.id) ? 'bg-accent' : ''
+      className={`${selectable ? 'cursor-pointer hover:bg-accent' : ''} transition-colors relative ${
+        transfer.fromContainerIds.includes(container.id!) ? 'bg-accent' : ''
       }`}
       onClick={() => {
-        setSelectedUnitsId((prevIds) => {
-          if (prevIds.includes(container.id)) {
-            return prevIds.filter((id) => id !== container.id)
-          } else {
-            return [...prevIds, container.id]
+        if (transfer.mode !== null) {
+          // Inventory not (un)selectable in transfer mode
+          if (container.id === 0) {
+            return
+          } else if (transfer.mode === 'toContainer') {
+            setTransfer((prev) => ({
+              ...prev,
+              fromContainerIds: [0],
+              toContainerId: container.id!
+            }))
+            return
+          }
+        }
+
+        setTransfer((prevIds) => {
+          const isSelected = prevIds.fromContainerIds.includes(container.id!)
+          return {
+            ...prevIds,
+            fromContainerIds: isSelected
+              ? prevIds.fromContainerIds.filter((id) => id !== container.id)
+              : [...prevIds.fromContainerIds, container.id!]
           }
         })
       }}

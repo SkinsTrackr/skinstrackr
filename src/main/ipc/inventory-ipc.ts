@@ -55,6 +55,13 @@ export function setupInventoryIPC(): void {
     const convertedInventory: ConvertedItem[] = []
     const convertedContainers: Record<string, ConvertedItem[]> = {}
     for (const item of rawInventory.items) {
+      const convertedItem = convertInventoryItem(item)
+
+      // Don't add items that are not part of the "inventory"
+      if (convertedItem === undefined) {
+        continue
+      }
+
       // Item is in a container
       if (item.casket_id) {
         const casketId: string = item.casket_id as unknown as string
@@ -62,11 +69,11 @@ export function setupInventoryIPC(): void {
           convertedContainers[casketId] = []
         }
 
-        convertedContainers[casketId].push(convertInventoryItem(item))
+        convertedContainers[casketId].push(convertedItem)
       }
       // Item not in a container
       else {
-        convertedInventory.push(convertInventoryItem(item))
+        convertedInventory.push(convertedItem)
 
         // Item is a container (To register containers with 0 items)
         if (!convertedContainers[item.id || '']) {

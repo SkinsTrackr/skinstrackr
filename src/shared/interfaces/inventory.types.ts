@@ -1,6 +1,17 @@
 import GlobalOffensive from 'globaloffensive'
 
 /**
+ * State types for transferring items between inventory and containers
+ */
+export type TransferMode = 'toInventory' | 'toContainer' | null
+export type TransferItems = {
+  mode: TransferMode
+  fromContainerIds: number[]
+  toContainerId: number
+  itemIds: number[]
+}
+
+/**
  * Raw inventory data as received from cs2
  * Should only be used in backend
  */

@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
-import { LayoutDashboard, Boxes, Settings } from 'lucide-react'
+import { Boxes, Settings } from 'lucide-react'
 import { useNavigate } from 'react-router'
 import { JSX } from 'react'
 
 const navItems = [
-  { name: 'Overview', path: '/overview', icon: LayoutDashboard },
+  //   { name: 'Overview', path: '/overview', icon: LayoutDashboard },
   { name: 'Inventory', path: '/inventory', icon: Boxes },
   { name: 'Settings', path: '/setting', icon: Settings }
 ]

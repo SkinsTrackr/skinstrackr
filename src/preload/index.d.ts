@@ -12,6 +12,7 @@ export interface CustomAPI {
   loadInventory: (force: boolean) => Promise<ConvertedInventory>
   loadSettings: () => Promise<Settings>
   loadAccounts: () => Promise<Record<string, Account>>
+  transferItems: (itemIds: number[], containerId: number) => Promise<void>
 
   /**
    * Main --->>> Renderer

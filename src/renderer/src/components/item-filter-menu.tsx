@@ -7,7 +7,7 @@ import {
   DropdownMenuCheckboxItem,
   DropdownMenuSeparator
 } from './ui/dropdown-menu'
-import { Quality, Rarity } from '@shared/interfaces/inventory.types'
+import { Quality, Rarity, TransferItems } from '@shared/interfaces/inventory.types'
 import { FC, Dispatch, SetStateAction } from 'react'
 import { Button } from './ui/button'
 import { ItemListFilter } from '@/lib/item-list-filter'
@@ -17,9 +17,16 @@ interface ItemFilterMenuProps {
   setItemFilter: Dispatch<SetStateAction<ItemListFilter>>
   rarities: Record<string, Rarity>
   qualities: Record<string, Quality>
+  transfer: TransferItems
 }
 
-export const ItemFilterMenu: FC<ItemFilterMenuProps> = ({ itemFilter, setItemFilter, rarities, qualities }) => {
+export const ItemFilterMenu: FC<ItemFilterMenuProps> = ({
+  itemFilter,
+  setItemFilter,
+  rarities,
+  qualities,
+  transfer
+}) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -41,6 +48,7 @@ export const ItemFilterMenu: FC<ItemFilterMenuProps> = ({ itemFilter, setItemFil
                 }
               }))
             }}
+            disabled={transfer.mode !== null}
           >
             Tradable
           </DropdownMenuCheckboxItem>
@@ -56,6 +64,7 @@ export const ItemFilterMenu: FC<ItemFilterMenuProps> = ({ itemFilter, setItemFil
                 }
               }))
             }}
+            disabled={transfer.mode !== null}
           >
             Non-tradable
           </DropdownMenuCheckboxItem>

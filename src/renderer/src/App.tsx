@@ -1,6 +1,5 @@
 import { Route, Routes, useLocation, useNavigate } from 'react-router'
 import LoginPage from './pages/login'
-import DashboardPage from './pages/dashboard'
 import { useEffect, useRef } from 'react'
 import TopNavbar from './components/top-navbar'
 import InventoryPage from './pages/inventory'
@@ -44,7 +43,7 @@ function App(): React.JSX.Element {
       <main className="flex-1 overflow-hidden bg-muted/10">
         <Routes>
           <Route path="/" element={<LoginPage />} />
-          <Route path="/overview" element={<DashboardPage />} />
+          {/* <Route path="/overview" element={<DashboardPage />} /> */}
           <Route path="/inventory" element={<InventoryPage />} />
         </Routes>
       </main>

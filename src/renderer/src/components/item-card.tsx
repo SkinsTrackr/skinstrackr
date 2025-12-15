@@ -1,19 +1,71 @@
-import { ConvertedItem, Rarity } from '@shared/interfaces/inventory.types'
-import { FC } from 'react'
+import { ConvertedItem, Rarity, TransferItems } from '@shared/interfaces/inventory.types'
+import { FC, useRef, useState } from 'react'
 import { Card, CardContent } from './ui/card'
+import { Input } from './ui/input'
 
 interface ItemCardProps {
   items: ConvertedItem[]
   name: string
   rarity?: Rarity
+  transfer: TransferItems
+  setTransfer: React.Dispatch<React.SetStateAction<TransferItems>>
+  containers: Record<number, ConvertedItem[]>
 }
 
-export const ItemCard: FC<ItemCardProps> = ({ items, name, rarity }) => {
+export const ItemCard: FC<ItemCardProps> = ({ items, name, rarity, transfer, setTransfer, containers }) => {
+  const [transferAmount, setTransferAmount] = useState<string>('')
+  const inputRef = useRef<HTMLInputElement>(null)
+
+  const handleTransferAmount = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    const value = e.target.value
+    // Only allow positive integers, cap at items.length or max container items
+    if (value === '' || /^\d+$/.test(value)) {
+      const numValue = value === '' ? 0 : parseInt(value)
+      if (numValue >= 0) {
+        const currentCardItemIds = items.map((item) => item.id!)
+        const otherItemIds = transfer.itemIds.filter((id) => !currentCardItemIds.includes(id))
+
+        // Cap the value at input value, items.length OR max available container space
+        // Only count items from OTHER cards when calculating available space
+        const cappedValue = Math.min(
+          numValue,
+          items.length,
+          1000 - (containers[transfer.toContainerId]?.length || 0) - otherItemIds.length
+        )
+
+        setTransfer((prev) => {
+          if (cappedValue > 0) {
+            // Add the selected items from this card
+            const selectedItemIds = items.slice(0, cappedValue).map((item) => item.id!)
+            return { ...prev, itemIds: [...otherItemIds, ...selectedItemIds] }
+          } else {
+            // Remove all items from this card
+            return { ...prev, itemIds: otherItemIds }
+          }
+        })
+        setTransferAmount(cappedValue.toString())
+      }
+    }
+  }
+
+  // Reset the transfer amount input when target container changes
+  //   useMemo(() => {
+  //     setTransferAmount('')
+  //   }, [transfer.toContainerId])
+
+  const handleCardClick = (): void => {
+    inputRef.current?.focus()
+    inputRef.current?.select()
+  }
+
   return (
-    <Card className="cursor-pointer hover:bg-accent transition-colors relative overflow-hidden py-4">
+    <Card
+      className="cursor-pointer hover:bg-accent hover:scale-105 hover:shadow-lg transition-all duration-200 relative overflow-hidden py-4"
+      onClick={handleCardClick}
+    >
       {/* Count Badge */}
       {items.length > 1 && (
-        <div className="absolute top-1 left-1 bg-primary text-primary-foreground rounded-md px-1.5 py-0.5 text-[10px] font-bold z-10 min-w-[20px] text-center">
+        <div className="absolute top-1 left-3 bg-primary text-primary-foreground rounded-md px-2 py-0.5 text-xs font-semibold z-10 min-w-[20px] text-center shadow-sm">
           {items.length}
         </div>
       )}
@@ -25,6 +77,19 @@ export const ItemCard: FC<ItemCardProps> = ({ items, name, rarity }) => {
             alt={name || 'Unknown Item'}
             className="max-w-full max-h-full object-contain"
           />
+
+          {/* Transfer Input - Bottom of Image */}
+          <div className="absolute -bottom-4 left-6 -translate-x-1/2 z-20">
+            <Input
+              ref={inputRef}
+              type="text"
+              value={transferAmount}
+              onChange={handleTransferAmount}
+              placeholder="-"
+              className="w-14 h-6 px-2 py-0.5 text-xs font-semibold text-center bg-secondary text-secondary-foreground border-0 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring rounded-md shadow-sm transition-all"
+              onClick={(e): void => e.stopPropagation()}
+            />
+          </div>
         </div>
 
         {/* Content Area */}
@@ -34,7 +99,7 @@ export const ItemCard: FC<ItemCardProps> = ({ items, name, rarity }) => {
             <span className="text-xs font-medium leading-tight line-clamp-2 break-words">{name || 'Unknown Item'}</span>
           </div>
 
-          {/* Bottom Row: Rarity Bar and Price */}
+          {/* Rarity Bar and Price */}
           <div className="flex flex-col gap-1 w-full">
             {/* Item Color/Rarity Bar */}
             {rarity?.color !== null && (

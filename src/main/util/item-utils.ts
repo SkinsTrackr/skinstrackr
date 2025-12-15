@@ -36,6 +36,7 @@ const DEF_INDEX_CHARM = 1355
 const ATTRIBUTE_GRAFFITI_TINT = 233
 const ATTRIBUTE_MUSIC_KIT_ID = 166
 const ATTRIBUTE_CHARM_ID = 299
+const ATTRIBUTE_FREE_REWARD_STATUS = 277 // Used to filter out non-tradable items
 
 export async function fetchItemData(): Promise<void> {
   if (!existsSync(env.DATA_DIR)) {
@@ -86,10 +87,24 @@ export function getRarities(): Record<string, Rarity> {
   return rarities
 }
 
-export function convertInventoryItem(item: GlobalOffensive.InventoryItem): ConvertedItem {
+export function convertInventoryItem(item: GlobalOffensive.InventoryItem): ConvertedItem | undefined {
   let hashName: string | undefined = undefined
   let imagePath: string | undefined = undefined
   let dataName: string | undefined = undefined
+
+  // Some items exist in cs2 client but are not part of the actual "inventory"
+  // These are often placeholders and hidden, so we skip them
+  // E.g. P250 | X-Ray
+  if (
+    item.inventory === 1 &&
+    item.position === 1 &&
+    item.casket_id === undefined &&
+    readAttribute(item, ATTRIBUTE_FREE_REWARD_STATUS) !== undefined
+  ) {
+    return undefined
+  } else if (item.id !== undefined && item.id.toString().length > 19) {
+    return undefined
+  }
 
   const commonItem = commonItems[item.def_index?.toString() || '']
 
@@ -105,11 +120,13 @@ export function convertInventoryItem(item: GlobalOffensive.InventoryItem): Conve
   else if (item.def_index === DEF_INDEX_GRAFFITI1 || item.def_index === DEF_INDEX_GRAFFITI2) {
     const graffiti = stickers[item.stickers?.at(0)?.sticker_id || '']
     const tint = graffitiTints[readAttribute(item, ATTRIBUTE_GRAFFITI_TINT) || '']
+    const graffitiPrefix = item.def_index === DEF_INDEX_GRAFFITI1 ? 'Sealed ' : ''
 
     if (tint) {
-      hashName = graffiti?.name && tint?.name ? `Sealed Graffiti | ${graffiti.name} (${tint.name})` : undefined
+      hashName =
+        graffiti?.name && tint?.name ? `${graffitiPrefix}Graffiti | ${graffiti.name} (${tint.name})` : undefined
     } else {
-      hashName = graffiti?.name ? `Sealed Graffiti | ${graffiti.name}` : undefined
+      hashName = graffiti?.name ? `${graffitiPrefix}Graffiti | ${graffiti.name}` : undefined
     }
     imagePath = graffiti?.image_path || undefined
     dataName = graffiti?.data_name

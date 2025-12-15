@@ -1,30 +1,31 @@
 import { ScrollArea } from '@/components/ui/scroll-area'
-import { FC, useState, useMemo } from 'react'
+import { FC, useState, useMemo, useEffect } from 'react'
 import { InputGroup, InputGroupAddon, InputGroupInput } from './ui/input-group'
-import { ChevronsRight, ChevronsLeft, Search } from 'lucide-react'
-import { ConvertedInventory, ConvertedItem } from '@shared/interfaces/inventory.types'
+import { ChevronsLeft, ChevronsUp, Search } from 'lucide-react'
+import { ConvertedInventory, ConvertedItem, TransferItems } from '@shared/interfaces/inventory.types'
 import { Separator } from './ui/separator'
 import { ContainerCard } from './container-card'
 import { Card, CardContent } from './ui/card'
 
 interface StorageUnitsListProps {
   inventory: ConvertedInventory
-  selectedUnitsId: number[]
-  setSelectedUnitsId: React.Dispatch<React.SetStateAction<number[]>>
-  transferModeActive: boolean
+  transfer: TransferItems
+  setTransfer: React.Dispatch<React.SetStateAction<TransferItems>>
 }
 
-const colorBlueOpaque = 'rgba(59, 130, 246, 0.1)'
-const colorBlueSolid = 'rgba(59, 130, 246, 0.9)'
+// const colorBlueOpaque = 'rgba(59, 130, 246, 0.1)'
+const colorBlueOpaque = 'rgba(234, 88, 12, 0.1)'
 const colorOrangeOpaque = 'rgba(234, 88, 12, 0.1)'
-const colorOrangeSolid = 'rgba(234, 88, 12, 0.9)'
 
-export const StorageUnitsList: FC<StorageUnitsListProps> = ({
-  inventory,
-  selectedUnitsId,
-  setSelectedUnitsId,
-  transferModeActive
-}) => {
+const getDiagonalStripedStyle = (type: 'insert' | 'retrieve') => ({
+  className: `rounded-lg relative flex flex-col gap-2 p-3 border-2 ${type === 'retrieve' ? 'border-orange-600' : 'border-orange-600'}`,
+  style: {
+    backgroundImage: `repeating-linear-gradient(45deg, transparent, transparent 5px, ${type === 'retrieve' ? colorBlueOpaque : colorOrangeOpaque} 5px, ${type === 'retrieve' ? colorBlueOpaque : colorOrangeOpaque} 10px)`,
+    borderStyle: 'dashed'
+  } as React.CSSProperties
+})
+
+export const StorageUnitsList: FC<StorageUnitsListProps> = ({ inventory, transfer, setTransfer }) => {
   const [searchQuery, setSearchQuery] = useState('')
   const storageUnits = useMemo(
     () => inventory.inventoryItems.filter((item) => item.isStorageUnit),
@@ -39,15 +40,35 @@ export const StorageUnitsList: FC<StorageUnitsListProps> = ({
     [searchQuery, storageUnits]
   )
 
-  const selectedUnits = useMemo(
-    () => filteredUnits.filter((unit) => unit.id && selectedUnitsId.includes(unit.id)),
-    [filteredUnits, selectedUnitsId]
-  )
+  const selectedUnits = useMemo(() => {
+    if (transfer.mode === 'toContainer') {
+      return filteredUnits.filter((unit) => unit.id! === transfer.toContainerId)
+    }
+
+    return filteredUnits.filter((unit) => transfer.fromContainerIds.includes(unit.id!))
+  }, [filteredUnits, transfer.fromContainerIds, transfer.toContainerId, transfer.mode])
 
   const unselectedUnits = useMemo(
-    () => filteredUnits.filter((unit) => !unit.id || !selectedUnitsId.includes(unit.id)),
-    [filteredUnits, selectedUnitsId]
+    () => filteredUnits.filter((unit) => !unit.id || !transfer.fromContainerIds.includes(unit.id)),
+    [filteredUnits, transfer.fromContainerIds]
   )
+
+  useEffect(() => {
+    if (transfer.mode === 'toInventory') {
+      setTransfer((prev) => ({
+        ...prev,
+        fromContainerIds: [],
+        toContainerId: 0
+      }))
+    } else if (transfer?.mode === 'toContainer') {
+      setTransfer((prev) => ({
+        ...prev,
+        fromContainerIds: [0],
+        toContainerId: -1,
+        itemIds: []
+      }))
+    }
+  }, [transfer.mode, setTransfer])
 
   // We "fake" a container for the main inventory
   const inventoryContainer: ConvertedItem = {
@@ -76,94 +97,140 @@ export const StorageUnitsList: FC<StorageUnitsListProps> = ({
         </InputGroup>
       </div>
       <ScrollArea className="flex-1 min-h-0 mt-5" type="auto">
+        {/* Insert into container card */}
         <div className="flex flex-col gap-2 mr-4 pl-0.5">
-          {transferModeActive && (
-            <div
-              className="rounded-lg relative flex flex-col gap-2 p-3 border-2 border-orange-600"
-              style={{
-                backgroundImage: `repeating-linear-gradient(45deg, transparent, transparent 5px, ${colorOrangeOpaque} 5px, ${colorOrangeOpaque} 10px)`,
-                borderStyle: 'dashed'
-              }}
-            >
-              {/* <ChevronsRight
-                className="absolute -right-6 top-8 h-10 w-10 pointer-events-none"
-                style={{ color: colorOrangeSolid }}
-              /> */}
+          {transfer.mode === 'toInventory' && (
+            <div {...getDiagonalStripedStyle('insert')}>
               <ContainerCard
                 key={0}
                 container={inventoryContainer}
                 count={inventory.inventoryItems.length}
-                selectedUnitsId={selectedUnitsId}
-                setSelectedUnitsId={setSelectedUnitsId}
+                transfer={transfer}
+                setTransfer={setTransfer}
               />
             </div>
           )}
-          {!transferModeActive && (
-            <ContainerCard
-              key={0}
-              container={inventoryContainer}
-              count={inventory.inventoryItems.length}
-              selectedUnitsId={selectedUnitsId}
-              setSelectedUnitsId={setSelectedUnitsId}
-            />
-          )}
-          <Separator />
-          {transferModeActive && (
-            <div
-              className="rounded-lg relative flex flex-col gap-2 p-3 border-2 border-blue-500"
-              style={{
-                backgroundImage: `repeating-linear-gradient(45deg, transparent, transparent 5px, ${colorBlueOpaque} 5px, ${colorBlueOpaque} 10px)`,
-                borderStyle: 'dashed'
-              }}
-            >
+          {transfer.mode === 'toContainer' && (
+            <div {...getDiagonalStripedStyle('insert')}>
               {selectedUnits.length === 0 && (
-                <Card className="opacity-70">
-                  <CardContent className="flex items-center gap-3 px-2 h-8">
-                    <div className="h-15 w-10 bg-muted-foreground/20 rounded-sm flex items-center justify-center">
-                      <ChevronsRight className="h-4 w-4 text-muted-foreground" />
-                    </div>
+                <Card className="opacity-80">
+                  <CardContent className="flex items-center gap-3 px-2 h-8 relative">
                     <div className="flex flex-col">
                       <span className="text-sm font-medium">Select a container</span>
                       <span className="text-xs text-muted-foreground pt-1">to insert items into</span>
                     </div>
+                    <div className="absolute right-3 h-14 w-8 bg-muted-foreground/20 rounded-sm flex items-center justify-center">
+                      <ChevronsLeft className="h-4 w-4 text-muted-foreground" />
+                    </div>
                   </CardContent>
                 </Card>
               )}
-              {/* <ChevronsLeft
-                className="absolute -right-6 top-8 h-10 w-10 pointer-events-none"
-                style={{ color: colorBlueSolid }}
-              /> */}
               {selectedUnits.map((unit) => (
                 <ContainerCard
                   key={unit.id}
                   container={unit}
                   count={inventory.containerItems[unit.id || '']?.length || 0}
-                  selectedUnitsId={selectedUnitsId}
-                  setSelectedUnitsId={setSelectedUnitsId}
+                  transfer={transfer}
+                  setTransfer={setTransfer}
                 />
               ))}
             </div>
           )}
-          {!transferModeActive &&
+          {/* Inventory card */}
+          {transfer.mode === null && (
+            <ContainerCard
+              key={0}
+              container={inventoryContainer}
+              count={inventory.inventoryItems.length}
+              transfer={transfer}
+              setTransfer={setTransfer}
+            />
+          )}
+          {transfer.mode === null && <Separator />}
+          {transfer.mode !== null && <ChevronsUp className="mx-auto text-yellow-500" strokeWidth={2} />}
+          {/* Retrieve from container cards */}
+          {transfer.mode === 'toContainer' && (
+            <>
+              <div {...getDiagonalStripedStyle('retrieve')}>
+                <ContainerCard
+                  key={transfer.fromContainerIds[0]}
+                  container={inventoryContainer}
+                  count={inventory.inventoryItems.length}
+                  transfer={transfer}
+                  setTransfer={setTransfer}
+                />
+              </div>
+              {unselectedUnits.map((unit) => (
+                <ContainerCard
+                  key={unit.id}
+                  container={unit}
+                  count={inventory.containerItems[unit.id || '']?.length || 0}
+                  transfer={transfer}
+                  setTransfer={setTransfer}
+                />
+              ))}
+            </>
+          )}
+          {transfer.mode === 'toInventory' && (
+            <>
+              <div {...getDiagonalStripedStyle('retrieve')}>
+                {selectedUnits.length === 0 &&
+                  unselectedUnits.map((unit) => (
+                    <ContainerCard
+                      key={unit.id}
+                      container={unit}
+                      count={inventory.containerItems[unit.id || '']?.length || 0}
+                      transfer={transfer}
+                      setTransfer={setTransfer}
+                    />
+                  ))}
+                {selectedUnits.length > 0 && (
+                  <>
+                    {selectedUnits.map((unit) => (
+                      <ContainerCard
+                        key={unit.id}
+                        container={unit}
+                        count={inventory.containerItems[unit.id || '']?.length || 0}
+                        transfer={transfer}
+                        setTransfer={setTransfer}
+                      />
+                    ))}
+                  </>
+                )}
+              </div>
+              {selectedUnits.length > 0 &&
+                unselectedUnits.map((unit) => (
+                  <ContainerCard
+                    key={unit.id}
+                    container={unit}
+                    count={inventory.containerItems[unit.id || '']?.length || 0}
+                    transfer={transfer}
+                    setTransfer={setTransfer}
+                  />
+                ))}
+            </>
+          )}
+          {transfer.mode == null &&
             selectedUnits.length > 0 &&
             selectedUnits.map((unit) => (
               <ContainerCard
                 key={unit.id}
                 container={unit}
                 count={inventory.containerItems[unit.id || '']?.length || 0}
-                selectedUnitsId={selectedUnitsId}
-                setSelectedUnitsId={setSelectedUnitsId}
+                transfer={transfer}
+                setTransfer={setTransfer}
               />
             ))}
-          {unselectedUnits.map((unit) => (
-            <ContainerCard
-              key={unit.id}
-              container={unit}
-              count={inventory.containerItems[unit.id || '']?.length || 0}
-              selectedUnitsId={selectedUnitsId}
-              setSelectedUnitsId={setSelectedUnitsId}
-            />
-          ))}
+          {transfer.mode == null &&
+            unselectedUnits.map((unit) => (
+              <ContainerCard
+                key={unit.id}
+                container={unit}
+                count={inventory.containerItems[unit.id || '']?.length || 0}
+                transfer={transfer}
+                setTransfer={setTransfer}
+              />
+            ))}
         </div>
       </ScrollArea>
     </div>
