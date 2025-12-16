@@ -24,7 +24,7 @@ interface ItemTransferAreaProps {
 }
 
 export const ItemTransferArea: FC<ItemTransferAreaProps> = ({ transfer, containers, setTransfer }) => {
-  const selectedCount = transfer.itemIds.length
+  const allSelectedItems = Object.values(transfer.selectedItems || {}).flat()
   const maxCapacity = 1000
   const currentContainerCount = containers[transfer.toContainerId]?.length || 0
   const availableSpace = maxCapacity - currentContainerCount
@@ -32,7 +32,7 @@ export const ItemTransferArea: FC<ItemTransferAreaProps> = ({ transfer, containe
   const handleReset = (): void => {
     setTransfer((prev) => ({
       ...prev,
-      itemIds: []
+      selectedItems: {}
     }))
   }
 
@@ -46,20 +46,18 @@ export const ItemTransferArea: FC<ItemTransferAreaProps> = ({ transfer, containe
                 <p className="text-sm font-semibold text-yellow-700 dark:text-yellow-500 mb-3">
                   {transfer.mode === 'toInventory' ? 'Transferring to Inventory' : 'Transferring to Container'}
                 </p>
-                {transfer.mode === 'toContainer' && (
-                  <p className="text-xs text-muted-foreground mb-2">
-                    {availableSpace} available ({currentContainerCount}/{maxCapacity} in container)
-                  </p>
-                )}
                 {/* className={`h-auto self-stretch flex-col !border-yellow-500 !text-yellow-500 !hover:bg-yellow-50 !hover:text-yellow-600`} */}
                 <div className="flex items-center justify-center gap-2">
                   <Button
                     variant="outline"
                     size="default"
-                    className="!border-yellow-500 !text-yellow-500 !hover:bg-yellow-50 !hover:text-yellow-600"
+                    className="!border-yellow-500 !text-yellow-500 !hover:bg-yellow-50 !hover:text-yellow-600 flex-col h-auto py-1"
                   >
-                    <ArrowRightLeft className="mr-2" />
-                    Transfer {selectedCount} item{selectedCount !== 1 ? 's' : ''}
+                    <div className="flex items-center">
+                      <ArrowRightLeft className="mr-2" />
+                      Transfer {allSelectedItems.length} item{allSelectedItems.length !== 1 ? 's' : ''}
+                    </div>
+                    <span className="text-xs text-muted-foreground mt-0">Max {availableSpace}</span>
                   </Button>
                   <Button onClick={handleReset} variant="outline" size="default">
                     Reset

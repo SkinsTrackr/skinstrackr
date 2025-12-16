@@ -1,6 +1,6 @@
 import { Separator } from '@/components/ui/separator'
 import { StorageUnitsList } from '@/components/container-list'
-import { JSX, useState } from 'react'
+import { JSX, useMemo, useState } from 'react'
 import { useInventory } from '../contexts/InventoryContext'
 import { ItemList } from '@/components/item-list'
 import { TransferItems } from '@shared/interfaces/inventory.types'
@@ -11,8 +11,10 @@ export default function InventoryPage(): JSX.Element {
     mode: null,
     fromContainerIds: [],
     toContainerId: 0,
-    itemIds: []
+    selectedItems: {}
   })
+
+  console.log(transfer.selectedItems)
 
   return (
     <div className="flex h-full overflow-hidden p-3">

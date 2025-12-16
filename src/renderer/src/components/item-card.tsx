@@ -1,5 +1,5 @@
 import { ConvertedItem, Rarity, TransferItems } from '@shared/interfaces/inventory.types'
-import { FC, useRef, useState, useEffect, useCallback } from 'react'
+import { FC, useRef, useState, useEffect, useCallback, useMemo } from 'react'
 import { Card, CardContent } from './ui/card'
 import { Input } from './ui/input'
 
@@ -18,40 +18,81 @@ export const ItemCard: FC<ItemCardProps> = ({ items, name, rarity, transfer, set
   const inputRef = useRef<HTMLInputElement>(null)
   const updateTimeoutRef = useRef<NodeJS.Timeout | null>(null)
 
+  const allSelectedItems = useMemo(() => Object.values(transfer.selectedItems || {}).flat(), [transfer.selectedItems])
+
   const currentCardItemIds = items.map((item) => item.id!)
-  const selectedCount = transfer.itemIds.filter((id) => currentCardItemIds.includes(id)).length
+  const selectedCount = allSelectedItems.filter((id) => currentCardItemIds.includes(id)).length
   const isSelected = selectedCount > 0
 
   // Calculate available space in container
-  const otherItemIds = transfer.itemIds.filter((id) => !currentCardItemIds.includes(id))
+  const otherItemIds = allSelectedItems.filter((id) => !currentCardItemIds.includes(id))
   const availableSpace = 1000 - (containers[transfer.toContainerId]?.length || 0) - otherItemIds.length
   const isDisabled = transfer.mode !== null && !isSelected && availableSpace <= 0
 
   // Use local input value while typing, otherwise show the actual selected count
   const displayValue = localInputValue !== '' ? localInputValue : selectedCount > 0 ? selectedCount.toString() : ''
 
+  // Selects items from this card up to the specified amount and updates the state
+  // If a card contains items from multiple containers, it will potentially select items from multiple containers
+  const selectItemsFromCard = useCallback(
+    (amount: number): void => {
+      const selectedItems = { ...transfer.selectedItems }
+      const newSelectedItems: Record<number, number[]> = {}
+
+      // First only add previously selected items that are NOT from this card
+      Object.keys(selectedItems).map((containerIdStr) => {
+        const containerId = parseInt(containerIdStr)
+        if (newSelectedItems[containerId] === undefined) {
+          newSelectedItems[containerId] = []
+        }
+        newSelectedItems[containerId] = selectedItems[containerId].filter((id) => !currentCardItemIds.includes(id))
+
+        // Remove containers that are empty
+        if (newSelectedItems[containerId].length === 0) {
+          delete newSelectedItems[containerId]
+        }
+      })
+
+      // Then add items from this card up to the specified amount
+      for (const item of items.slice(0, amount)) {
+        const itemId = item.id!
+        const containerId = item.containerId!
+
+        if (newSelectedItems[containerId] === undefined) {
+          newSelectedItems[containerId] = []
+        }
+        newSelectedItems[containerId].push(itemId)
+      }
+
+      setTransfer((prev) => ({ ...prev, selectedItems: newSelectedItems }))
+    },
+    [transfer.selectedItems, currentCardItemIds, items, setTransfer]
+  )
+
+  // Deselects all items from this card and updates the state
+  // If a card contains items from multiple containers, it will remove the item from all those containers
+  const deselectItemsFromCard = useCallback((): void => {
+    const selectedItems = { ...transfer.selectedItems }
+
+    Object.keys(selectedItems).map((containerIdStr) => {
+      const containerId = parseInt(containerIdStr)
+      const otherSelectedItems = selectedItems[containerId].filter((id) => !currentCardItemIds.includes(id))
+
+      // Remove items from this card, but keep items from other cards
+      if (otherSelectedItems.length > 0) {
+        selectedItems[containerId] = otherSelectedItems
+      } else {
+        delete selectedItems[containerId]
+      }
+    })
+
+    setTransfer((prev) => ({ ...prev, selectedItems: selectedItems }))
+  }, [transfer.selectedItems, currentCardItemIds, setTransfer])
+
   // Reset local input when transfer mode changes
   useEffect(() => {
     setLocalInputValue('')
   }, [transfer.mode, transfer.toContainerId])
-
-  const updateTransferState = useCallback(
-    (cappedValue: number) => {
-      const otherItemIds = transfer.itemIds.filter((id) => !currentCardItemIds.includes(id))
-
-      setTransfer((prev) => {
-        if (cappedValue > 0) {
-          // Add the selected items from this card
-          const selectedItemIds = items.slice(0, cappedValue).map((item) => item.id!)
-          return { ...prev, itemIds: [...otherItemIds, ...selectedItemIds] }
-        } else {
-          // Remove all items from this card
-          return { ...prev, itemIds: otherItemIds }
-        }
-      })
-    },
-    [transfer.itemIds, currentCardItemIds, items, setTransfer]
-  )
 
   const handleTransferAmount = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const value = e.target.value
@@ -59,7 +100,7 @@ export const ItemCard: FC<ItemCardProps> = ({ items, name, rarity, transfer, set
     if (value === '' || /^\d+$/.test(value)) {
       const numValue = value === '' ? 0 : parseInt(value)
       if (numValue >= 0) {
-        const otherItemIds = transfer.itemIds.filter((id) => !currentCardItemIds.includes(id))
+        const otherItemIds = allSelectedItems.filter((id) => !currentCardItemIds.includes(id))
 
         // Cap the value at input value, items.length OR max available container space
         const cappedValue = Math.min(
@@ -75,8 +116,15 @@ export const ItemCard: FC<ItemCardProps> = ({ items, name, rarity, transfer, set
         if (updateTimeoutRef.current) {
           clearTimeout(updateTimeoutRef.current)
         }
+
+        // Update selected amount
+        // (delay to minimize state updates while typing)
         updateTimeoutRef.current = setTimeout(() => {
-          updateTransferState(cappedValue)
+          if (cappedValue > 0) {
+            selectItemsFromCard(cappedValue)
+          } else {
+            deselectItemsFromCard()
+          }
         }, 100)
       }
     }
@@ -93,23 +141,16 @@ export const ItemCard: FC<ItemCardProps> = ({ items, name, rarity, transfer, set
 
   const handleCardClick = (): void => {
     if (transfer.mode !== null) {
-      const otherItemIds = transfer.itemIds.filter((id) => !currentCardItemIds.includes(id))
+      //   const containerId = items[0].containerId
 
       if (items.length === 1) {
         // For single items, toggle selection on click
         if (isSelected) {
           // Deselect the item
-          setTransfer((prev) => ({
-            ...prev,
-            itemIds: otherItemIds
-          }))
+          deselectItemsFromCard()
           setLocalInputValue('')
         } else {
-          // Select the item
-          setTransfer((prev) => ({
-            ...prev,
-            itemIds: [...otherItemIds, items[0].id!]
-          }))
+          selectItemsFromCard(1)
           setLocalInputValue('1')
         }
       } else {
@@ -117,10 +158,7 @@ export const ItemCard: FC<ItemCardProps> = ({ items, name, rarity, transfer, set
 
         // If not already selected, put "1" by default
         if (!isSelected) {
-          setTransfer((prev) => ({
-            ...prev,
-            itemIds: [...otherItemIds, items[0].id!]
-          }))
+          handleTransferAmount({ target: { value: '1' } } as React.ChangeEvent<HTMLInputElement>)
           setLocalInputValue('1')
 
           // Focus and select after setting the value
@@ -146,17 +184,12 @@ export const ItemCard: FC<ItemCardProps> = ({ items, name, rarity, transfer, set
 
       // Select the card if not already selected
       if (!isSelected) {
-        const otherItemIds = transfer.itemIds.filter((id) => !currentCardItemIds.includes(id))
-        setTransfer((prev) => ({
-          ...prev,
-          itemIds: [...otherItemIds, items[0].id!]
-        }))
+        handleTransferAmount({ target: { value: e.key } } as React.ChangeEvent<HTMLInputElement>)
       }
 
       // Set the input value and focus (without selecting)
       setLocalInputValue(e.key)
       inputRef.current?.focus()
-
       return
     }
 
@@ -165,11 +198,7 @@ export const ItemCard: FC<ItemCardProps> = ({ items, name, rarity, transfer, set
 
       // For multi-item cards with selection, Enter should deselect
       if (items.length > 1 && isSelected && e.key === 'Enter') {
-        const otherItemIds = transfer.itemIds.filter((id) => !currentCardItemIds.includes(id))
-        setTransfer((prev) => ({
-          ...prev,
-          itemIds: otherItemIds
-        }))
+        deselectItemsFromCard()
         setLocalInputValue('')
       } else {
         handleCardClick()
@@ -179,11 +208,8 @@ export const ItemCard: FC<ItemCardProps> = ({ items, name, rarity, transfer, set
 
   const handleDeselectClick = (e: React.MouseEvent): void => {
     e.stopPropagation()
-    const otherItemIds = transfer.itemIds.filter((id) => !currentCardItemIds.includes(id))
-    setTransfer((prev) => ({
-      ...prev,
-      itemIds: otherItemIds
-    }))
+
+    deselectItemsFromCard()
     setLocalInputValue('')
   }
 
@@ -278,15 +304,15 @@ export const ItemCard: FC<ItemCardProps> = ({ items, name, rarity, transfer, set
           {items[0].float !== undefined && (
             <div className="flex items-center gap-1.5 w-full">
               <div className="relative flex-1 h-2 rounded-sm overflow-hidden flex">
-                {/* Factory New: 0-0.07 (7%) */}
+                {/* Factory New: 0-0.07 */}
                 <div className="h-full bg-green-500/50" style={{ width: '7%' }} />
-                {/* Minimal Wear: 0.07-0.15 (8%) */}
+                {/* Minimal Wear: 0.07-0.15 */}
                 <div className="h-full bg-lime-500/50" style={{ width: '8%' }} />
-                {/* Field-Tested: 0.15-0.38 (23%) */}
+                {/* Field-Tested: 0.15-0.38 */}
                 <div className="h-full bg-yellow-500/50" style={{ width: '23%' }} />
-                {/* Well-Worn: 0.38-0.45 (7%) */}
+                {/* Well-Worn: 0.38-0.45  */}
                 <div className="h-full bg-orange-500/50" style={{ width: '7%' }} />
-                {/* Battle-Scarred: 0.45-1.0 (55%) */}
+                {/* Battle-Scarred: 0.45-1.0 */}
                 <div className="h-full bg-red-500/50" style={{ width: '55%' }} />
 
                 {/* White indicator line */}
@@ -327,13 +353,6 @@ export const ItemCard: FC<ItemCardProps> = ({ items, name, rarity, transfer, set
             </div>
           </div>
         </div>
-
-        {/* Float value placeholder - can be implemented when float data is available */}
-        {/* {item.float && (
-                    <span className="text-xs text-muted-foreground">
-                      Float: {item.float.toFixed(4)}
-                    </span>
-                  )} */}
       </CardContent>
     </Card>
   )

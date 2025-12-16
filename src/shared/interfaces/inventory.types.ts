@@ -8,7 +8,7 @@ export type TransferItems = {
   mode: TransferMode
   fromContainerIds: number[]
   toContainerId: number
-  itemIds: number[]
+  selectedItems: Record<number, number[]> // k=containerId, v=array of item ids
 }
 
 /**

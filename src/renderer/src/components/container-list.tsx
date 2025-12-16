@@ -65,7 +65,7 @@ export const StorageUnitsList: FC<StorageUnitsListProps> = ({ inventory, transfe
         ...prev,
         fromContainerIds: [0],
         toContainerId: -1,
-        itemIds: []
+        selectedItems: {}
       }))
     }
   }, [transfer.mode, setTransfer])
@@ -174,19 +174,23 @@ export const StorageUnitsList: FC<StorageUnitsListProps> = ({ inventory, transfe
           {transfer.mode === 'toInventory' && (
             <>
               <div {...getDiagonalStripedStyle('retrieve')}>
-                {selectedUnits.length === 0 &&
-                  unselectedUnits.map((unit) => (
-                    <ContainerCard
-                      key={unit.id}
-                      container={unit}
-                      count={inventory.containerItems[unit.id || '']?.length || 0}
-                      transfer={transfer}
-                      setTransfer={setTransfer}
-                    />
-                  ))}
-                {selectedUnits.length > 0 && (
-                  <>
-                    {selectedUnits.map((unit) => (
+                {Object.keys(transfer.selectedItems || {}).length === 0 && (
+                  <Card className="opacity-80">
+                    <CardContent className="flex items-center gap-3 px-2 h-8 relative">
+                      <div className="flex flex-col">
+                        <span className="text-sm font-medium">Select items</span>
+                        <span className="text-xs text-muted-foreground pt-1">to transfer to inventory</span>
+                      </div>
+                    </CardContent>
+                  </Card>
+                )}
+                {transfer.selectedItems &&
+                  Object.keys(transfer.selectedItems).length > 0 &&
+                  Object.keys(transfer.selectedItems)
+                    .map((unit) => filteredUnits.find((u) => u.id?.toString() === unit))
+                    .filter((unit): unit is ConvertedItem => unit !== undefined)
+                    .sort((a, b) => (selectedUnits.includes(a) && !selectedUnits.includes(b) ? -1 : 1))
+                    .map((unit) => (
                       <ContainerCard
                         key={unit.id}
                         container={unit}
@@ -195,42 +199,34 @@ export const StorageUnitsList: FC<StorageUnitsListProps> = ({ inventory, transfe
                         setTransfer={setTransfer}
                       />
                     ))}
-                  </>
-                )}
               </div>
-              {selectedUnits.length > 0 &&
-                unselectedUnits.map((unit) => (
-                  <ContainerCard
-                    key={unit.id}
-                    container={unit}
-                    count={inventory.containerItems[unit.id || '']?.length || 0}
-                    transfer={transfer}
-                    setTransfer={setTransfer}
-                  />
-                ))}
             </>
           )}
-          {transfer.mode == null &&
+          {(transfer.mode == null || transfer.mode == 'toInventory') &&
             selectedUnits.length > 0 &&
-            selectedUnits.map((unit) => (
-              <ContainerCard
-                key={unit.id}
-                container={unit}
-                count={inventory.containerItems[unit.id || '']?.length || 0}
-                transfer={transfer}
-                setTransfer={setTransfer}
-              />
-            ))}
-          {transfer.mode == null &&
-            unselectedUnits.map((unit) => (
-              <ContainerCard
-                key={unit.id}
-                container={unit}
-                count={inventory.containerItems[unit.id || '']?.length || 0}
-                transfer={transfer}
-                setTransfer={setTransfer}
-              />
-            ))}
+            selectedUnits
+              .filter((unit) => !Object.keys(transfer.selectedItems || {}).includes(unit.id!.toString()))
+              .map((unit) => (
+                <ContainerCard
+                  key={unit.id}
+                  container={unit}
+                  count={inventory.containerItems[unit.id || '']?.length || 0}
+                  transfer={transfer}
+                  setTransfer={setTransfer}
+                />
+              ))}
+          {(transfer.mode == null || transfer.mode == 'toInventory') &&
+            unselectedUnits
+              .filter((unit) => !Object.keys(transfer.selectedItems || {}).includes(unit.id!.toString()))
+              .map((unit) => (
+                <ContainerCard
+                  key={unit.id}
+                  container={unit}
+                  count={inventory.containerItems[unit.id || '']?.length || 0}
+                  transfer={transfer}
+                  setTransfer={setTransfer}
+                />
+              ))}
         </div>
       </ScrollArea>
     </div>
