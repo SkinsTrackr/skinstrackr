@@ -1,6 +1,6 @@
 import { Separator } from '@/components/ui/separator'
 import { StorageUnitsList } from '@/components/container-list'
-import { JSX, useMemo, useState } from 'react'
+import { JSX, useEffect, useState } from 'react'
 import { useInventory } from '../contexts/InventoryContext'
 import { ItemList } from '@/components/item-list'
 import { TransferItems } from '@shared/interfaces/inventory.types'
@@ -14,7 +14,23 @@ export default function InventoryPage(): JSX.Element {
     selectedItems: {}
   })
 
-  console.log(transfer.selectedItems)
+  useEffect(() => {
+    if (transfer.mode === 'toInventory') {
+      setTransfer((prev) => ({
+        ...prev,
+        fromContainerIds: [],
+        toContainerId: 0,
+        selectedItems: {}
+      }))
+    } else if (transfer?.mode === 'toContainer') {
+      setTransfer((prev) => ({
+        ...prev,
+        fromContainerIds: [0],
+        toContainerId: -1,
+        selectedItems: {}
+      }))
+    }
+  }, [transfer.mode, setTransfer])
 
   return (
     <div className="flex h-full overflow-hidden p-3">

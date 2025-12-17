@@ -1,4 +1,4 @@
-import { ConvertedItem, Rarity, TransferItems } from '@shared/interfaces/inventory.types'
+import { ConvertedContainer, ConvertedItem, Rarity, TransferItems } from '@shared/interfaces/inventory.types'
 import { FC, useRef, useState, useEffect, useCallback, useMemo } from 'react'
 import { Card, CardContent } from './ui/card'
 import { Input } from './ui/input'
@@ -9,7 +9,7 @@ interface ItemCardProps {
   rarity?: Rarity
   transfer: TransferItems
   setTransfer: React.Dispatch<React.SetStateAction<TransferItems>>
-  containers: Record<number, ConvertedItem[]>
+  containers: ConvertedContainer[]
 }
 
 export const ItemCard: FC<ItemCardProps> = ({ items, name, rarity, transfer, setTransfer, containers }) => {
@@ -26,7 +26,10 @@ export const ItemCard: FC<ItemCardProps> = ({ items, name, rarity, transfer, set
 
   // Calculate available space in container
   const otherItemIds = allSelectedItems.filter((id) => !currentCardItemIds.includes(id))
-  const availableSpace = 1000 - (containers[transfer.toContainerId]?.length || 0) - otherItemIds.length
+  const availableSpace =
+    1000 -
+    (containers.find((container) => container.id === transfer.toContainerId)?.items.length || 0) -
+    otherItemIds.length
   const isDisabled = transfer.mode !== null && !isSelected && availableSpace <= 0
 
   // Use local input value while typing, otherwise show the actual selected count
@@ -100,14 +103,8 @@ export const ItemCard: FC<ItemCardProps> = ({ items, name, rarity, transfer, set
     if (value === '' || /^\d+$/.test(value)) {
       const numValue = value === '' ? 0 : parseInt(value)
       if (numValue >= 0) {
-        const otherItemIds = allSelectedItems.filter((id) => !currentCardItemIds.includes(id))
-
         // Cap the value at input value, items.length OR max available container space
-        const cappedValue = Math.min(
-          numValue,
-          items.length,
-          1000 - (containers[transfer.toContainerId]?.length || 0) - otherItemIds.length
-        )
+        const cappedValue = Math.min(numValue, items.length, availableSpace)
 
         // Update local input value immediately for responsive UI
         setLocalInputValue(cappedValue > 0 ? cappedValue.toString() : '')

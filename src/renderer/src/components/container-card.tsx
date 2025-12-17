@@ -1,10 +1,10 @@
-import { ConvertedItem, TransferItems } from '@shared/interfaces/inventory.types'
+import { ConvertedContainer, TransferItems } from '@shared/interfaces/inventory.types'
 import { FC, useMemo, useState } from 'react'
 import { Card, CardContent } from './ui/card'
 import { Boxes } from 'lucide-react'
 
 interface ContainerCardProps {
-  container: ConvertedItem
+  container: ConvertedContainer
   count: number
   transfer: TransferItems
   setTransfer: React.Dispatch<React.SetStateAction<TransferItems>>
@@ -61,13 +61,15 @@ export const ContainerCard: FC<ContainerCardProps> = ({ container, count, transf
           <Boxes strokeWidth={0.9} className="h-15 w-10 text-muted-foreground" />
         ) : (
           <img
-            src={window.env.ICONS_BASE_URL + '/' + (container.imagePath || '') + '.png'}
+            src={window.env.ICONS_BASE_URL + '/' + (container.container.imagePath || '') + '.png'}
             alt="Storage Unit"
             className="h-15 w-10 object-contain"
           />
         )}
         <div className="flex flex-col">
-          <span className="text-sm font-medium">{container.customName || container.hashName || 'Storage Unit'}</span>
+          <span className="text-sm font-medium">
+            {container.container.customName || container.container.hashName || 'Storage Unit'}
+          </span>
           <span className="text-xs text-muted-foreground pt-1">{count} items</span>
         </div>
       </CardContent>

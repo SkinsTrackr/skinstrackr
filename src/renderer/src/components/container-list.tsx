@@ -1,8 +1,8 @@
 import { ScrollArea } from '@/components/ui/scroll-area'
-import { FC, useState, useMemo, useEffect } from 'react'
+import { FC, useState, useMemo } from 'react'
 import { InputGroup, InputGroupAddon, InputGroupInput } from './ui/input-group'
 import { ChevronsLeft, ChevronsUp, Search } from 'lucide-react'
-import { ConvertedInventory, ConvertedItem, TransferItems } from '@shared/interfaces/inventory.types'
+import { ConvertedContainer, ConvertedInventory, TransferItems } from '@shared/interfaces/inventory.types'
 import { Separator } from './ui/separator'
 import { ContainerCard } from './container-card'
 import { Card, CardContent } from './ui/card'
@@ -27,17 +27,15 @@ const getDiagonalStripedStyle = (type: 'insert' | 'retrieve') => ({
 
 export const StorageUnitsList: FC<StorageUnitsListProps> = ({ inventory, transfer, setTransfer }) => {
   const [searchQuery, setSearchQuery] = useState('')
-  const storageUnits = useMemo(
-    () => inventory.inventoryItems.filter((item) => item.isStorageUnit),
-    [inventory.inventoryItems]
-  )
+  const inventoryContainer: ConvertedContainer = useMemo(() => inventory.inventory, [inventory.inventory])
+  const storageContainers: ConvertedContainer[] = useMemo(() => inventory.containers, [inventory.containers])
 
   const filteredUnits = useMemo(
     () =>
-      storageUnits
-        .filter((unit) => (unit.customName || '').toLowerCase().includes(searchQuery.toLowerCase()))
-        .sort((a, b) => (a.customName || '').localeCompare(b.customName || '')),
-    [searchQuery, storageUnits]
+      storageContainers
+        .filter((unit) => (unit.container.customName || '').toLowerCase().includes(searchQuery.toLowerCase()))
+        .sort((a, b) => (a.container.customName || '').localeCompare(b.container.customName || '')),
+    [searchQuery, storageContainers]
   )
 
   const selectedUnits = useMemo(() => {
@@ -53,32 +51,6 @@ export const StorageUnitsList: FC<StorageUnitsListProps> = ({ inventory, transfe
     [filteredUnits, transfer.fromContainerIds]
   )
 
-  useEffect(() => {
-    if (transfer.mode === 'toInventory') {
-      setTransfer((prev) => ({
-        ...prev,
-        fromContainerIds: [],
-        toContainerId: 0
-      }))
-    } else if (transfer?.mode === 'toContainer') {
-      setTransfer((prev) => ({
-        ...prev,
-        fromContainerIds: [0],
-        toContainerId: -1,
-        selectedItems: {}
-      }))
-    }
-  }, [transfer.mode, setTransfer])
-
-  // We "fake" a container for the main inventory
-  const inventoryContainer: ConvertedItem = {
-    id: 0,
-    customName: 'Inventory',
-    isStorageUnit: true,
-    containerId: 0,
-    tradable: false
-  }
-
   return (
     <div className="w-60 flex flex-col h-full">
       <div className="pr-4 pl-0.5">
@@ -92,7 +64,7 @@ export const StorageUnitsList: FC<StorageUnitsListProps> = ({ inventory, transfe
             <Search />
           </InputGroupAddon>
           <InputGroupAddon align="inline-end">
-            {filteredUnits.length}/{storageUnits.length}
+            {filteredUnits.length}/{storageContainers.length}
           </InputGroupAddon>
         </InputGroup>
       </div>
@@ -104,7 +76,7 @@ export const StorageUnitsList: FC<StorageUnitsListProps> = ({ inventory, transfe
               <ContainerCard
                 key={0}
                 container={inventoryContainer}
-                count={inventory.inventoryItems.length}
+                count={inventory.inventory.items.length}
                 transfer={transfer}
                 setTransfer={setTransfer}
               />
@@ -129,7 +101,7 @@ export const StorageUnitsList: FC<StorageUnitsListProps> = ({ inventory, transfe
                 <ContainerCard
                   key={unit.id}
                   container={unit}
-                  count={inventory.containerItems[unit.id || '']?.length || 0}
+                  count={unit.items.length || 0}
                   transfer={transfer}
                   setTransfer={setTransfer}
                 />
@@ -141,7 +113,7 @@ export const StorageUnitsList: FC<StorageUnitsListProps> = ({ inventory, transfe
             <ContainerCard
               key={0}
               container={inventoryContainer}
-              count={inventory.inventoryItems.length}
+              count={inventory.inventory.items.length}
               transfer={transfer}
               setTransfer={setTransfer}
             />
@@ -155,7 +127,7 @@ export const StorageUnitsList: FC<StorageUnitsListProps> = ({ inventory, transfe
                 <ContainerCard
                   key={transfer.fromContainerIds[0]}
                   container={inventoryContainer}
-                  count={inventory.inventoryItems.length}
+                  count={inventory.inventory.items.length}
                   transfer={transfer}
                   setTransfer={setTransfer}
                 />
@@ -164,7 +136,7 @@ export const StorageUnitsList: FC<StorageUnitsListProps> = ({ inventory, transfe
                 <ContainerCard
                   key={unit.id}
                   container={unit}
-                  count={inventory.containerItems[unit.id || '']?.length || 0}
+                  count={unit.items.length || 0}
                   transfer={transfer}
                   setTransfer={setTransfer}
                 />
@@ -188,13 +160,13 @@ export const StorageUnitsList: FC<StorageUnitsListProps> = ({ inventory, transfe
                   Object.keys(transfer.selectedItems).length > 0 &&
                   Object.keys(transfer.selectedItems)
                     .map((unit) => filteredUnits.find((u) => u.id?.toString() === unit))
-                    .filter((unit): unit is ConvertedItem => unit !== undefined)
+                    .filter((unit) => unit !== undefined)
                     .sort((a, b) => (selectedUnits.includes(a) && !selectedUnits.includes(b) ? -1 : 1))
                     .map((unit) => (
                       <ContainerCard
                         key={unit.id}
                         container={unit}
-                        count={inventory.containerItems[unit.id || '']?.length || 0}
+                        count={unit.items.length || 0}
                         transfer={transfer}
                         setTransfer={setTransfer}
                       />
@@ -210,7 +182,7 @@ export const StorageUnitsList: FC<StorageUnitsListProps> = ({ inventory, transfe
                 <ContainerCard
                   key={unit.id}
                   container={unit}
-                  count={inventory.containerItems[unit.id || '']?.length || 0}
+                  count={unit.items.length || 0}
                   transfer={transfer}
                   setTransfer={setTransfer}
                 />
@@ -222,7 +194,7 @@ export const StorageUnitsList: FC<StorageUnitsListProps> = ({ inventory, transfe
                 <ContainerCard
                   key={unit.id}
                   container={unit}
-                  count={inventory.containerItems[unit.id || '']?.length || 0}
+                  count={unit.items.length || 0}
                   transfer={transfer}
                   setTransfer={setTransfer}
                 />

@@ -6,6 +6,7 @@ import * as fs from 'fs'
 import {
   Charm,
   CommonItem,
+  ConvertedContainer,
   ConvertedItem,
   GraffitiPaint,
   ItemPrice,
@@ -13,6 +14,7 @@ import {
   Paint,
   Quality,
   Rarity,
+  RawContainer,
   Sticker
 } from '@shared/interfaces/inventory.types'
 
@@ -36,6 +38,7 @@ const DEF_INDEX_CHARM = 1355
 const ATTRIBUTE_GRAFFITI_TINT = 233
 const ATTRIBUTE_MUSIC_KIT_ID = 166
 const ATTRIBUTE_CHARM_ID = 299
+export const ATTRIBUTE_MODIFICATION_DATE = 271
 const ATTRIBUTE_FREE_REWARD_STATUS = 277 // Used to filter out non-tradable items
 
 export async function fetchItemData(): Promise<void> {
@@ -85,6 +88,43 @@ export function getQualities(): Record<string, Quality> {
 
 export function getRarities(): Record<string, Rarity> {
   return rarities
+}
+
+export function convertContainer(container: RawContainer): ConvertedContainer {
+  let convertedContainerItem: ConvertedItem | undefined
+  if (container.id === 0) {
+    convertedContainerItem = {
+      id: Number(container.container.id),
+      customName: 'Inventory',
+      containerId: 0,
+      tradable: false
+    }
+  } else {
+    convertedContainerItem = convertInventoryItem(container.container)
+    if (!convertedContainerItem) {
+      throw new Error('Failed to convert container item: container.container is invalid')
+    }
+  }
+
+  const items: ConvertedItem[] = []
+  for (const item of container.items) {
+    const convertedItem = convertInventoryItem(item)
+
+    // Don't add items that are not part of the "inventory"
+    if (convertedItem === undefined) {
+      continue
+    }
+
+    items.push(convertedItem)
+  }
+
+  return {
+    id: container.id,
+    container: convertedContainerItem,
+    items: items,
+    lastRefresh: container.lastRefresh,
+    lastModification: container.lastModification
+  }
 }
 
 export function convertInventoryItem(item: GlobalOffensive.InventoryItem): ConvertedItem | undefined {
@@ -203,14 +243,13 @@ export function convertInventoryItem(item: GlobalOffensive.InventoryItem): Conve
     quality: qualities[item.quality?.toString() || ''].index,
     imagePath: imagePath,
     price: prices[hashName || '']?.price,
-    isStorageUnit: item.casket_contained_item_count !== undefined,
     tradable: item.tradable_after ? true : prices[hashName || '']?.price !== undefined ? true : false,
     containerId: item.casket_id ? item.casket_id : 0,
     float: item.paint_wear
   }
 }
 
-function readAttribute(item: GlobalOffensive.InventoryItem, defIndex: number): number | undefined {
+export function readAttribute(item: GlobalOffensive.InventoryItem, defIndex: number): number | undefined {
   const attribute = item.attribute?.find((attr) => attr.def_index === defIndex)
   return attribute ? attribute.value_bytes.readUint32LE(0) : undefined
 }

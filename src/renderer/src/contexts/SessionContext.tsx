@@ -3,7 +3,7 @@ import { LoginRequest } from '@shared/interfaces/login.types'
 import { GameSessionEvent, SteamSessionEvent } from '@shared/interfaces/session.types'
 import { GameSessionEventType, SteamSessionEventType } from '@shared/enums/session-type'
 import { showToast } from '../components/toast'
-import { useLocation, useNavigate } from 'react-router'
+import { useNavigate } from 'react-router'
 import { useInventory } from './InventoryContext'
 
 interface SessionContextType {

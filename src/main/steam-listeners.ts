@@ -84,8 +84,8 @@ export function setupSteamListeners(): void {
     //client.sendToGC(appid, 4004, {}, Buffer.alloc(0));
   })
 
-  user.on('receivedFromGC', () => {
-    // console.log(`Received message ${_msgType} from GC ${_appid} with ${_payload.length} bytes`)
+  user.on('receivedFromGC', (msgType, appid, payload) => {
+    console.log(`Received message ${msgType} from GC ${appid} with ${payload.length} bytes`)
   })
 }
 
@@ -110,5 +110,9 @@ export function setupCsgoListeners(): void {
       eventType: GameSessionEventType.DISCONNECTED,
       message: `Disconnected from CSGO GC: ${reason}`
     })
+  })
+
+  csgo.on('debug', (info) => {
+    console.error('CSGO GC debug:', info)
   })
 }

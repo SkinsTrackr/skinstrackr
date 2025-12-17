@@ -15,8 +15,17 @@ const InventoryContext = createContext<InventoryContextType | undefined>(undefin
 
 export function InventoryProvider({ children }: { children: ReactNode }): JSX.Element {
   const [inventory, setInventory] = useState<ConvertedInventory>({
-    inventoryItems: [],
-    containerItems: {},
+    inventory: {
+      id: 0,
+      items: [],
+      container: {
+        containerId: 0,
+        tradable: false
+      },
+      lastRefresh: 0,
+      lastModification: 0
+    },
+    containers: [],
     lastRefresh: 0,
     qualities: {},
     rarities: {}
@@ -32,7 +41,7 @@ export function InventoryProvider({ children }: { children: ReactNode }): JSX.El
       const result = await window.api.loadInventory(force)
       setInventory(result)
       console.log('Loaded inventory items:', result)
-      setTotalItems(result.inventoryItems.length + Object.values(result.containerItems).flat().length)
+      setTotalItems(result.inventory.items.length + result.containers.flatMap((c) => c.items).length)
       console.log('Total inventory items:', totalItems)
       setTotalValue(calculateTotalValue(result))
       console.log('Total inventory value:', totalValue)
@@ -67,10 +76,8 @@ export function useInventory(): InventoryContextType {
  */
 function calculateTotalValue(inventory: ConvertedInventory): number {
   return (
-    inventory.inventoryItems.reduce((total, item) => total + (item.price || 0), 0) +
-    Object.values(inventory.containerItems)
-      .flat()
-      .reduce((total, item) => total + (item.price || 0), 0)
+    inventory.inventory.items.reduce((total, item) => total + (item.price || 0), 0) +
+    inventory.containers.flatMap((container) => container.items).reduce((total, item) => total + (item.price || 0), 0)
   )
 }
 

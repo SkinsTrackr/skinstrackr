@@ -30,14 +30,16 @@ export const ItemList: FC<ItemListProps> = ({ inventory, transfer, setTransfer }
     groupBy: 'allItemsByName'
   })
 
+  const allContainers = useMemo(
+    () => [...inventory.containers, inventory.inventory],
+    [inventory.containers, inventory.inventory]
+  )
+
   // filteredItems: items after all filters, grouping and sorting applied
   // filteredItemsTotal: total number of items after filtering but before grouping and sorting
   // filteredContainerTotal: total number of items after container filtering but before other filtering, grouping and sorting
   const { filteredItems, filteredItemsTotal, filteredContainerTotal } = useMemo(() => {
-    let invItems = [
-      ...inventory.inventoryItems.filter((item) => !item.isStorageUnit),
-      ...Object.values(inventory.containerItems).flat()
-    ]
+    let invItems = [...inventory.inventory.items, ...inventory.containers.flatMap((container) => container.items)]
 
     if (transfer.fromContainerIds.length !== undefined) {
       itemFilter.filters = {
@@ -45,9 +47,9 @@ export const ItemList: FC<ItemListProps> = ({ inventory, transfer, setTransfer }
         containerIds: transfer.fromContainerIds
       }
 
-      // Don't include root inventory if no storage units are filtered in transfer mode
+      // Don't include root inventory if no storage units are selected in transfer mode
       if (transfer.mode === 'toInventory' && transfer.fromContainerIds.length === 0) {
-        invItems = invItems.filter((item) => item.containerId !== 0)
+        invItems = inventory.containers.flatMap((container) => container.items)
       }
     }
 
@@ -72,7 +74,7 @@ export const ItemList: FC<ItemListProps> = ({ inventory, transfer, setTransfer }
       filteredItemsTotal: total,
       filteredContainerTotal: containerTotal
     }
-  }, [inventory.containerItems, inventory.inventoryItems, itemFilter, transfer.fromContainerIds, transfer.mode])
+  }, [inventory.containers, inventory.inventory.items, itemFilter, transfer.fromContainerIds, transfer.mode])
 
   const [isPopoverOpen, setIsPopoverOpen] = useState(false)
 
@@ -152,11 +154,7 @@ export const ItemList: FC<ItemListProps> = ({ inventory, transfer, setTransfer }
         <ScrollArea className="h-full" type="auto">
           <div className="px-4 pb-4">
             {/* Transfer Area */}
-            <ItemTransferArea
-              transfer={transfer}
-              containers={{ ...inventory.containerItems, 0: inventory.inventoryItems }}
-              setTransfer={setTransfer}
-            />
+            <ItemTransferArea transfer={transfer} containers={allContainers} setTransfer={setTransfer} />
 
             {/* Items Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-2">
@@ -168,7 +166,7 @@ export const ItemList: FC<ItemListProps> = ({ inventory, transfer, setTransfer }
                   rarity={inventory.rarities[item.items[0]?.rarity || '']}
                   transfer={transfer}
                   setTransfer={setTransfer}
-                  containers={{ ...inventory.containerItems, 0: inventory.inventoryItems }} // including inventory items with containerId 0
+                  containers={allContainers} // including inventory items with containerId 0
                 />
               ))}
             </div>

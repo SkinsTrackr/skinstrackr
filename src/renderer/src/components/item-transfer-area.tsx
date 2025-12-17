@@ -1,7 +1,7 @@
 import { FC } from 'react'
 import { Card, CardContent } from './ui/card'
 import { Button } from './ui/button'
-import { ConvertedItem, TransferItems } from '@shared/interfaces/inventory.types'
+import { ConvertedContainer, ConvertedItem, TransferItems } from '@shared/interfaces/inventory.types'
 import { ArrowRightLeft } from 'lucide-react'
 
 const colorYellowOpaque = 'rgba(234, 179, 8, 0.1)'
@@ -19,15 +19,30 @@ const getTransferAreaStyle = (): {
 
 interface ItemTransferAreaProps {
   transfer: TransferItems
-  containers: Record<number, ConvertedItem[]>
+  containers: ConvertedContainer[]
   setTransfer: React.Dispatch<React.SetStateAction<TransferItems>>
 }
 
 export const ItemTransferArea: FC<ItemTransferAreaProps> = ({ transfer, containers, setTransfer }) => {
   const allSelectedItems = Object.values(transfer.selectedItems || {}).flat()
   const maxCapacity = 1000
-  const currentContainerCount = containers[transfer.toContainerId]?.length || 0
+  const currentContainerCount =
+    containers.filter((container) => container.id === transfer.toContainerId)[0]?.items.length || 0
   const availableSpace = maxCapacity - currentContainerCount
+
+  const handleTransfer = (): void => {
+    if (allSelectedItems.length === 0) {
+      return
+    }
+
+    Object.keys(transfer.selectedItems).forEach((containerIdStr) => {
+      const containerId = parseInt(containerIdStr)
+
+      transfer.selectedItems[containerId].forEach(async (itemId) => {
+        await window.api.transferItems(transfer.toContainerId.toString(), itemId.toString(), transfer.mode)
+      })
+    })
+  }
 
   const handleReset = (): void => {
     setTransfer((prev) => ({
@@ -52,6 +67,7 @@ export const ItemTransferArea: FC<ItemTransferAreaProps> = ({ transfer, containe
                     variant="outline"
                     size="default"
                     className="!border-yellow-500 !text-yellow-500 !hover:bg-yellow-50 !hover:text-yellow-600 flex-col h-auto py-1"
+                    onClick={handleTransfer}
                   >
                     <div className="flex items-center">
                       <ArrowRightLeft className="mr-2" />

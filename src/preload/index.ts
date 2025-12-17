@@ -1,7 +1,7 @@
 import { contextBridge, ipcRenderer } from 'electron'
 import { electronAPI } from '@electron-toolkit/preload'
 import { GameSessionEvent, SteamLoginRequest, SteamSessionEvent } from '@shared/interfaces/session.types'
-import { ConvertedInventory } from '@shared/interfaces/inventory.types'
+import { ConvertedInventory, TransferMode } from '@shared/interfaces/inventory.types'
 import { env } from '@shared/env'
 import { Account, Settings } from '@shared/interfaces/store.types'
 
@@ -24,6 +24,9 @@ const api = {
   },
   loadAccounts: (): Promise<Record<string, Account>> => {
     return ipcRenderer.invoke('main:load-accounts')
+  },
+  transferItems: (containerId: string, itemId: string, mode: TransferMode): Promise<boolean> => {
+    return ipcRenderer.invoke('main:transfer-items', containerId, itemId, mode)
   },
 
   /**
