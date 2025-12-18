@@ -18,4 +18,8 @@ export interface SteamSessionEvent {
 export interface GameSessionEvent {
   eventType: GameSessionEventType
   message: string
+  user?: {
+    id: string
+    username: string
+  }
 }

@@ -1,5 +1,5 @@
 import { ElectronAPI } from '@electron-toolkit/preload'
-import { ConvertedInventory, TransferMode } from '@shared/interfaces/inventory.types'
+import { ConvertedInventory } from '@shared/interfaces/inventory.types'
 import { GameSessionEvent, SteamLoginRequest } from '@shared/interfaces/session.types'
 import { Settings, Account } from '@shared/interfaces/store.types'
 
@@ -9,16 +9,17 @@ export interface CustomAPI {
    */
   loginSteam: (data: SteamLoginRequest) => Promise<string>
   loginCache: (userId: string) => Promise<string>
-  loadInventory: (force: boolean) => Promise<ConvertedInventory>
+  loadInventory: (fromCache: boolean, onlyChangedContainers: boolean) => Promise<ConvertedInventory>
   loadSettings: () => Promise<Settings>
   loadAccounts: () => Promise<Record<string, Account>>
-  transferItems: (containerId: string, itemId: string, mode: TransferMode) => Promise<boolean>
+  transferItems: (transfer: TransferItems) => Promise<boolean>
 
   /**
    * Main --->>> Renderer
    */
   onSteamSessionEvent: (callback: (value: SteamSessionEvent) => void) => void
   onGameSessionEvent: (callback: (value: GameSessionEvent) => void) => void
+  onTransferProgress: (callback: (itemId: number, success: boolean) => void) => () => void
 }
 
 declare global {

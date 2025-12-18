@@ -21,8 +21,8 @@ export interface RawContainer {
   id: number
   container: GlobalOffensive.InventoryItem // The container item itself
   items: GlobalOffensive.InventoryItem[]
-  lastRefresh: number // Timestamp of last refresh on skinstrackr
-  lastModification: number // Timestamp of last insert, retrieve, rename, ... action on this container
+  lastRefresh: number // Timestamp of last refresh on skinstrackr (in ms)
+  lastModification: number // Timestamp of last insert, retrieve, rename, ... action on this container (in ms)
 }
 
 /**
@@ -32,7 +32,7 @@ export interface RawContainer {
 export interface RawInventory {
   inventory: RawContainer
   containers: RawContainer[]
-  lastRefresh: number // Timestamp of latest inventory refresh (1 container or whole inventory)
+  lastRefresh: number // Timestamp of latest inventory refresh (1 container or whole inventory) (in ms)
 }
 
 /**
@@ -42,7 +42,7 @@ export interface RawInventory {
 export interface ConvertedInventory {
   inventory: ConvertedContainer
   containers: ConvertedContainer[]
-  lastRefresh: number // Timestamp of latest inventory refresh (1 container or whole inventory)
+  lastRefresh: number // Timestamp of latest inventory refresh (1 container or whole inventory) (in ms)
   qualities: Record<string, Quality> // k=index
   rarities: Record<string, Rarity> // k=index
 }
@@ -55,8 +55,8 @@ export interface ConvertedInventory {
 export interface ConvertedContainer {
   id: number // "0" for root inventory
   container: ConvertedItem // The container item itself
-  lastRefresh: number // Timestamp of last refresh on skinstrackr
-  lastModification: number // Timestamp of last insert, retrieve, rename, ... action on this container
+  lastRefresh: number // Timestamp of last refresh on skinstrackr (in ms)
+  lastModification: number // Timestamp of last insert, retrieve, rename, ... action on this container (in ms)
   items: ConvertedItem[]
 }
 

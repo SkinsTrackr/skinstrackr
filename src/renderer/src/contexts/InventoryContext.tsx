@@ -4,7 +4,7 @@ import { showToast } from '@/components/toast'
 
 interface InventoryContextType {
   inventory: ConvertedInventory
-  loadInventory: (force: boolean) => Promise<void>
+  loadInventory: (fromCache: boolean, onlyChangedContainers: boolean) => Promise<void>
   isLoading: boolean
   totalItems: number
   totalValue: number
@@ -35,10 +35,10 @@ export function InventoryProvider({ children }: { children: ReactNode }): JSX.El
   const [totalItems, setTotalItems] = useState(0)
   const [lastRefresh, setLastRefresh] = useState('Never')
 
-  const loadInventory = async (force: boolean): Promise<void> => {
+  const loadInventory = async (fromCache: boolean, onlyChangedContainers: boolean): Promise<void> => {
     try {
       setIsLoading(true)
-      const result = await window.api.loadInventory(force)
+      const result = await window.api.loadInventory(fromCache, onlyChangedContainers)
       setInventory(result)
       console.log('Loaded inventory items:', result)
       setTotalItems(result.inventory.items.length + result.containers.flatMap((c) => c.items).length)

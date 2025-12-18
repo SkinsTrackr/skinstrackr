@@ -1,8 +1,10 @@
-import { FC } from 'react'
+import { FC, useEffect } from 'react'
 import { Card, CardContent } from './ui/card'
 import { Button } from './ui/button'
-import { ConvertedContainer, ConvertedItem, TransferItems } from '@shared/interfaces/inventory.types'
+import { ConvertedContainer, TransferItems } from '@shared/interfaces/inventory.types'
 import { ArrowRightLeft } from 'lucide-react'
+import { useInventory } from '@/contexts/InventoryContext'
+import { showToast } from './toast'
 
 const colorYellowOpaque = 'rgba(234, 179, 8, 0.1)'
 
@@ -29,19 +31,30 @@ export const ItemTransferArea: FC<ItemTransferAreaProps> = ({ transfer, containe
   const currentContainerCount =
     containers.filter((container) => container.id === transfer.toContainerId)[0]?.items.length || 0
   const availableSpace = maxCapacity - currentContainerCount
+  const inventory = useInventory()
 
-  const handleTransfer = (): void => {
+  useEffect(() => {
+    const unsubscribe = window.api.onTransferProgress((itemId, success) => {
+      console.log(`Transfer progress for item ${itemId}: ${success ? 'Success' : 'Failure'}`)
+    })
+
+    // Return function only called on component unmount
+    return unsubscribe
+  }, [])
+
+  const handleTransfer = async (): Promise<void> => {
     if (allSelectedItems.length === 0) {
       return
     }
 
-    Object.keys(transfer.selectedItems).forEach((containerIdStr) => {
-      const containerId = parseInt(containerIdStr)
-
-      transfer.selectedItems[containerId].forEach(async (itemId) => {
-        await window.api.transferItems(transfer.toContainerId.toString(), itemId.toString(), transfer.mode)
-      })
-    })
+    console.log('Initiating transfer for items:', allSelectedItems)
+    try {
+      await window.api.transferItems(transfer)
+      await inventory.loadInventory(false, true)
+    } catch (error) {
+      console.log(error)
+      showToast(String(error), 'error')
+    }
   }
 
   const handleReset = (): void => {

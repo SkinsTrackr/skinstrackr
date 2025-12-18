@@ -17,7 +17,6 @@ interface SessionContextType {
 const SessionContext = createContext<SessionContextType | undefined>(undefined)
 
 export function SessionProvider({ children }: { children: ReactNode }): JSX.Element {
-  useGlobalEvents()
   const { loadInventory } = useInventory()
 
   const [isLoggedInSteam, setIsLoggedInSteam] = useState(false)
@@ -30,7 +29,7 @@ export function SessionProvider({ children }: { children: ReactNode }): JSX.Elem
       setActiveSteamId(returnedSteamId)
       setIsLoggedInSteam(true)
       setIsLoggedInCache(false)
-      await loadInventory(false)
+      // Inventory will be loaded when we receive CONNECTED game session event
     } catch (error) {
       console.error('Failed to load settings:', error)
       throw error
@@ -42,12 +41,14 @@ export function SessionProvider({ children }: { children: ReactNode }): JSX.Elem
       setActiveSteamId(returnedSteamId)
       setIsLoggedInSteam(false)
       setIsLoggedInCache(true)
-      await loadInventory(false)
+      await loadInventory(true, false)
     } catch (error) {
       console.error('Failed to load settings:', error)
       throw error
     }
   }
+
+  useGlobalEvents(loadInventory, loginCache, activeSteamId)
 
   return (
     <SessionContext.Provider value={{ loginSteam, loginCache, activeSteamId, isLoggedInSteam, isLoggedInCache }}>
@@ -64,7 +65,11 @@ export function useSession(): SessionContextType {
   return context
 }
 
-function useGlobalEvents(): void {
+function useGlobalEvents(
+  loadInventory: (fromCache: boolean, onlyChangedContainers: boolean) => Promise<void>,
+  loginCache: (steamId: string) => Promise<void>,
+  activeSteamId: string
+): void {
   const navigate = useNavigate()
   const registered = useRef(false) // Fix double-registration in <StrictMode>
 
@@ -81,10 +86,12 @@ function useGlobalEvents(): void {
           break
         case SteamSessionEventType.LOGIN_FAILURE:
           showToast(value.message, 'error')
+          loginCache(value.user?.id || activeSteamId)
           break
         case SteamSessionEventType.LOGIN_FAILURE_OTHER_SESSION_ACTIVE:
           // TODO give option to force logout other session?
           showToast('Login failed: Another session is active', 'error')
+          loginCache(value.user?.id || activeSteamId)
           break
         case SteamSessionEventType.DISCONNECTED_LOGOUT:
           showToast(value.message, 'info')
@@ -94,7 +101,7 @@ function useGlobalEvents(): void {
           break
         case SteamSessionEventType.DISCONNECTED_SHOULD_RELOGIN:
           showToast(value.message, 'error')
-          navigate('/')
+          loginCache(value.user?.id || activeSteamId)
           break
       }
     })
@@ -105,11 +112,15 @@ function useGlobalEvents(): void {
       switch (value.eventType) {
         case GameSessionEventType.CONNECTED:
           showToast('Connected to CS2', 'success')
+          // We load inventory every time the user logs in, but only changed containers.
+          // TODO: Could probably optimize a bit, but is it worth it?
+          loadInventory(false, true)
           break
         case GameSessionEventType.DISCONNECTED:
           showToast('Disconnected from CS2', 'error')
+          //   loadInventory(true, true)
           break
       }
     })
-  }, [])
+  }, [navigate, loadInventory, loginCache, activeSteamId])
 }

@@ -1,7 +1,7 @@
 import { contextBridge, ipcRenderer } from 'electron'
 import { electronAPI } from '@electron-toolkit/preload'
 import { GameSessionEvent, SteamLoginRequest, SteamSessionEvent } from '@shared/interfaces/session.types'
-import { ConvertedInventory, TransferMode } from '@shared/interfaces/inventory.types'
+import { ConvertedInventory, TransferItems } from '@shared/interfaces/inventory.types'
 import { env } from '@shared/env'
 import { Account, Settings } from '@shared/interfaces/store.types'
 
@@ -16,8 +16,8 @@ const api = {
   loginCache: (userId: string): Promise<string> => {
     return ipcRenderer.invoke('main:cache-session-login', userId)
   },
-  loadInventory: (force: boolean): Promise<ConvertedInventory> => {
-    return ipcRenderer.invoke('main:load-inventory', force)
+  loadInventory: (fromCache: boolean, onlyChangedContainers: boolean): Promise<ConvertedInventory> => {
+    return ipcRenderer.invoke('main:load-inventory', fromCache, onlyChangedContainers)
   },
   loadSettings: (): Promise<Settings> => {
     return ipcRenderer.invoke('main:load-settings')
@@ -25,8 +25,8 @@ const api = {
   loadAccounts: (): Promise<Record<string, Account>> => {
     return ipcRenderer.invoke('main:load-accounts')
   },
-  transferItems: (containerId: string, itemId: string, mode: TransferMode): Promise<boolean> => {
-    return ipcRenderer.invoke('main:transfer-items', containerId, itemId, mode)
+  transferItems: (transfer: TransferItems): Promise<boolean> => {
+    return ipcRenderer.invoke('main:transfer-items', transfer)
   },
 
   /**
@@ -35,7 +35,14 @@ const api = {
   onSteamSessionEvent: (callback) =>
     ipcRenderer.on('renderer:steam-session-event', (_event, value: SteamSessionEvent) => callback(value)),
   onGameSessionEvent: (callback) =>
-    ipcRenderer.on('renderer:game-session-event', (_event, value: GameSessionEvent) => callback(value))
+    ipcRenderer.on('renderer:game-session-event', (_event, value: GameSessionEvent) => callback(value)),
+  onTransferProgress: (callback: (itemId, success) => void) => {
+    // This function returns an unsubscribe function
+    // Which prevents duplicate listener registrations
+    const listener = (_event, itemId: number, success: boolean): void => callback(itemId, success)
+    ipcRenderer.on('renderer:transfer-progress', listener)
+    return () => ipcRenderer.removeListener('renderer:transfer-progress', listener)
+  }
 }
 
 // Use `contextBridge` APIs to expose Electron APIs to

@@ -22,7 +22,7 @@ export default function BottomNavbar(): JSX.Element {
   const currentAccount = activeSteamId ? accounts[activeSteamId] : undefined
 
   const handleRefresh = useCallback(async (): Promise<void> => {
-    await loadInventory(true)
+    await loadInventory(false, true)
   }, [loadInventory])
 
   const handleAccountSwitch = async (steamId: string): Promise<void> => {

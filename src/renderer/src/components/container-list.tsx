@@ -27,7 +27,14 @@ const getDiagonalStripedStyle = (type: 'insert' | 'retrieve') => ({
 
 export const StorageUnitsList: FC<StorageUnitsListProps> = ({ inventory, transfer, setTransfer }) => {
   const [searchQuery, setSearchQuery] = useState('')
-  const inventoryContainer: ConvertedContainer = useMemo(() => inventory.inventory, [inventory.inventory])
+  const inventoryContainer: ConvertedContainer = useMemo(() => {
+    const containers = inventory.containers.map((cont) => cont.container)
+    console.log(containers)
+    return {
+      ...inventory.inventory,
+      items: [...inventory.inventory.items, ...containers]
+    }
+  }, [inventory.inventory, inventory.containers])
   const storageContainers: ConvertedContainer[] = useMemo(() => inventory.containers, [inventory.containers])
 
   const filteredUnits = useMemo(
@@ -76,7 +83,7 @@ export const StorageUnitsList: FC<StorageUnitsListProps> = ({ inventory, transfe
               <ContainerCard
                 key={0}
                 container={inventoryContainer}
-                count={inventory.inventory.items.length}
+                count={inventoryContainer.items.length}
                 transfer={transfer}
                 setTransfer={setTransfer}
               />
@@ -113,7 +120,7 @@ export const StorageUnitsList: FC<StorageUnitsListProps> = ({ inventory, transfe
             <ContainerCard
               key={0}
               container={inventoryContainer}
-              count={inventory.inventory.items.length}
+              count={inventoryContainer.items.length}
               transfer={transfer}
               setTransfer={setTransfer}
             />
@@ -127,7 +134,7 @@ export const StorageUnitsList: FC<StorageUnitsListProps> = ({ inventory, transfe
                 <ContainerCard
                   key={transfer.fromContainerIds[0]}
                   container={inventoryContainer}
-                  count={inventory.inventory.items.length}
+                  count={inventoryContainer.items.length}
                   transfer={transfer}
                   setTransfer={setTransfer}
                 />
