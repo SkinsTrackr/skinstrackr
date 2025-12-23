@@ -216,7 +216,7 @@ export const ItemCard: FC<ItemCardProps> = ({ items, name, rarity, transfer, set
         isDisabled
           ? 'opacity-50 cursor-default'
           : transfer.mode !== null
-            ? 'cursor-pointer hover:bg-accent hover:scale-105 hover:shadow-lg'
+            ? 'cursor-pointer hover:bg-accent hover:shadow-lg'
             : 'cursor-default'
       } ${isSelected ? 'ring-2 ring-yellow-500 bg-accent' : ''}`}
       onClick={isDisabled ? undefined : handleCardClick}

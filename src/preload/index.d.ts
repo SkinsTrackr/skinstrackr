@@ -13,6 +13,7 @@ export interface CustomAPI {
   loadSettings: () => Promise<Settings>
   loadAccounts: () => Promise<Record<string, Account>>
   transferItems: (transfer: TransferItems) => Promise<boolean>
+  cancelTransfer: () => Promise<void>
 
   /**
    * Main --->>> Renderer

@@ -5,7 +5,7 @@ import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 import { Popover, PopoverContent, PopoverTrigger } from './ui/popover'
 import { Input } from './ui/input'
 import { Field, FieldGroup, FieldLabel } from './ui/field'
-import { RefreshCw, User, Package, DollarSign, ChevronDown, Check, ExternalLink } from 'lucide-react'
+import { RefreshCw, User, DollarSign, ChevronDown, Check, ExternalLink, Gem } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useInventory } from '@/contexts/InventoryContext'
 import { useSession } from '@/contexts/SessionContext'
@@ -63,7 +63,7 @@ export default function BottomNavbar(): JSX.Element {
               </div>
               <span className="text-sm">•</span>
               <div className="flex items-center gap-0.5 text-sm text-muted-foreground">
-                <Package className="h-3.5 w-3.5" />
+                <Gem className="h-3.5 w-3.5" />
                 <span className="font-medium tabular-nums">{new Intl.NumberFormat('us-en').format(totalItems)}</span>
               </div>
             </div>

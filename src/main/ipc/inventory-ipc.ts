@@ -7,11 +7,22 @@ import * as fs from 'fs'
 import { loadInventoryFromFile, syncInventoryCache } from '../util/inventory-utils'
 import Semaphore from '../util/semaphore'
 
+// Global transfer state
+let isTransferCancelled = false
+
 export function setupInventoryIPC(): void {
+  ipcMain.handle('main:cancel-transfer', async (): Promise<void> => {
+    console.log('Cancel transfer requested')
+    isTransferCancelled = true
+  })
+
   ipcMain.handle('main:transfer-items', async (event, transfer: TransferItems): Promise<void> => {
     if (SteamSession.getInstance().isLoggedIn() === false) {
       throw new Error('Log in before transferring items')
     }
+
+    // Reset cancel flag at the start of a new transfer
+    isTransferCancelled = false
 
     const csgo = SteamSession.getInstance().getCsgo()!
     // const rawInventory = await loadInventoryFromFile(SteamSession.getInstance().getSteamId()!)
@@ -41,7 +52,19 @@ export function setupInventoryIPC(): void {
 
     try {
       for (const containerId of Object.keys(transfer.selectedItems)) {
+        // Check if cancelled before processing next container
+        if (isTransferCancelled) {
+          console.warn('Transfer cancelled by user')
+          break
+        }
+
         for (const itemId of transfer.selectedItems[containerId]) {
+          // Check if cancelled before each item
+          if (isTransferCancelled) {
+            console.warn('Transfer cancelled by user')
+            break
+          }
+
           await threads.acquire()
           console.log('Acquired', itemId)
 
@@ -54,7 +77,7 @@ export function setupInventoryIPC(): void {
                 reject(new Error(`Transfer timeout for item ${itemId}`))
                 threads.release()
               }
-            }, 4000)
+            }, 5000)
             pendingTransfers.set(itemId, { resolve, reject, timeoutId })
           })
 
@@ -75,6 +98,7 @@ export function setupInventoryIPC(): void {
     } catch (error) {
       console.error('Transfer error:', error)
     } finally {
+      isTransferCancelled = false
       csgo.off('itemAcquired', itemAcquiredListener)
     }
   })

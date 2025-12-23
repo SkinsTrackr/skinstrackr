@@ -57,7 +57,7 @@ export interface ConvertedContainer {
   container: ConvertedItem // The container item itself
   lastRefresh: number // Timestamp of last refresh on skinstrackr (in ms)
   lastModification: number // Timestamp of last insert, retrieve, rename, ... action on this container (in ms)
-  items: ConvertedItem[]
+  items: ConvertedItem[] // For id=0, this list does not include storage units
 }
 
 export interface ConvertedItem {

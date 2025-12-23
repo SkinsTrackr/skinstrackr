@@ -38,7 +38,7 @@ export default function TopNavbar(): JSX.Element {
               <item.icon className="w-4 h-4 mr-0.4" />
               {item.name}
               {activeTab.name === item.name && (
-                <span className="absolute left-0 right-0 -bottom-[1px] h-[2px] bg-gradient-to-r from-foreground/80 via-foreground to-foreground/80 rounded-full transition-all duration-300 ease-out" />
+                <span className="absolute left-0 right-0 -bottom-[1px] h-[2px] bg-gradient-to-r from-yellow-500 via-yellow-600 to-yellow-500 rounded-full transition-all duration-300 ease-out" />
               )}
             </Button>
           ))}

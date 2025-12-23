@@ -81,10 +81,6 @@ export async function getContainersOutOfSync(): Promise<number[]> {
     const cachedContainer = cachedInventory.containers.find((c) => c.id === Number(casket.id))
     const lastModification = (readAttribute(casket, ATTRIBUTE_MODIFICATION_DATE) ?? 0) * 1000
 
-    console.log(
-      `Checking container ${casket.id}: cached lastRefresh=${new Date(cachedContainer?.lastRefresh || 0)}, lastModification=${new Date(lastModification)}`
-    )
-
     if (!cachedContainer || cachedContainer.lastRefresh < lastModification) {
       outOfSyncContainerIds.push(Number(casket.id))
     }

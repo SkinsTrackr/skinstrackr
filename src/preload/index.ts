@@ -28,6 +28,9 @@ const api = {
   transferItems: (transfer: TransferItems): Promise<boolean> => {
     return ipcRenderer.invoke('main:transfer-items', transfer)
   },
+  cancelTransfer: (): Promise<void> => {
+    return ipcRenderer.invoke('main:cancel-transfer')
+  },
 
   /**
    * Main --->>> Renderer

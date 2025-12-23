@@ -1,11 +1,12 @@
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { FC, useState, useMemo } from 'react'
 import { InputGroup, InputGroupAddon, InputGroupInput } from './ui/input-group'
-import { ChevronsLeft, ChevronsUp, Search } from 'lucide-react'
+import { ChevronsUp, Search, Package, Gem } from 'lucide-react'
 import { ConvertedContainer, ConvertedInventory, TransferItems } from '@shared/interfaces/inventory.types'
 import { Separator } from './ui/separator'
 import { ContainerCard } from './container-card'
 import { Card, CardContent } from './ui/card'
+import { cn } from '@/lib/utils'
 
 interface StorageUnitsListProps {
   inventory: ConvertedInventory
@@ -13,14 +14,20 @@ interface StorageUnitsListProps {
   setTransfer: React.Dispatch<React.SetStateAction<TransferItems>>
 }
 
-// const colorBlueOpaque = 'rgba(59, 130, 246, 0.1)'
-const colorBlueOpaque = 'rgba(234, 88, 12, 0.1)'
-const colorOrangeOpaque = 'rgba(234, 88, 12, 0.1)'
+const colorYellowOpaque = 'rgba(234, 179, 8, 0.08)'
 
-const getDiagonalStripedStyle = (type: 'insert' | 'retrieve') => ({
-  className: `rounded-lg relative flex flex-col gap-2 p-3 border-2 ${type === 'retrieve' ? 'border-orange-600' : 'border-orange-600'}`,
+const getTransferAreaStyle = (
+  type: 'insert' | 'retrieve'
+): {
+  className: string
+  style: React.CSSProperties
+} => ({
+  className: cn(
+    'rounded-lg relative flex flex-col gap-2 p-2.5 border-2 transition-all',
+    type === 'retrieve' ? 'border-yellow-500/50' : 'border-yellow-500/50'
+  ),
   style: {
-    backgroundImage: `repeating-linear-gradient(45deg, transparent, transparent 5px, ${type === 'retrieve' ? colorBlueOpaque : colorOrangeOpaque} 5px, ${type === 'retrieve' ? colorBlueOpaque : colorOrangeOpaque} 10px)`,
+    backgroundImage: `repeating-linear-gradient(45deg, transparent, transparent 8px, ${colorYellowOpaque} 8px, ${colorYellowOpaque} 16px)`,
     borderStyle: 'dashed'
   } as React.CSSProperties
 })
@@ -79,7 +86,7 @@ export const StorageUnitsList: FC<StorageUnitsListProps> = ({ inventory, transfe
         {/* Insert into container card */}
         <div className="flex flex-col gap-2 mr-4 pl-0.5">
           {transfer.mode === 'toInventory' && (
-            <div {...getDiagonalStripedStyle('insert')}>
+            <div {...getTransferAreaStyle('insert')}>
               <ContainerCard
                 key={0}
                 container={inventoryContainer}
@@ -90,16 +97,16 @@ export const StorageUnitsList: FC<StorageUnitsListProps> = ({ inventory, transfe
             </div>
           )}
           {transfer.mode === 'toContainer' && (
-            <div {...getDiagonalStripedStyle('insert')}>
+            <div {...getTransferAreaStyle('insert')}>
               {selectedUnits.length === 0 && (
-                <Card className="opacity-80">
-                  <CardContent className="flex items-center gap-3 px-2 h-8 relative">
-                    <div className="flex flex-col">
-                      <span className="text-sm font-medium">Select a container</span>
-                      <span className="text-xs text-muted-foreground pt-1">to insert items into</span>
+                <Card className="bg-card/50 backdrop-blur-sm border-dashed shadow-sm">
+                  <CardContent className="flex items-center gap-3 px-3 relative">
+                    <div className="rounded-md bg-yellow-500/10 p-1.5 flex-shrink-0">
+                      <Package className="h-4 w-4 text-yellow-600 dark:text-yellow-500" />
                     </div>
-                    <div className="absolute right-3 h-14 w-8 bg-muted-foreground/20 rounded-sm flex items-center justify-center">
-                      <ChevronsLeft className="h-4 w-4 text-muted-foreground" />
+                    <div className="flex flex-col flex-1">
+                      <span className="text-sm font-semibold text-foreground">Select container</span>
+                      <span className="text-xs text-muted-foreground">to insert items into</span>
                     </div>
                   </CardContent>
                 </Card>
@@ -126,11 +133,17 @@ export const StorageUnitsList: FC<StorageUnitsListProps> = ({ inventory, transfe
             />
           )}
           {transfer.mode === null && <Separator />}
-          {transfer.mode !== null && <ChevronsUp className="mx-auto text-yellow-500" strokeWidth={2} />}
+          {transfer.mode !== null && (
+            <div className="flex items-center gap-2 my-1">
+              <div className="flex-1 h-px bg-gradient-to-r from-transparent via-yellow-500/30 to-transparent" />
+              <ChevronsUp className="h-4 w-4 text-yellow-500 flex-shrink-0" strokeWidth={2.5} />
+              <div className="flex-1 h-px bg-gradient-to-r from-transparent via-yellow-500/30 to-transparent" />
+            </div>
+          )}
           {/* Retrieve from container cards */}
           {transfer.mode === 'toContainer' && (
             <>
-              <div {...getDiagonalStripedStyle('retrieve')}>
+              <div {...getTransferAreaStyle('retrieve')}>
                 <ContainerCard
                   key={transfer.fromContainerIds[0]}
                   container={inventoryContainer}
@@ -152,13 +165,16 @@ export const StorageUnitsList: FC<StorageUnitsListProps> = ({ inventory, transfe
           )}
           {transfer.mode === 'toInventory' && (
             <>
-              <div {...getDiagonalStripedStyle('retrieve')}>
+              <div {...getTransferAreaStyle('retrieve')}>
                 {Object.keys(transfer.selectedItems || {}).length === 0 && (
-                  <Card className="opacity-80">
-                    <CardContent className="flex items-center gap-3 px-2 h-8 relative">
-                      <div className="flex flex-col">
-                        <span className="text-sm font-medium">Select items</span>
-                        <span className="text-xs text-muted-foreground pt-1">to transfer to inventory</span>
+                  <Card className="bg-card/50 backdrop-blur-sm border-dashed shadow-sm">
+                    <CardContent className="flex items-center gap-3 px-3 relative">
+                      <div className="rounded-md bg-yellow-500/10 p-1.5 flex-shrink-0">
+                        <Gem className="h-4 w-4 text-yellow-600 dark:text-yellow-500" />
+                      </div>
+                      <div className="flex flex-col flex-1">
+                        <span className="text-sm font-semibold text-foreground">Select items</span>
+                        <span className="text-xs text-muted-foreground">to retrieve</span>
                       </div>
                     </CardContent>
                   </Card>
