@@ -4,6 +4,7 @@ import { Popover, PopoverContent, PopoverTrigger } from './ui/popover'
 import { cn } from '@/lib/utils'
 import { ArrowRightLeft, ChevronDown, PackageMinus, PackagePlus } from 'lucide-react'
 import { TransferItems } from '@shared/interfaces/inventory.types'
+import { IconWrapper } from './ui/icon-wrapper'
 
 interface TransferMenuProps {
   transfer: TransferItems
@@ -27,15 +28,19 @@ export const TransferMenu: FC<TransferMenuProps> = ({ transfer, setTransfer }) =
           variant="outline"
         >
           <div className="flex items-center gap-1.5">
-            <div className="rounded-md bg-yellow-500/10 p-1.5">
-              {transfer.mode === null ? (
-                <ArrowRightLeft className="h-3.5 w-3.5" />
-              ) : transfer.mode === 'toInventory' ? (
-                <PackageMinus className="h-3.5 w-3.5" />
-              ) : (
-                <PackagePlus className="h-3.5 w-3.5" />
-              )}
-            </div>
+            {transfer.mode === null ? (
+              <IconWrapper size="md" variant="solid">
+                <ArrowRightLeft />
+              </IconWrapper>
+            ) : transfer.mode === 'toInventory' ? (
+              <IconWrapper size="md" variant="solid">
+                <PackageMinus />
+              </IconWrapper>
+            ) : (
+              <IconWrapper size="md" variant="solid">
+                <PackagePlus />
+              </IconWrapper>
+            )}
             <span className="text-sm font-semibold">
               {transfer.mode === null ? 'Transfer' : transfer.mode === 'toInventory' ? 'Retrieve' : 'Insert'}
             </span>
@@ -57,9 +62,9 @@ export const TransferMenu: FC<TransferMenuProps> = ({ transfer, setTransfer }) =
               setIsPopoverOpen(false)
             }}
           >
-            <div className="rounded-md bg-yellow-500/10 p-1.5">
-              <PackageMinus className="h-4 w-4 text-yellow-600 dark:text-yellow-500" />
-            </div>
+            <IconWrapper size="md" variant="solid">
+              <PackageMinus />
+            </IconWrapper>
             <div className="flex flex-col items-start">
               <span className="text-sm font-semibold">Retrieve</span>
               <span className="text-xs text-muted-foreground">Move items from containers</span>
@@ -77,9 +82,9 @@ export const TransferMenu: FC<TransferMenuProps> = ({ transfer, setTransfer }) =
               setIsPopoverOpen(false)
             }}
           >
-            <div className="rounded-md bg-yellow-500/10 p-1.5">
-              <PackagePlus className="h-4 w-4 text-yellow-600 dark:text-yellow-500" />
-            </div>
+            <IconWrapper size="md" variant="solid">
+              <PackagePlus />
+            </IconWrapper>
             <div className="flex flex-col items-start">
               <span className="text-sm font-semibold">Insert</span>
               <span className="text-xs text-muted-foreground">Store items in container</span>

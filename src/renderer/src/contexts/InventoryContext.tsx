@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, ReactNode, JSX } from 'react'
+import { createContext, useContext, useState, ReactNode, JSX, useCallback } from 'react'
 import { ConvertedInventory } from '@shared/interfaces/inventory.types'
 import { showToast } from '@/components/toast'
 
@@ -35,25 +35,21 @@ export function InventoryProvider({ children }: { children: ReactNode }): JSX.El
   const [totalItems, setTotalItems] = useState(0)
   const [lastRefresh, setLastRefresh] = useState('Never')
 
-  const loadInventory = async (fromCache: boolean, onlyChangedContainers: boolean): Promise<void> => {
+  const loadInventory = useCallback(async (fromCache: boolean, onlyChangedContainers: boolean): Promise<void> => {
     try {
       setIsLoading(true)
       const result = await window.api.loadInventory(fromCache, onlyChangedContainers)
       setInventory(result)
-      console.log('Loaded inventory items:', result)
       setTotalItems(result.inventory.items.length + result.containers.flatMap((c) => c.items).length)
-      console.log('Total inventory items:', totalItems)
       setTotalValue(calculateTotalValue(result))
-      console.log('Total inventory value:', totalValue)
       setLastRefresh(timeAgo(result.lastRefresh))
-      console.log('Inventory last update:', lastRefresh)
     } catch (error) {
       console.error('Failed to load inventory:', error)
       showToast('Failed to load inventory: ' + error, 'error')
     } finally {
       setIsLoading(false)
     }
-  }
+  }, [])
 
   return (
     <InventoryContext.Provider value={{ inventory, loadInventory, isLoading, totalItems, totalValue, lastRefresh }}>

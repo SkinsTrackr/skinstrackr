@@ -1,10 +1,10 @@
 {
   "name": "skinstrackr",
   "version": "1.0.0",
-  "description": "An Electron application with React and TypeScript",
+  "description": "Manage skins for CS2",
   "main": "./out/main/index.js",
-  "author": "example.com",
-  "homepage": "https://electron-vite.org",
+  "author": "jzimr",
+  "homepage": "https://github.com/SkinsTrackr/skinstrackr/",
   "scripts": {
     "format": "prettier --write .",
     "lint": "eslint --cache .",
@@ -14,7 +14,7 @@
     "start": "electron-vite preview",
     "dev": "electron-vite dev",
     "build": "npm run typecheck && electron-vite build",
-    "postinstall": "electron-builder install-app-deps",
+    "postinstall": "electron-builder install-app-deps || echo 'Warning: native module rebuild failed, using prebuilt binaries'",
     "build:unpack": "npm run build && electron-builder --dir",
     "build:win": "npm run build && electron-builder --win",
     "build:mac": "electron-vite build && electron-builder --mac",

@@ -1,57 +1,58 @@
-import { createContext, useContext, ReactNode, JSX, useRef, useEffect, useState } from 'react'
-import { LoginRequest } from '@shared/interfaces/login.types'
-import { GameSessionEvent, SteamSessionEvent } from '@shared/interfaces/session.types'
-import { GameSessionEventType, SteamSessionEventType } from '@shared/enums/session-type'
+import { createContext, useContext, ReactNode, JSX, useEffect, useState, useCallback, Dispatch } from 'react'
+import { GameSessionEvent, SteamSessionEvent, SteamLoginRequest } from '@shared/interfaces/session.types'
+import { GameSessionEventType, SteamSessionEventType, UserSessionType } from '@shared/enums/session-type'
 import { showToast } from '../components/toast'
-import { useNavigate } from 'react-router'
 import { useInventory } from './InventoryContext'
+import { useClientStore } from './ClientStoreContext'
+import { Account, Settings } from '@shared/interfaces/store.types'
 
 interface SessionContextType {
-  loginSteam: (tokenDetails: LoginRequest) => Promise<void>
+  loginSteam: (tokenDetails: SteamLoginRequest) => Promise<void>
   loginCache: (steamId: string) => Promise<void>
   activeSteamId: string
-  isLoggedInSteam: boolean
-  isLoggedInCache: boolean
+  userSession: UserSessionType
 }
 
 const SessionContext = createContext<SessionContextType | undefined>(undefined)
 
 export function SessionProvider({ children }: { children: ReactNode }): JSX.Element {
   const { loadInventory } = useInventory()
+  const { loadSettings, loadAccounts } = useClientStore()
 
-  const [isLoggedInSteam, setIsLoggedInSteam] = useState(false)
-  const [isLoggedInCache, setIsLoggedInCache] = useState(false)
   const [activeSteamId, setActiveSteamId] = useState('')
+  const [userSession, setUserSession] = useState<UserSessionType>(UserSessionType.NONE)
 
-  const loginSteam = async (tokenDetails: LoginRequest): Promise<void> => {
+  const loginSteam = useCallback(async (tokenDetails: SteamLoginRequest): Promise<void> => {
     try {
       const returnedSteamId = await window.api.loginSteam(tokenDetails)
       setActiveSteamId(returnedSteamId)
-      setIsLoggedInSteam(true)
-      setIsLoggedInCache(false)
       // Inventory will be loaded when we receive CONNECTED game session event
     } catch (error) {
-      console.error('Failed to load settings:', error)
+      console.error('Failed to login to Steam:', error)
       throw error
     }
-  }
-  const loginCache = async (steamId: string): Promise<void> => {
-    try {
-      const returnedSteamId = await window.api.loginCache(steamId)
-      setActiveSteamId(returnedSteamId)
-      setIsLoggedInSteam(false)
-      setIsLoggedInCache(true)
-      await loadInventory(true, false)
-    } catch (error) {
-      console.error('Failed to load settings:', error)
-      throw error
-    }
-  }
+  }, [])
 
-  useGlobalEvents(loadInventory, loginCache, activeSteamId)
+  const loginCache = useCallback(
+    async (steamId: string): Promise<void> => {
+      try {
+        const returnedSteamId = await window.api.loginCache(steamId)
+        setActiveSteamId(returnedSteamId)
+        showToast('Logged in from cache', 'info')
+        setUserSession(UserSessionType.CACHE)
+        await loadInventory(true, false)
+      } catch (error) {
+        console.error('Failed to login to cache:', error)
+        throw error
+      }
+    },
+    [loadInventory]
+  )
+
+  useGlobalEvents(loadInventory, loginCache, loadSettings, loadAccounts, activeSteamId, setUserSession)
 
   return (
-    <SessionContext.Provider value={{ loginSteam, loginCache, activeSteamId, isLoggedInSteam, isLoggedInCache }}>
+    <SessionContext.Provider value={{ loginSteam, loginCache, activeSteamId, userSession }}>
       {children}
     </SessionContext.Provider>
   )
@@ -68,21 +69,23 @@ export function useSession(): SessionContextType {
 function useGlobalEvents(
   loadInventory: (fromCache: boolean, onlyChangedContainers: boolean) => Promise<void>,
   loginCache: (steamId: string) => Promise<void>,
-  activeSteamId: string
+  loadSettings: () => Promise<Settings>,
+  loadAccounts: () => Promise<Record<string, Account>>,
+  activeSteamId: string,
+  setUserSession: Dispatch<React.SetStateAction<UserSessionType>>
 ): void {
-  const navigate = useNavigate()
-  const registered = useRef(false) // Fix double-registration in <StrictMode>
-
   useEffect(() => {
-    if (registered.current) return
-    registered.current = true
+    console.log('Setting up global event listeners...')
 
-    window.api.onSteamSessionEvent((value: SteamSessionEvent) => {
+    const unsubscribeSteam = window.api.onSteamSessionEvent((value: SteamSessionEvent) => {
       console.log('Received Steam session event: ', value)
 
       switch (value.eventType) {
         case SteamSessionEventType.LOGIN_SUCCESS:
-          showToast('Logged in successfully!', 'success')
+          showToast('Logged in to Steam', 'success')
+          setUserSession(UserSessionType.LOGGED_IN_ONLINE)
+          loadSettings()
+          loadAccounts()
           break
         case SteamSessionEventType.LOGIN_FAILURE:
           showToast(value.message, 'error')
@@ -98,6 +101,7 @@ function useGlobalEvents(
           break
         case SteamSessionEventType.DISCONNECTED:
           showToast(value.message, 'error')
+          setUserSession(UserSessionType.LOGGED_IN_OFFLINE)
           break
         case SteamSessionEventType.DISCONNECTED_SHOULD_RELOGIN:
           showToast(value.message, 'error')
@@ -106,7 +110,7 @@ function useGlobalEvents(
       }
     })
 
-    window.api.onGameSessionEvent((value: GameSessionEvent) => {
+    const unsubscribeGame = window.api.onGameSessionEvent((value: GameSessionEvent) => {
       console.log('Received Game session event: ', value)
 
       switch (value.eventType) {
@@ -122,5 +126,11 @@ function useGlobalEvents(
           break
       }
     })
-  }, [navigate, loadInventory, loginCache, activeSteamId])
+
+    return () => {
+      console.log('Cleaning up global event listeners...')
+      unsubscribeSteam()
+      unsubscribeGame()
+    }
+  }, [loadInventory, loginCache, activeSteamId, loadSettings, loadAccounts, setUserSession])
 }

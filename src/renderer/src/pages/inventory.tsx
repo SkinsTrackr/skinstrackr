@@ -30,7 +30,7 @@ export default function InventoryPage(): JSX.Element {
         selectedItems: {}
       }))
     }
-  }, [transfer.mode, setTransfer])
+  }, [transfer.mode])
 
   return (
     <div className="flex h-full overflow-hidden p-3">

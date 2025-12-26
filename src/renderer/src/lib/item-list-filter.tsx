@@ -76,7 +76,6 @@ export function applyContainerFilter(items: ConvertedItem[], filter: ItemListFil
 }
 
 export function applyFilters(items: ConvertedItem[], filter: ItemListFilter): ConvertedItem[] {
-  console.log('Applying filters:', filter)
   const f = filter.filters
   if (!f) return items
 
@@ -119,7 +118,6 @@ export function applyGrouping(items: ConvertedItem[], groupBy: ItemListFilter): 
 
         return groups
       }, [] as FilteredItem[])
-      console.log(itemsss)
       return itemsss
     }
 

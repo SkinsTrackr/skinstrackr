@@ -1,6 +1,6 @@
 import { ElectronAPI } from '@electron-toolkit/preload'
-import { ConvertedInventory } from '@shared/interfaces/inventory.types'
-import { GameSessionEvent, SteamLoginRequest } from '@shared/interfaces/session.types'
+import { ConvertedInventory, TransferItems } from '@shared/interfaces/inventory.types'
+import { GameSessionEvent, SteamLoginRequest, SteamSessionEvent } from '@shared/interfaces/session.types'
 import { Settings, Account } from '@shared/interfaces/store.types'
 
 export interface CustomAPI {
@@ -18,8 +18,8 @@ export interface CustomAPI {
   /**
    * Main --->>> Renderer
    */
-  onSteamSessionEvent: (callback: (value: SteamSessionEvent) => void) => void
-  onGameSessionEvent: (callback: (value: GameSessionEvent) => void) => void
+  onSteamSessionEvent: (callback: (value: SteamSessionEvent) => void) => () => void
+  onGameSessionEvent: (callback: (value: GameSessionEvent) => void) => () => void
   onTransferProgress: (callback: (itemId: number, success: boolean) => void) => () => void
 }
 

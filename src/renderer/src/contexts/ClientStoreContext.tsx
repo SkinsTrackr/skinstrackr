@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, ReactNode, JSX } from 'react'
+import { createContext, useContext, useState, ReactNode, JSX, useCallback } from 'react'
 import { Account, Settings } from '@shared/interfaces/store.types'
 
 interface ClientStoreContextType {
@@ -14,7 +14,7 @@ export function ClientStoreProvider({ children }: { children: ReactNode }): JSX.
   const [settings, setSettings] = useState<Settings>({})
   const [accounts, setAccounts] = useState<Record<string, Account>>({})
 
-  const loadSettings = async (): Promise<Settings> => {
+  const loadSettings = useCallback(async (): Promise<Settings> => {
     try {
       const result = await window.api.loadSettings()
       setSettings(result)
@@ -23,9 +23,9 @@ export function ClientStoreProvider({ children }: { children: ReactNode }): JSX.
       console.error('Failed to load settings:', error)
       throw error
     }
-  }
+  }, [])
 
-  const loadAccounts = async (): Promise<Record<string, Account>> => {
+  const loadAccounts = useCallback(async (): Promise<Record<string, Account>> => {
     try {
       const result = await window.api.loadAccounts()
       setAccounts(result)
@@ -34,7 +34,7 @@ export function ClientStoreProvider({ children }: { children: ReactNode }): JSX.
       console.error('Failed to load accounts:', error)
       throw error
     }
-  }
+  }, [])
 
   return (
     <ClientStoreContext.Provider value={{ settings, loadSettings, accounts, loadAccounts }}>

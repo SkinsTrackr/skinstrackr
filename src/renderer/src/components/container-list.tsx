@@ -36,7 +36,6 @@ export const StorageUnitsList: FC<StorageUnitsListProps> = ({ inventory, transfe
   const [searchQuery, setSearchQuery] = useState('')
   const inventoryContainer: ConvertedContainer = useMemo(() => {
     const containers = inventory.containers.map((cont) => cont.container)
-    console.log(containers)
     return {
       ...inventory.inventory,
       items: [...inventory.inventory.items, ...containers]

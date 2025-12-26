@@ -1,5 +1,5 @@
 import { ScrollArea } from '@/components/ui/scroll-area'
-import { FC, useState, useMemo } from 'react'
+import { FC, useState, useMemo, useEffect } from 'react'
 import { InputGroup, InputGroupAddon, InputGroupInput } from './ui/input-group'
 import { Search } from 'lucide-react'
 import { ConvertedInventory, ConvertedItem, TransferItems } from '@shared/interfaces/inventory.types'
@@ -10,6 +10,8 @@ import { ItemGroupMenu } from './item-group-menu'
 import { ItemSortMenu } from './item-sort-menu'
 import { ItemTransferArea } from './item-transfer-area'
 import { TransferMenu } from './transfer-menu'
+import { InventoryEmptyState } from './inventory-empty-state'
+import { useClientStore } from '@/contexts/ClientStoreContext'
 
 interface ItemListProps {
   inventory: ConvertedInventory
@@ -23,12 +25,19 @@ export type FilteredItem = {
 }
 
 export const ItemList: FC<ItemListProps> = ({ inventory, transfer, setTransfer }) => {
+  const { accounts, loadAccounts } = useClientStore()
   const [itemFilter, setItemFilter] = useState<ItemListFilter>({
     filters: { showNonTradable: false, showTradable: true },
     sort: { sortBy: 'groupedValue', sortDir: 'desc' },
     groupBy: 'allItemsByName'
   })
 
+  // Load accounts on mount
+  //   useEffect(() => {
+  //     loadAccounts().catch(console.error)
+  //   }, [loadAccounts])
+
+  // TODO change into normal variable?
   const allContainers = useMemo(
     () => [...inventory.containers, inventory.inventory],
     [inventory.containers, inventory.inventory]
@@ -40,10 +49,16 @@ export const ItemList: FC<ItemListProps> = ({ inventory, transfer, setTransfer }
   const { filteredItems, filteredItemsTotal, filteredContainerTotal } = useMemo(() => {
     let invItems = [...inventory.inventory.items, ...inventory.containers.flatMap((container) => container.items)]
 
+    // Create a new filter object instead of mutating the state
+    let currentFilter = { ...itemFilter }
+
     if (transfer.fromContainerIds.length !== undefined) {
-      itemFilter.filters = {
-        ...itemFilter.filters,
-        containerIds: transfer.fromContainerIds
+      currentFilter = {
+        ...currentFilter,
+        filters: {
+          ...currentFilter.filters,
+          containerIds: transfer.fromContainerIds
+        }
       }
 
       // Don't include root inventory if no storage units are selected in transfer mode
@@ -54,16 +69,20 @@ export const ItemList: FC<ItemListProps> = ({ inventory, transfer, setTransfer }
 
     // Don't include non-movable items
     if (transfer.mode !== null) {
-      if (itemFilter.filters) {
-        itemFilter.filters.showNonTradable = false
-        itemFilter.filters.showTradable = true
+      currentFilter = {
+        ...currentFilter,
+        filters: {
+          ...currentFilter.filters,
+          showNonTradable: false,
+          showTradable: true
+        }
       }
     }
 
-    const filteredContainers = applyContainerFilter(invItems, itemFilter)
-    const filtered = applyFilters(filteredContainers, itemFilter)
-    const grouped = applyGrouping(filtered, itemFilter)
-    const sorted = applySorting(grouped, itemFilter)
+    const filteredContainers = applyContainerFilter(invItems, currentFilter)
+    const filtered = applyFilters(filteredContainers, currentFilter)
+    const grouped = applyGrouping(filtered, currentFilter)
+    const sorted = applySorting(grouped, currentFilter)
 
     const total = filtered.length
     const containerTotal = filteredContainers.length
@@ -74,6 +93,9 @@ export const ItemList: FC<ItemListProps> = ({ inventory, transfer, setTransfer }
       filteredContainerTotal: containerTotal
     }
   }, [inventory.containers, inventory.inventory.items, itemFilter, transfer.fromContainerIds, transfer.mode])
+
+  // Check if user has any accounts
+  const hasAccounts = accounts && Object.keys(accounts).length > 0
 
   return (
     <div className="flex flex-col h-full flex-1 overflow-hidden">
@@ -113,29 +135,33 @@ export const ItemList: FC<ItemListProps> = ({ inventory, transfer, setTransfer }
           </div>
         </div>
       </div>
-      {/* Cards list */}
+      {/* Cards list or empty state */}
       <div className="flex-1 mt-5 overflow-hidden">
-        <ScrollArea className="h-full" type="auto">
-          <div className="px-4 pb-4">
-            {/* Transfer Area */}
-            <ItemTransferArea transfer={transfer} containers={allContainers} setTransfer={setTransfer} />
+        {!hasAccounts ? (
+          <InventoryEmptyState />
+        ) : (
+          <ScrollArea className="h-full" type="auto">
+            <div className="px-4 pb-4">
+              {/* Transfer Area */}
+              <ItemTransferArea transfer={transfer} containers={allContainers} setTransfer={setTransfer} />
 
-            {/* Items Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-2">
-              {filteredItems.slice(0, 100).map((item, groupIndex) => (
-                <ItemCard
-                  key={`${item.name}-${groupIndex}`}
-                  items={item.items}
-                  name={item.name}
-                  rarity={inventory.rarities[item.items[0]?.rarity || '']}
-                  transfer={transfer}
-                  setTransfer={setTransfer}
-                  containers={allContainers} // including inventory items with containerId 0
-                />
-              ))}
+              {/* Items Grid */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-2">
+                {filteredItems.slice(0, 100).map((item, groupIndex) => (
+                  <ItemCard
+                    key={`${item.name}-${groupIndex}`}
+                    items={item.items}
+                    name={item.name}
+                    rarity={inventory.rarities[item.items[0]?.rarity || '']}
+                    transfer={transfer}
+                    setTransfer={setTransfer}
+                    containers={allContainers} // including inventory items with containerId 0
+                  />
+                ))}
+              </div>
             </div>
-          </div>
-        </ScrollArea>
+          </ScrollArea>
+        )}
       </div>
     </div>
   )

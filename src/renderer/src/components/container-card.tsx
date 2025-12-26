@@ -1,5 +1,5 @@
 import { ConvertedContainer, TransferItems } from '@shared/interfaces/inventory.types'
-import { FC, useMemo, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { Card, CardContent } from './ui/card'
 import { Boxes } from 'lucide-react'
 
@@ -14,7 +14,7 @@ export const ContainerCard: FC<ContainerCardProps> = ({ container, count, transf
   const [selectable, setSelectable] = useState(true)
 
   // Whether we can remove or add a container
-  useMemo(() => {
+  useEffect(() => {
     if (transfer.mode !== null) {
       if (container.id === 0) {
         setSelectable(false)
@@ -68,7 +68,9 @@ export const ContainerCard: FC<ContainerCardProps> = ({ container, count, transf
         )}
         <div className="flex flex-col">
           <span className="text-sm font-medium">
-            {container.container.customName || container.container.hashName || 'Storage Unit'}
+            {container.container.customName ||
+              container.container.hashName ||
+              (container.id === 0 ? 'Inventory' : 'Storage Unit')}
           </span>
           <span className="text-xs text-muted-foreground pt-1">{count} items</span>
         </div>

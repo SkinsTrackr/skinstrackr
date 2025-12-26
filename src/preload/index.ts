@@ -35,10 +35,16 @@ const api = {
   /**
    * Main --->>> Renderer
    */
-  onSteamSessionEvent: (callback) =>
-    ipcRenderer.on('renderer:steam-session-event', (_event, value: SteamSessionEvent) => callback(value)),
-  onGameSessionEvent: (callback) =>
-    ipcRenderer.on('renderer:game-session-event', (_event, value: GameSessionEvent) => callback(value)),
+  onSteamSessionEvent: (callback) => {
+    const listener = (_event, value: SteamSessionEvent): void => callback(value)
+    ipcRenderer.on('renderer:steam-session-event', listener)
+    return () => ipcRenderer.removeListener('renderer:steam-session-event', listener)
+  },
+  onGameSessionEvent: (callback) => {
+    const listener = (_event, value: GameSessionEvent): void => callback(value)
+    ipcRenderer.on('renderer:game-session-event', listener)
+    return () => ipcRenderer.removeListener('renderer:game-session-event', listener)
+  },
   onTransferProgress: (callback: (itemId, success) => void) => {
     // This function returns an unsubscribe function
     // Which prevents duplicate listener registrations

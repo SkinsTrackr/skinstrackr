@@ -9,9 +9,12 @@ export function setupSteamListeners(): void {
 
   console.log('Setting up Steam listeners...')
 
-  user.on('loggedOn', (response) => {
+  user.on('loggedOn', async (response) => {
     SteamSession.getInstance().setLoggedIn(true)
     console.log('🚀 Logged in successfully', response)
+
+    // Update client-store account info BEFORE notifying renderer
+    await accounts.setAccount(user)
 
     // Notify renderer about login status
     getMainWindow()?.webContents.send('renderer:steam-session-event', {
@@ -22,9 +25,6 @@ export function setupSteamListeners(): void {
         username: user.accountInfo?.name
       }
     })
-
-    // Update client-store account info
-    accounts.setAccount(user)
 
     // TODO Check if we are logged in elsewhere with CSGO playing
 

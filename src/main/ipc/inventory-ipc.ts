@@ -3,8 +3,7 @@ import SteamSession from '../steam-session'
 import GlobalOffensive from 'globaloffensive'
 import { ConvertedInventory, RawInventory, ConvertedContainer, TransferItems } from '@shared/interfaces/inventory.types'
 import { convertContainer, getQualities, getRarities } from '../util/item-utils'
-import * as fs from 'fs'
-import { loadInventoryFromFile, syncInventoryCache } from '../util/inventory-utils'
+import { inventoryFileExists, loadInventoryFromFile, syncInventoryCache } from '../util/inventory-utils'
 import Semaphore from '../util/semaphore'
 
 // Global transfer state
@@ -138,7 +137,7 @@ export function setupInventoryIPC(): void {
       // Get cached or "fresh" inventory
       // If "fresh" inventory, get changed or all containers
       if (fromCache) {
-        if (!fs.existsSync(`./data/${steamId}_inventory.json`)) {
+        if ((await inventoryFileExists(steamId)) === false) {
           throw new Error(`Need to login as user ${steamId} first to use cached inventory`)
         }
 

@@ -1,4 +1,4 @@
-import { Route, Routes, useLocation, useNavigate } from 'react-router'
+import { Route, Routes, useLocation, useNavigate, Navigate } from 'react-router'
 import { useEffect, useRef } from 'react'
 import TopNavbar from './components/top-navbar'
 import InventoryPage from './pages/inventory'
@@ -21,12 +21,11 @@ function App(): React.JSX.Element {
 
     const checkDefaultAccount = async (): Promise<void> => {
       try {
+        await loadAccounts()
+
         const loadedSettings = await loadSettings()
         if (loadedSettings.defaultAccountID) {
           await loginCache(loadedSettings.defaultAccountID)
-          await loadSettings()
-          await loadAccounts()
-          navigate('/inventory')
         }
       } catch (error) {
         console.error('Failed to check default account:', error)
@@ -41,7 +40,7 @@ function App(): React.JSX.Element {
       {!hideNavbars && <TopNavbar />}
       <main className="flex-1 overflow-hidden bg-muted/10">
         <Routes>
-          {/* <Route path="/" element={<LoginPage />} /> */}
+          <Route path="/" element={<Navigate to="/inventory" replace />} />
           {/* <Route path="/overview" element={<DashboardPage />} /> */}
           <Route path="/inventory" element={<InventoryPage />} />
           {/* <Route path="/settings" element={<SettingsPage />} /> */}

@@ -113,8 +113,9 @@ export async function syncInventoryCache(userId: string, onlyChangedContainers: 
 
   let rawInventory: RawInventory
   // If we force update of inventory, we load all containers and
-  // start with a clean slate altogether
-  if (!onlyChangedContainers) {
+  // start with a clean slate altogether.
+  // We also do this if no cached inventory exists yet.
+  if (!onlyChangedContainers || !(await inventoryFileExists(userId))) {
     rawInventory = {
       inventory: {
         id: 0,
@@ -196,4 +197,8 @@ export async function loadInventoryFromFile(userId: string): Promise<RawInventor
   const loaded = await fs.readFileSync(`./data/${userId}_inventory.bin`)
   const decoded = unpack(loaded) as RawInventory
   return decoded
+}
+
+export async function inventoryFileExists(userId: string): Promise<boolean> {
+  return fs.existsSync(`./data/${userId}_inventory.bin`)
 }
