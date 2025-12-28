@@ -2,6 +2,7 @@ import { ConvertedContainer, ConvertedItem, Rarity, TransferItems } from '@share
 import { FC, useRef, useState, useEffect, useCallback, useMemo } from 'react'
 import { Card, CardContent } from './ui/card'
 import { Input } from './ui/input'
+import { cn } from '@/lib/utils'
 
 interface ItemCardProps {
   items: ConvertedItem[]
@@ -212,13 +213,13 @@ export const ItemCard: FC<ItemCardProps> = ({ items, name, rarity, transfer, set
 
   return (
     <Card
-      className={`transition-all duration-200 relative overflow-hidden py-4 ${
-        isDisabled
-          ? 'opacity-50 cursor-default'
-          : transfer.mode !== null
-            ? 'cursor-pointer hover:bg-accent hover:shadow-lg'
-            : 'cursor-default'
-      } ${isSelected ? 'ring-2 ring-yellow-500 bg-accent' : ''}`}
+      className={cn(
+        'transition-all duration-200 relative overflow-hidden py-4',
+        isDisabled && 'opacity-50 cursor-default',
+        !isDisabled && transfer.mode !== null && 'cursor-pointer hover:bg-accent hover:shadow-sm',
+        !isDisabled && transfer.mode === null && 'cursor-default',
+        isSelected && 'ring-2 ring-yellow-500/80 bg-accent shadow-sm backdrop-blur-sm'
+      )}
       onClick={isDisabled ? undefined : handleCardClick}
       onKeyDown={isDisabled ? undefined : handleKeyDown}
       tabIndex={!isDisabled && transfer.mode !== null && !(isSelected && items.length > 1) ? 0 : -1}
@@ -228,7 +229,7 @@ export const ItemCard: FC<ItemCardProps> = ({ items, name, rarity, transfer, set
     >
       {/* Count Badge */}
       {items.length > 1 && (
-        <div className="absolute top-1 left-3 bg-primary text-primary-foreground rounded-md px-2 py-0.5 text-xs font-semibold z-10 min-w-[20px] text-center shadow-sm">
+        <div className="absolute top-1.5 left-3 bg-primary text-primary-foreground rounded-md px-2 py-0.5 text-xs font-semibold z-10 min-w-[24px] text-center shadow-sm tabular-nums">
           {items.length}
         </div>
       )}
@@ -236,7 +237,7 @@ export const ItemCard: FC<ItemCardProps> = ({ items, name, rarity, transfer, set
       {/* Deselect Button (X) - for cards with multiple items that are selected */}
       {isSelected && transfer.mode !== null && (
         <button
-          className="absolute top-0 right-0 bg-yellow-500 hover:bg-yellow-600 text-yellow-950 rounded-bl-md w-7 h-7 flex items-center justify-center text-sm font-bold z-10 shadow-sm transition-colors"
+          className="absolute top-0 right-0 bg-yellow-500 hover:bg-yellow-600 text-yellow-950 rounded-bl-md w-7 h-7 flex items-center justify-center text-lg font-bold z-10 shadow-sm transition-all hover:w-8 hover:h-8"
           onClick={handleDeselectClick}
           aria-label="Deselect"
           tabIndex={-1}
@@ -245,9 +246,9 @@ export const ItemCard: FC<ItemCardProps> = ({ items, name, rarity, transfer, set
         </button>
       )}
 
-      <CardContent className="flex items-center gap-3 px-2 py-1 h-20">
+      <CardContent className="flex items-center gap-3 px-2 h-20">
         {/* Item Icon */}
-        <div className="relative w-18 h-18 flex-shrink-0 flex flex-col items-center justify-center gap-1">
+        <div className="relative w-18 h-18 flex-shrink-0 flex flex-col items-center justify-center gap-1.5">
           <img
             src={window.env.ICONS_BASE_URL + '/' + (items[0].imagePath || '') + '.png'}
             alt={name || 'Unknown Item'}
@@ -257,7 +258,7 @@ export const ItemCard: FC<ItemCardProps> = ({ items, name, rarity, transfer, set
           {/* Rarity Bar Below Image */}
           {rarity?.color && (
             <div
-              className="w-full h-1 rounded-full"
+              className="w-full h-1 rounded-full shadow-sm"
               style={{
                 backgroundColor: rarity.color
               }}
@@ -267,7 +268,10 @@ export const ItemCard: FC<ItemCardProps> = ({ items, name, rarity, transfer, set
           {/* Transfer Input - Below Image */}
           {transfer.mode !== null && items.length > 1 && (
             <div
-              className={`absolute -bottom-3 left-1/2 -translate-x-1/2 z-20 ${selectedCount > 0 || isInputFocused ? 'opacity-100' : 'opacity-0 pointer-events-none'} transition-opacity`}
+              className={cn(
+                'absolute -bottom-3 left-1/2 -translate-x-1/2 z-20 transition-opacity duration-150',
+                selectedCount > 0 || isInputFocused ? 'opacity-100' : 'opacity-0 pointer-events-none'
+              )}
             >
               <Input
                 ref={inputRef}
@@ -281,7 +285,7 @@ export const ItemCard: FC<ItemCardProps> = ({ items, name, rarity, transfer, set
                 }}
                 placeholder="-"
                 tabIndex={isSelected && items.length > 1 ? 0 : -1}
-                className="w-12 h-6 px-1 py-0.5 text-xs font-semibold text-center bg-background/80 backdrop-blur-md border border-input focus-visible:ring-2 focus-visible:ring-primary rounded-md shadow-sm transition-all"
+                className="w-12 h-6 px-1 py-0.5 text-xs font-semibold text-center bg-background/90 backdrop-blur-sm border border-input focus-visible:ring-2 focus-visible:ring-yellow-500/50 rounded-md shadow-sm transition-all tabular-nums"
                 onClick={(e): void => e.stopPropagation()}
               />
             </div>
@@ -289,63 +293,67 @@ export const ItemCard: FC<ItemCardProps> = ({ items, name, rarity, transfer, set
         </div>
 
         {/* Content Area */}
-        <div
-          className={`flex flex-col h-full flex-1 min-w-0 ${items[0].float !== undefined ? 'justify-between' : 'justify-center gap-1'}`}
-        >
-          {/* Item Name */}
-          <div className="text-left w-full">
-            <span className="text-xs font-medium leading-tight line-clamp-2 break-words">{name || 'Unknown Item'}</span>
+        <div className="flex flex-col h-full flex-1 min-w-0 justify-between gap-1">
+          {/* Item Name - Fixed height for alignment */}
+          <div className="text-center w-full h-[36px] flex items-start justify-center">
+            <span className="text-sm leading-tight line-clamp-2 break-words" title={name || 'Unknown Item'}>
+              {name || 'Unknown Item'}
+            </span>
           </div>
 
-          {/* Float Value Bar */}
-          {items[0].float !== undefined && (
-            <div className="flex items-center gap-1.5 w-full">
-              <div className="relative flex-1 h-2 rounded-sm overflow-hidden flex">
-                {/* Factory New: 0-0.07 */}
-                <div className="h-full bg-green-500/50" style={{ width: '7%' }} />
-                {/* Minimal Wear: 0.07-0.15 */}
-                <div className="h-full bg-lime-500/50" style={{ width: '8%' }} />
-                {/* Field-Tested: 0.15-0.38 */}
-                <div className="h-full bg-yellow-500/50" style={{ width: '23%' }} />
-                {/* Well-Worn: 0.38-0.45  */}
-                <div className="h-full bg-orange-500/50" style={{ width: '7%' }} />
-                {/* Battle-Scarred: 0.45-1.0 */}
-                <div className="h-full bg-red-500/50" style={{ width: '55%' }} />
+          {/* Float Value Bar - Fixed height for alignment */}
+          <div className="h-[18px] flex items-center">
+            {items[0].float !== undefined ? (
+              <div className="flex items-center w-full">
+                <div className="relative flex-1 h-2 rounded-sm overflow-hidden flex shadow-sm">
+                  {/* Factory New: 0-0.07 */}
+                  <div className="h-full bg-green-500/60" style={{ width: '7%' }} />
+                  {/* Minimal Wear: 0.07-0.15 */}
+                  <div className="h-full bg-lime-500/60" style={{ width: '8%' }} />
+                  {/* Field-Tested: 0.15-0.38 */}
+                  <div className="h-full bg-yellow-500/60" style={{ width: '23%' }} />
+                  {/* Well-Worn: 0.38-0.45  */}
+                  <div className="h-full bg-orange-500/60" style={{ width: '7%' }} />
+                  {/* Battle-Scarred: 0.45-1.0 */}
+                  <div className="h-full bg-red-500/60" style={{ width: '55%' }} />
 
-                {/* White indicator line */}
-                <div
-                  className="absolute top-0 h-full w-0.5 bg-white"
-                  style={{
-                    left: `${items[0].float * 100}%`,
-                    transform: 'translateX(-50%)'
-                  }}
-                />
+                  {/* White indicator line */}
+                  <div
+                    className="absolute top-0 h-full w-0.5 bg-white shadow-sm"
+                    style={{
+                      left: `${items[0].float * 100}%`,
+                      transform: 'translateX(-50%)'
+                    }}
+                  />
+                </div>
+                <span className="text-xs font-medium text-muted-foreground tabular-nums min-w-[52px] text-right">
+                  {items[0].float.toFixed(4)}
+                </span>
               </div>
-              <span className="text-[10px] font-medium text-muted-foreground tabular-nums">
-                {items[0].float.toFixed(4)}
-              </span>
-            </div>
-          )}
+            ) : null}
+          </div>
 
-          {/* Price */}
-          <div className="flex flex-col gap-1 w-full">
-            {/* Item Price */}
-            <div className="text-left w-full">
+          {/* Price - Fixed height for alignment */}
+          <div className="h-[18px] flex items-center">
+            <div className="text-center w-full">
               {items[0].price !== undefined && items[0].price > 0 ? (
-                <div>
-                  <span className="text-xs font-semibold text-green-500 dark:text-green-500">
+                <div className="flex items-center justify-center gap-1.5">
+                  <span className="text-sm text-green-600 dark:text-green-500 tabular-nums">
                     ${items[0].price.toFixed(2)}
                   </span>
-                  {items.length > 1 ? (
-                    <span className="text-xs font-semibold text-green-700">
-                      {items.length > 1 ? ` | $${(items[0].price * items.length).toFixed(2)}` : ''}
-                    </span>
-                  ) : undefined}
+                  {items.length > 1 && (
+                    <>
+                      <span className="text-muted-foreground/40">•</span>
+                      <span className="text-sm text-green-600/80 dark:text-green-500/80 tabular-nums">
+                        ${(items[0].price * items.length).toFixed(2)}
+                      </span>
+                    </>
+                  )}
                 </div>
               ) : items[0].tradable ? (
-                <span className="text-xs text-muted-foreground">No Price</span>
+                <span className="text-xs text-muted-foreground/60">No Price</span>
               ) : (
-                <span className="text-xs text-muted-foreground">N/A</span>
+                <span className="text-xs text-muted-foreground/60">N/A</span>
               )}
             </div>
           </div>

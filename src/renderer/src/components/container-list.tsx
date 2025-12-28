@@ -81,7 +81,7 @@ export const StorageUnitsList: FC<StorageUnitsListProps> = ({ inventory, transfe
           </InputGroupAddon>
         </InputGroup>
       </div>
-      <ScrollArea className="flex-1 min-h-0 mt-5" type="auto">
+      <ScrollArea className="flex-1 min-h-0 mt-5" type="hover">
         {/* Insert into container card */}
         <div className="flex flex-col gap-2 mr-4 pl-0.5">
           {transfer.mode === 'toInventory' && (

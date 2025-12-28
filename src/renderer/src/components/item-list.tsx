@@ -146,7 +146,7 @@ export const ItemList: FC<ItemListProps> = ({ inventory, transfer, setTransfer }
               <ItemTransferArea transfer={transfer} containers={allContainers} setTransfer={setTransfer} />
 
               {/* Items Grid */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-2">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-2">
                 {filteredItems.slice(0, 100).map((item, groupIndex) => (
                   <ItemCard
                     key={`${item.name}-${groupIndex}`}
