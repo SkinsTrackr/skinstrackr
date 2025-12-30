@@ -67,7 +67,7 @@ export async function getContainersOutOfSync(): Promise<number[]> {
 
   const csgo = SteamSession.getInstance().getCsgo()
   const caskets = (csgo?.inventory ?? undefined)?.filter(
-    (item) => item.casket_id === undefined && item.casket_contained_item_count && item.id
+    (item) => item.casket_id === undefined && item.casket_contained_item_count !== undefined && item.id
   )
   if (!caskets) {
     throw new Error('Could not get inventory for container sync check')
@@ -120,7 +120,7 @@ export async function syncInventoryCache(userId: string, onlyChangedContainers: 
       inventory: {
         id: 0,
         container: { position: 0, custom_name: 'Inventory', id: '0' }, // Dummy container item
-        items: rootItems.filter((item) => !item.casket_contained_item_count && item.id) || [],
+        items: rootItems.filter((item) => item.casket_contained_item_count === undefined && item.id) || [],
         lastRefresh: Date.now(),
         lastModification: Date.now()
       },
@@ -128,7 +128,7 @@ export async function syncInventoryCache(userId: string, onlyChangedContainers: 
       lastRefresh: Date.now()
     }
 
-    const caskets = rootItems?.filter((item) => item.casket_contained_item_count && item.id)
+    const caskets = rootItems?.filter((item) => item.casket_contained_item_count !== undefined && item.id)
     rawInventory.containers = await loadAllContainers(caskets)
   } else {
     rawInventory = await loadInventoryFromFile(userId)
@@ -138,7 +138,7 @@ export async function syncInventoryCache(userId: string, onlyChangedContainers: 
     rawInventory.inventory = {
       id: 0,
       container: { position: 0, custom_name: 'Inventory', id: '0' }, // Dummy container item
-      items: rootItems.filter((item) => !item.casket_contained_item_count && item.id) || [],
+      items: rootItems.filter((item) => item.casket_contained_item_count === undefined && item.id) || [],
       lastRefresh: Date.now(),
       lastModification: Date.now()
     }
