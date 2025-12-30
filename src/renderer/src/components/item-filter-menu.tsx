@@ -9,8 +9,9 @@ import {
 } from './ui/dropdown-menu'
 import { Quality, Rarity, TransferItems } from '@shared/interfaces/inventory.types'
 import { FC, Dispatch, SetStateAction } from 'react'
-import { Button } from './ui/button'
 import { ItemListFilter } from '@/lib/item-list-filter'
+import { DotButton } from './ui-extensions/dot-button'
+import { Funnel } from 'lucide-react'
 
 interface ItemFilterMenuProps {
   itemFilter: ItemListFilter
@@ -18,6 +19,7 @@ interface ItemFilterMenuProps {
   rarities: Record<string, Rarity>
   qualities: Record<string, Quality>
   transfer: TransferItems
+  isNotDefaultFilter: boolean
 }
 
 export const ItemFilterMenu: FC<ItemFilterMenuProps> = ({
@@ -25,12 +27,15 @@ export const ItemFilterMenu: FC<ItemFilterMenuProps> = ({
   setItemFilter,
   rarities,
   qualities,
-  transfer
+  transfer,
+  isNotDefaultFilter
 }) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline">Filter</Button>
+        <DotButton showDot={isNotDefaultFilter}>
+          <Funnel /> Filter
+        </DotButton>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56" align="start">
         {/* Misc filters */}

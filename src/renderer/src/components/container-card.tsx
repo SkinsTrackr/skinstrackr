@@ -2,6 +2,7 @@ import { ConvertedContainer, TransferItems } from '@shared/interfaces/inventory.
 import { FC, useEffect, useState } from 'react'
 import { Card, CardContent } from './ui/card'
 import { Boxes } from 'lucide-react'
+import { cn } from '@/lib/utils'
 
 interface ContainerCardProps {
   container: ConvertedContainer
@@ -27,9 +28,14 @@ export const ContainerCard: FC<ContainerCardProps> = ({ container, count, transf
   return (
     <Card
       key={container.id}
-      className={`${selectable ? 'cursor-pointer hover:bg-accent' : ''} transition-colors relative ${
-        transfer.fromContainerIds.includes(container.id!) ? 'bg-accent' : ''
-      }`}
+      className={cn(
+        'transition-all duration-200 relative border-2',
+        selectable && 'cursor-pointer hover:bg-accent hover:shadow-sm',
+        !selectable && 'cursor-default',
+        transfer.fromContainerIds.includes(container.id!)
+          ? 'border-2 border-yellow-500/50 shadow-sm backdrop-blur-sm'
+          : 'border-border'
+      )}
       onClick={() => {
         if (transfer.mode !== null) {
           // Inventory not (un)selectable in transfer mode

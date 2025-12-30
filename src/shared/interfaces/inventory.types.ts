@@ -6,7 +6,7 @@ import GlobalOffensive from 'globaloffensive'
 export type TransferMode = 'toInventory' | 'toContainer' | null
 export type TransferItems = {
   mode: TransferMode
-  fromContainerIds: number[]
+  fromContainerIds: number[] // TODO: Can remove and just use the filter.containerIds
   toContainerId: number
   selectedItems: Record<number, number[]> // k=containerId, v=array of item ids
 }

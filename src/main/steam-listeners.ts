@@ -19,7 +19,7 @@ export function setupSteamListeners(): void {
     // Notify renderer about login status
     getMainWindow()?.webContents.send('renderer:steam-session-event', {
       eventType: SteamSessionEventType.LOGIN_SUCCESS,
-      message: 'Logged in successfully',
+      message: 'Logged in as ' + user.accountInfo?.name || SteamSession.getInstance().getSteamId() || 'Unknown',
       user: {
         id: SteamSession.getInstance().getSteamId(),
         username: user.accountInfo?.name
@@ -89,7 +89,7 @@ export function setupSteamListeners(): void {
     if (eresult === EResult.NoConnection) {
       getMainWindow()?.webContents.send('renderer:steam-session-event', {
         eventType: SteamSessionEventType.DISCONNECTED_LOGOUT,
-        message: `Successfully logged out from Steam.`,
+        message: `Logged out from Steam.`,
         user: {
           id: SteamSession.getInstance().getSteamId(),
           username: user.accountInfo?.name

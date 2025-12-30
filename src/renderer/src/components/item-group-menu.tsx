@@ -7,19 +7,24 @@ import {
   DropdownMenuLabel
 } from './ui/dropdown-menu'
 import { FC, Dispatch, SetStateAction } from 'react'
-import { Button } from './ui/button'
 import { getGroupByLabel, ItemListFilter } from '@/lib/item-list-filter'
+import { DotButton } from '@/components/ui-extensions/dot-button'
+import { Layers } from 'lucide-react'
 
 interface ItemGroupMenuProps {
   itemFilter: ItemListFilter
   setItemFilter: Dispatch<SetStateAction<ItemListFilter>>
+  isNotDefaultGroup: boolean
 }
 
-export const ItemGroupMenu: FC<ItemGroupMenuProps> = ({ itemFilter, setItemFilter }) => {
+export const ItemGroupMenu: FC<ItemGroupMenuProps> = ({ itemFilter, setItemFilter, isNotDefaultGroup }) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline">Group by</Button>
+        <DotButton showDot={isNotDefaultGroup}>
+          <Layers />
+          Group By
+        </DotButton>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56" align="start">
         {/* Misc grouping */}

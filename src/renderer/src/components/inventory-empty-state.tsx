@@ -1,6 +1,6 @@
 import { PackageOpen } from 'lucide-react'
 import { JSX } from 'react'
-import { IconWrapper } from './ui/icon-wrapper'
+import { IconWrapper } from '../styles/icon-wrapper'
 
 export function InventoryEmptyState(): JSX.Element {
   return (

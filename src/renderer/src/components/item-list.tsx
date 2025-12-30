@@ -1,5 +1,5 @@
-import { ScrollArea } from '@/components/ui/scroll-area'
-import { FC, useState, useMemo, useEffect } from 'react'
+import { InfiniteScrollArea } from '@/components/ui-extensions/infinite-scroll-area'
+import { FC, useState, useMemo } from 'react'
 import { InputGroup, InputGroupAddon, InputGroupInput } from './ui/input-group'
 import { Search } from 'lucide-react'
 import { ConvertedInventory, ConvertedItem, TransferItems } from '@shared/interfaces/inventory.types'
@@ -12,6 +12,7 @@ import { ItemTransferArea } from './item-transfer-area'
 import { TransferMenu } from './transfer-menu'
 import { InventoryEmptyState } from './inventory-empty-state'
 import { useClientStore } from '@/contexts/ClientStoreContext'
+import { ItemFiltersReset } from './item-filters-reset'
 
 interface ItemListProps {
   inventory: ConvertedInventory
@@ -24,18 +25,34 @@ export type FilteredItem = {
   items: ConvertedItem[]
 }
 
-export const ItemList: FC<ItemListProps> = ({ inventory, transfer, setTransfer }) => {
-  const { accounts, loadAccounts } = useClientStore()
-  const [itemFilter, setItemFilter] = useState<ItemListFilter>({
-    filters: { showNonTradable: false, showTradable: true },
-    sort: { sortBy: 'groupedValue', sortDir: 'desc' },
-    groupBy: 'allItemsByName'
-  })
+const defaultFilters: ItemListFilter = {
+  filters: { showTradable: true, showNonTradable: false, query: '', rarities: [], qualities: [] },
+  sort: { sortBy: 'groupedValue', sortDir: 'desc' },
+  groupBy: 'allItemsByName'
+}
 
-  // Load accounts on mount
-  //   useEffect(() => {
-  //     loadAccounts().catch(console.error)
-  //   }, [loadAccounts])
+const isDefaultFilter = (filter: ItemListFilter): boolean => {
+  const f = defaultFilters.filters
+  return (
+    filter.filters.showTradable === f.showTradable &&
+    filter.filters.showNonTradable === f.showNonTradable &&
+    filter.filters.query === f.query &&
+    filter.filters.rarities.length === f.rarities.length &&
+    filter.filters.qualities.length === f.qualities.length
+  )
+}
+
+const isDefaultGroup = (filter: ItemListFilter): boolean => {
+  return filter.groupBy === defaultFilters.groupBy
+}
+
+const isDefaultSort = (filter: ItemListFilter): boolean => {
+  return filter.sort.sortBy === defaultFilters.sort.sortBy && filter.sort.sortDir === defaultFilters.sort.sortDir
+}
+
+export const ItemList: FC<ItemListProps> = ({ inventory, transfer, setTransfer }) => {
+  const { accounts } = useClientStore()
+  const [itemFilter, setItemFilter] = useState<ItemListFilter>(defaultFilters)
 
   // TODO change into normal variable?
   const allContainers = useMemo(
@@ -99,12 +116,12 @@ export const ItemList: FC<ItemListProps> = ({ inventory, transfer, setTransfer }
 
   return (
     <div className="flex flex-col h-full flex-1 overflow-hidden">
-      <div className="px-4 flex gap-2 flex-shrink-0">
+      <div className="px-4 flex gap-3 flex-shrink-0">
         {/* Transfer mode selection */}
         <TransferMenu transfer={transfer} setTransfer={setTransfer} />
 
         {/* Search bar, filter, group and sort */}
-        <div className="flex-1 flex flex-col gap-2">
+        <div className="flex flex-col gap-3">
           <InputGroup>
             <InputGroupInput
               placeholder="Search..."
@@ -122,16 +139,34 @@ export const ItemList: FC<ItemListProps> = ({ inventory, transfer, setTransfer }
             <InputGroupAddon align="inline-end">{`${filteredItemsTotal}/${filteredContainerTotal}`}</InputGroupAddon>
           </InputGroup>
 
-          <div className="flex gap-2">
+          <div className="flex gap-3">
             <ItemFilterMenu
               itemFilter={itemFilter}
               setItemFilter={setItemFilter}
               rarities={inventory.rarities}
               qualities={inventory.qualities}
               transfer={transfer}
+              isNotDefaultFilter={!isDefaultFilter(itemFilter)}
             />
-            <ItemGroupMenu itemFilter={itemFilter} setItemFilter={setItemFilter} />
-            <ItemSortMenu itemFilter={itemFilter} setItemFilter={setItemFilter} />
+            <ItemGroupMenu
+              itemFilter={itemFilter}
+              setItemFilter={setItemFilter}
+              isNotDefaultGroup={!isDefaultGroup(itemFilter)}
+            />
+            <ItemSortMenu
+              itemFilter={itemFilter}
+              setItemFilter={setItemFilter}
+              isNotDefaultSort={!isDefaultSort(itemFilter)}
+            />
+
+            {/* Active filter badges */}
+            <ItemFiltersReset
+              setItemFilter={setItemFilter}
+              defaultFilters={defaultFilters}
+              isNotDefaultFilters={
+                !isDefaultFilter(itemFilter) || !isDefaultGroup(itemFilter) || !isDefaultSort(itemFilter)
+              }
+            />
           </div>
         </div>
       </div>
@@ -140,27 +175,36 @@ export const ItemList: FC<ItemListProps> = ({ inventory, transfer, setTransfer }
         {!hasAccounts ? (
           <InventoryEmptyState />
         ) : (
-          <ScrollArea className="h-full" type="auto">
-            <div className="px-4 pb-4">
-              {/* Transfer Area */}
-              <ItemTransferArea transfer={transfer} containers={allContainers} setTransfer={setTransfer} />
+          <InfiniteScrollArea
+            className="h-full"
+            type="auto"
+            totalItems={filteredItems.length}
+            initialCount={50}
+            increment={50}
+            resetDependencies={[itemFilter, transfer.fromContainerIds, transfer.mode]}
+          >
+            {(displayCount) => (
+              <div className="px-4 pb-4">
+                {/* Transfer Area */}
+                <ItemTransferArea transfer={transfer} containers={allContainers} setTransfer={setTransfer} />
 
-              {/* Items Grid */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-2">
-                {filteredItems.slice(0, 100).map((item, groupIndex) => (
-                  <ItemCard
-                    key={`${item.name}-${groupIndex}`}
-                    items={item.items}
-                    name={item.name}
-                    rarity={inventory.rarities[item.items[0]?.rarity || '']}
-                    transfer={transfer}
-                    setTransfer={setTransfer}
-                    containers={allContainers} // including inventory items with containerId 0
-                  />
-                ))}
+                {/* Items Grid */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-2">
+                  {filteredItems.slice(0, displayCount).map((item, groupIndex) => (
+                    <ItemCard
+                      key={`${item.name}-${groupIndex}`}
+                      items={item.items}
+                      name={item.name}
+                      rarity={inventory.rarities[item.items[0]?.rarity || '']}
+                      transfer={transfer}
+                      setTransfer={setTransfer}
+                      containers={allContainers} // including inventory items with containerId 0
+                    />
+                  ))}
+                </div>
               </div>
-            </div>
-          </ScrollArea>
+            )}
+          </InfiniteScrollArea>
         )}
       </div>
     </div>

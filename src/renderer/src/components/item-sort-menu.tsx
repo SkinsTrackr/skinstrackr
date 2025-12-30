@@ -7,19 +7,24 @@ import {
   DropdownMenuLabel
 } from './ui/dropdown-menu'
 import { FC, Dispatch, SetStateAction } from 'react'
-import { Button } from './ui/button'
 import { getSortByLabel, getSortDirLabel, ItemListFilter } from '@/lib/item-list-filter'
+import { DotButton } from './ui-extensions/dot-button'
+import { ArrowUpDown } from 'lucide-react'
 
 interface ItemSortMenuProps {
   itemFilter: ItemListFilter
   setItemFilter: Dispatch<SetStateAction<ItemListFilter>>
+  isNotDefaultSort: boolean
 }
 
-export const ItemSortMenu: FC<ItemSortMenuProps> = ({ itemFilter, setItemFilter }) => {
+export const ItemSortMenu: FC<ItemSortMenuProps> = ({ itemFilter, setItemFilter, isNotDefaultSort }) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline">Sort</Button>
+        <DotButton showDot={isNotDefaultSort}>
+          <ArrowUpDown />
+          Sort
+        </DotButton>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56" align="start">
         {/* Misc grouping */}
@@ -94,7 +99,6 @@ export const ItemSortMenu: FC<ItemSortMenuProps> = ({ itemFilter, setItemFilter 
                 sort: checked ? { sortBy: 'floatValue', sortDir: prev.sort.sortDir } : prev.sort
               }))
             }}
-            // disabled={itemFilter.groupBy === 'allItemsByName'}
           >
             {getSortByLabel('floatValue')}
           </DropdownMenuCheckboxItem>
@@ -111,7 +115,7 @@ export const ItemSortMenu: FC<ItemSortMenuProps> = ({ itemFilter, setItemFilter 
             }))
           }}
         >
-          {getSortDirLabel('asc')}
+          {getSortDirLabel('asc', false)}
         </DropdownMenuCheckboxItem>
         <DropdownMenuCheckboxItem
           onSelect={(event) => event.preventDefault()}
@@ -123,7 +127,7 @@ export const ItemSortMenu: FC<ItemSortMenuProps> = ({ itemFilter, setItemFilter 
             }))
           }}
         >
-          {getSortDirLabel('desc')}
+          {getSortDirLabel('desc', false)}
         </DropdownMenuCheckboxItem>
       </DropdownMenuContent>
     </DropdownMenu>

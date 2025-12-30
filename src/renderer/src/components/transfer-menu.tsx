@@ -4,7 +4,7 @@ import { Popover, PopoverContent, PopoverTrigger } from './ui/popover'
 import { cn } from '@/lib/utils'
 import { ArrowRightLeft, ChevronDown, PackageMinus, PackagePlus } from 'lucide-react'
 import { TransferItems } from '@shared/interfaces/inventory.types'
-import { IconWrapper } from './ui/icon-wrapper'
+import { IconWrapper } from '../styles/icon-wrapper'
 
 interface TransferMenuProps {
   transfer: TransferItems
@@ -101,7 +101,7 @@ export const TransferMenu: FC<TransferMenuProps> = ({ transfer, setTransfer }) =
                   'transition-all text-muted-foreground'
                 )}
                 onClick={() => {
-                  setTransfer({ ...transfer, mode: null, selectedItems: {} })
+                  setTransfer({ ...transfer, mode: null, selectedItems: {}, fromContainerIds: [], toContainerId: -1 })
                   setIsPopoverOpen(false)
                 }}
               >

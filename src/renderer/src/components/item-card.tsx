@@ -153,11 +153,8 @@ export const ItemCard: FC<ItemCardProps> = ({ items, name, rarity, transfer, set
         }
       } else {
         // For multiple items, focus the input
-
-        // If not already selected, put "1" by default
         if (!isSelected) {
-          handleTransferAmount({ target: { value: '1' } } as React.ChangeEvent<HTMLInputElement>)
-          setLocalInputValue('1')
+          handleTransferAmount({ target: { value: items.length.toString() } } as React.ChangeEvent<HTMLInputElement>)
 
           // Focus and select after setting the value
           setTimeout(() => {
@@ -214,7 +211,7 @@ export const ItemCard: FC<ItemCardProps> = ({ items, name, rarity, transfer, set
   return (
     <Card
       className={cn(
-        'transition-all duration-200 relative overflow-hidden py-4',
+        'border-2 transition-all duration-200 relative overflow-hidden py-4',
         isDisabled && 'opacity-50 cursor-default',
         !isDisabled && transfer.mode !== null && 'cursor-pointer hover:bg-accent hover:shadow-sm',
         !isDisabled && transfer.mode === null && 'cursor-default',
@@ -296,7 +293,7 @@ export const ItemCard: FC<ItemCardProps> = ({ items, name, rarity, transfer, set
         <div className="flex flex-col h-full flex-1 min-w-0 justify-between gap-1">
           {/* Item Name - Fixed height for alignment */}
           <div className="text-center w-full h-[36px] flex items-start justify-center">
-            <span className="text-sm leading-tight line-clamp-2 break-words" title={name || 'Unknown Item'}>
+            <span className="text-sm font-medium leading-tight line-clamp-2 break-words" title={name || 'Unknown Item'}>
               {name || 'Unknown Item'}
             </span>
           </div>
@@ -337,17 +334,17 @@ export const ItemCard: FC<ItemCardProps> = ({ items, name, rarity, transfer, set
           <div className="h-[18px] flex items-center">
             <div className="text-center w-full">
               {items[0].price !== undefined && items[0].price > 0 ? (
-                <div className="flex items-center justify-center gap-1.5">
-                  <span className="text-sm text-green-600 dark:text-green-500 tabular-nums">
+                <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-1.5 w-full px-2">
+                  <span className="text-sm font-medium text-green-600 dark:text-green-500 tabular-nums text-right">
                     ${items[0].price.toFixed(2)}
                   </span>
-                  {items.length > 1 && (
-                    <>
-                      <span className="text-muted-foreground/40">•</span>
-                      <span className="text-sm text-green-600/80 dark:text-green-500/80 tabular-nums">
-                        ${(items[0].price * items.length).toFixed(2)}
-                      </span>
-                    </>
+                  <span className="text-muted-foreground/40">•</span>
+                  {items.length > 1 ? (
+                    <span className="text-sm font-medium text-green-600/80 dark:text-green-500/80 tabular-nums text-left">
+                      ${(items[0].price * items.length).toFixed(2)}
+                    </span>
+                  ) : (
+                    <span></span>
                   )}
                 </div>
               ) : items[0].tradable ? (

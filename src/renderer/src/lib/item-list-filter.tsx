@@ -24,7 +24,7 @@ export function getSortByLabel(option: sortByOption): string {
   }
 }
 
-export function getGroupByLabel(option: groupByOption): string {
+export function getGroupByLabel(option: groupByOption | undefined): string {
   switch (option) {
     case 'nonFloatItemsByName':
       return 'Name (Non-float Items)'
@@ -35,12 +35,12 @@ export function getGroupByLabel(option: groupByOption): string {
   }
 }
 
-export function getSortDirLabel(option: sortDirOption): string {
+export function getSortDirLabel(option: sortDirOption, short: boolean): string {
   switch (option) {
     case 'asc':
-      return 'Ascending'
+      return short ? 'Asc' : 'Ascending'
     case 'desc':
-      return 'Descending'
+      return short ? 'Desc' : 'Descending'
     default:
       return 'Unknown'
   }
@@ -49,17 +49,17 @@ export function getSortDirLabel(option: sortDirOption): string {
 export type ItemListFilter = {
   filters: {
     containerIds?: number[] // ContainerId=0 for root-level items
-    query?: string
-    rarities?: string[] // index
-    qualities?: string[] // index
-    showNonTradable?: boolean // non-tradable items
-    showTradable?: boolean // tradable items
+    query: string
+    rarities: string[] // index
+    qualities: string[] // index
+    showNonTradable: boolean // non-tradable items
+    showTradable: boolean // tradable items
   }
   sort: {
     sortBy: sortByOption
     sortDir: sortDirOption
   }
-  groupBy: groupByOption
+  groupBy?: groupByOption
 }
 
 export function applyContainerFilter(items: ConvertedItem[], filter: ItemListFilter): ConvertedItem[] {
@@ -79,24 +79,24 @@ export function applyFilters(items: ConvertedItem[], filter: ItemListFilter): Co
   const f = filter.filters
   if (!f) return items
 
-  if (f.query && f.query.trim().length > 0) {
+  if (f.query.trim().length > 0) {
     const queryLower = f.query.toLowerCase()
     items = items.filter((item) => {
       return item.hashName?.toLowerCase().includes(queryLower) || item.customName?.toLowerCase().includes(queryLower)
     })
   }
-  if (f.rarities && f.rarities.length > 0) {
+  if (f.rarities.length > 0) {
     items = items.filter((item) => {
-      return item.rarity !== undefined && f.rarities?.some((r) => r === item.rarity)
+      return f.rarities.some((r) => r === item.rarity)
     })
   }
-  if (f.qualities && f.qualities.length > 0) {
+  if (f.qualities.length > 0) {
     items = items.filter((item) => {
-      return item.quality !== undefined && f.qualities?.some((q) => q === item.quality)
+      return f.qualities.some((q) => q === item.quality)
     })
   }
-  if (f.showNonTradable !== undefined || f.showTradable !== undefined) {
-    items = items.filter((item) => item.tradable !== f.showNonTradable || item.tradable === f.showTradable)
+  if (f.showNonTradable || f.showTradable) {
+    items = items.filter((item) => item.tradable === f.showTradable || item.tradable !== f.showNonTradable)
   }
   return items
 }

@@ -45,7 +45,7 @@ export const ItemTransferArea: FC<ItemTransferAreaProps> = ({ transfer, containe
     })
 
     return unsubscribe
-  }, [])
+  }, [isTransferring])
 
   const handleTransfer = async (): Promise<void> => {
     if (allSelectedItems.length === 0) {
@@ -81,7 +81,6 @@ export const ItemTransferArea: FC<ItemTransferAreaProps> = ({ transfer, containe
     try {
       setIsCancelling(true)
       await window.api.cancelTransfer()
-      //   showToast('Transfer cancelled', 'info')
     } catch (error) {
       console.log(error)
       showToast(String(error), 'error')
