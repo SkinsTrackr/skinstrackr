@@ -1,4 +1,4 @@
-import { Route, Routes, useLocation, useNavigate, Navigate } from 'react-router'
+import { Route, Routes, useLocation, Navigate } from 'react-router'
 import { useEffect, useRef } from 'react'
 import TopNavbar from './components/top-navbar'
 import InventoryPage from './pages/inventory'
@@ -8,24 +8,31 @@ import { useSession } from './contexts/SessionContext'
 
 function App(): React.JSX.Element {
   const location = useLocation()
-  const navigate = useNavigate()
-  const { loadSettings, loadAccounts } = useClientStore()
+  const { loadSettings, accounts, accountsLoaded } = useClientStore()
   const { loginCache } = useSession()
   const hideNavbars = location.pathname === '/'
   const checkedDefaultAccount = useRef(false)
 
-  // Login default account if cache exists
+  // Login default account if cache exists - wait for accounts to be loaded
   useEffect(() => {
     if (checkedDefaultAccount.current) return
+
+    // Wait for accounts to finish loading (regardless of whether they're empty or not)
+    if (!accountsLoaded) {
+      console.log('Waiting for accounts to load...')
+      return
+    }
+
     checkedDefaultAccount.current = true
 
     const checkDefaultAccount = async (): Promise<void> => {
       try {
-        await loadAccounts()
-
         const loadedSettings = await loadSettings()
         if (loadedSettings.defaultAccountID) {
+          console.log('Attempting to login with default account:', loadedSettings.defaultAccountID)
           await loginCache(loadedSettings.defaultAccountID)
+        } else {
+          console.log('No default account configured')
         }
       } catch (error) {
         console.error('Failed to check default account:', error)
@@ -33,7 +40,7 @@ function App(): React.JSX.Element {
     }
 
     checkDefaultAccount()
-  }, [loadSettings, loadAccounts, location.pathname, navigate, loginCache])
+  }, [loadSettings, accounts, accountsLoaded, loginCache])
 
   return (
     <div className="flex h-full flex-col overflow-hidden">

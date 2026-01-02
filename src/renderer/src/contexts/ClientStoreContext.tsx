@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, ReactNode, JSX, useCallback } from 'react'
+import { createContext, useContext, useState, ReactNode, JSX, useCallback, useEffect } from 'react'
 import { Account, Settings } from '@shared/interfaces/store.types'
 
 interface ClientStoreContextType {
@@ -6,6 +6,7 @@ interface ClientStoreContextType {
   loadSettings: () => Promise<Settings>
   accounts: Record<string, Account>
   loadAccounts: () => Promise<Record<string, Account>>
+  accountsLoaded: boolean
 }
 
 const ClientStoreContext = createContext<ClientStoreContextType | undefined>(undefined)
@@ -13,6 +14,7 @@ const ClientStoreContext = createContext<ClientStoreContextType | undefined>(und
 export function ClientStoreProvider({ children }: { children: ReactNode }): JSX.Element {
   const [settings, setSettings] = useState<Settings>({})
   const [accounts, setAccounts] = useState<Record<string, Account>>({})
+  const [accountsLoaded, setAccountsLoaded] = useState(false)
 
   const loadSettings = useCallback(async (): Promise<Settings> => {
     try {
@@ -27,17 +29,26 @@ export function ClientStoreProvider({ children }: { children: ReactNode }): JSX.
 
   const loadAccounts = useCallback(async (): Promise<Record<string, Account>> => {
     try {
+      setAccountsLoaded(false)
       const result = await window.api.loadAccounts()
       setAccounts(result)
       return result
     } catch (error) {
       console.error('Failed to load accounts:', error)
       throw error
+    } finally {
+      setAccountsLoaded(true)
     }
   }, [])
 
+  // Load accounts on mount so they're always available
+  useEffect(() => {
+    console.log('ClientStoreProvider mounted, loading accounts...')
+    loadAccounts().catch(console.error)
+  }, [loadAccounts])
+
   return (
-    <ClientStoreContext.Provider value={{ settings, loadSettings, accounts, loadAccounts }}>
+    <ClientStoreContext.Provider value={{ settings, loadSettings, accounts, loadAccounts, accountsLoaded }}>
       {children}
     </ClientStoreContext.Provider>
   )

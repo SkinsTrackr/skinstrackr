@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, ReactNode, JSX, useCallback } from 'react'
 import { ConvertedInventory } from '@shared/interfaces/inventory.types'
 import { showToast } from '@/components/toast'
+import { getCleanErrorMessage } from '@/lib/error-utils'
 
 interface InventoryContextType {
   inventory: ConvertedInventory
@@ -13,23 +14,25 @@ interface InventoryContextType {
 
 const InventoryContext = createContext<InventoryContextType | undefined>(undefined)
 
-export function InventoryProvider({ children }: { children: ReactNode }): JSX.Element {
-  const [inventory, setInventory] = useState<ConvertedInventory>({
-    inventory: {
-      id: 0,
-      items: [],
-      container: {
-        containerId: 0,
-        tradable: false
-      },
-      lastRefresh: 0,
-      lastModification: 0
+const defaultInventory: ConvertedInventory = {
+  inventory: {
+    id: 0,
+    items: [],
+    container: {
+      containerId: 0,
+      tradable: false
     },
-    containers: [],
     lastRefresh: 0,
-    qualities: {},
-    rarities: {}
-  })
+    lastModification: 0
+  },
+  containers: [],
+  lastRefresh: 0,
+  qualities: {},
+  rarities: {}
+}
+
+export function InventoryProvider({ children }: { children: ReactNode }): JSX.Element {
+  const [inventory, setInventory] = useState<ConvertedInventory>(defaultInventory)
   const [isLoading, setIsLoading] = useState(false)
   const [totalValue, setTotalValue] = useState(0)
   const [totalItems, setTotalItems] = useState(0)
@@ -44,8 +47,11 @@ export function InventoryProvider({ children }: { children: ReactNode }): JSX.El
       setTotalValue(calculateTotalValue(result))
       setLastRefresh(timeAgo(result.lastRefresh))
     } catch (error) {
+      const cleanMessage = getCleanErrorMessage(error)
       console.error('Failed to load inventory:', error)
-      showToast('Failed to load inventory: ' + error, 'error')
+      setInventory(defaultInventory)
+
+      showToast(cleanMessage, 'error')
     } finally {
       setIsLoading(false)
     }

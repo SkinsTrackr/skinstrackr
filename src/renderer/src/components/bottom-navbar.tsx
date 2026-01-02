@@ -4,17 +4,19 @@ import { Separator } from './ui/separator'
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 import { Popover, PopoverContent, PopoverTrigger } from './ui/popover'
 import { Input } from './ui/input'
-import { Field, FieldGroup, FieldLabel } from './ui/field'
-import { User, DollarSign, ChevronDown, Check, ExternalLink, Gem } from 'lucide-react'
+import { Field, FieldContent, FieldDescription, FieldGroup, FieldLabel } from './ui/field'
+import { User, DollarSign, ChevronDown, ExternalLink, Gem, RotateCw, LogOut } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useInventory } from '@/contexts/InventoryContext'
 import { useSession } from '@/contexts/SessionContext'
 import { useClientStore } from '@/contexts/ClientStoreContext'
 import { SteamLoginRequest } from '@shared/interfaces/session.types'
 import { UserSessionType } from '@shared/enums/session-type'
+import { IconWrapper } from '@/styles/icon-wrapper'
+import { showToast } from './toast'
 
 export default function BottomNavbar(): JSX.Element {
-  const { totalItems, totalValue } = useInventory()
+  const { totalItems, totalValue, loadInventory, isLoading } = useInventory()
   const { activeSteamId, loginSteam, loginCache, userSession } = useSession()
   const { accounts } = useClientStore()
   const [popoverOpen, setPopoverOpen] = useState(false)
@@ -36,9 +38,33 @@ export default function BottomNavbar(): JSX.Element {
       const tokenDetails = JSON.parse(token) as SteamLoginRequest
       await loginSteam(tokenDetails)
       setPopoverOpen(false)
-      setToken('')
     } catch (err) {
       console.error('Login error:', err)
+    } finally {
+      setToken('')
+    }
+  }
+
+  const handleForceReload = async (e: React.MouseEvent): Promise<void> => {
+    e.stopPropagation()
+    if (!isLoading && userSession === UserSessionType.LOGGED_IN_ONLINE) {
+      await loadInventory(false, false)
+    } else {
+      showToast('Cannot force reload. Inventory is currently loading or user is not online', 'error')
+    }
+  }
+
+  const handleLogout = async (e: React.MouseEvent): Promise<void> => {
+    e.stopPropagation()
+
+    if (
+      !isLoading &&
+      (userSession === UserSessionType.LOGGED_IN_ONLINE || userSession === UserSessionType.LOGGED_IN_OFFLINE)
+    ) {
+      // Logging into cache automatically logs out from Steam
+      await loginCache(activeSteamId!)
+    } else {
+      showToast('Cannot logout. Inventory is currently loading or user is not online', 'error')
     }
   }
 
@@ -80,77 +106,117 @@ export default function BottomNavbar(): JSX.Element {
                 <ChevronDown className="h-3 w-3 text-muted-foreground/50 ml-0.5 transition-transform group-hover:text-muted-foreground" />
               </button>
             </PopoverTrigger>
-            <PopoverContent align="start" className="w-64 p-3">
+            <PopoverContent align="start" className="p-3">
               <div className="space-y-2">
                 {/* Login Form */}
-                <div className="space-y-1.5">
-                  <div className="px-0.5 text-[11px] font-semibold text-muted-foreground uppercase tracking-wide">
-                    Login to Steam
-                  </div>
-                  <form onSubmit={handleLogin}>
-                    <FieldGroup className="gap-2">
-                      <Field>
-                        <FieldLabel htmlFor="token" className="text-xs">
-                          Steam web token
-                        </FieldLabel>
-                        <div className="flex w-full items-center gap-1">
-                          <Input
-                            id="token"
-                            placeholder='{"logged_in":true, "steamid": ...}'
-                            required
-                            value={token}
-                            onChange={(e) => setToken(e.target.value)}
-                            className="h-8 text-xs"
-                          />
-                          <Button variant="outline" size="icon" className="h-8 w-8" asChild>
-                            <a href="https://steamcommunity.com/chat/clientjstoken" target="_blank" rel="noreferrer">
-                              <ExternalLink className="h-3 w-3" />
-                            </a>
-                          </Button>
-                        </div>
-                      </Field>
-                      <Field>
-                        <Button type="submit" size="sm" className="w-full h-7 text-xs">
-                          Login
+                <form onSubmit={handleLogin}>
+                  <FieldGroup className="gap-2">
+                    <Field>
+                      <FieldContent>
+                        <FieldLabel htmlFor="token">Login via Steam Web Token</FieldLabel>
+                        <FieldDescription>Open the link below, copy the token and paste it here.</FieldDescription>
+                      </FieldContent>
+
+                      <div className="flex w-full items-center gap-1 py-1">
+                        <Input
+                          id="token"
+                          placeholder='{"logged_in":true, "steamid": ...}'
+                          required
+                          value={token}
+                          onChange={(e) => setToken(e.target.value)}
+                          className="h-8 text-xs"
+                        />
+                        <Button variant="outline" size="icon" className="h-8 w-8" asChild>
+                          <a href="https://steamcommunity.com/chat/clientjstoken" target="_blank" rel="noreferrer">
+                            <ExternalLink className="h-3 w-3" />
+                          </a>
                         </Button>
-                      </Field>
-                    </FieldGroup>
-                  </form>
-                </div>
+                      </div>
+                    </Field>
+                    <Field>
+                      <Button type="submit" size="sm" className="w-full h-7 text-xs">
+                        Login
+                      </Button>
+                    </Field>
+                  </FieldGroup>
+                </form>
 
                 {/* Saved Accounts */}
                 {Object.entries(accounts).length > 0 && (
                   <>
                     <Separator />
-                    <div className="space-y-0.5">
-                      <div className="px-0.5 text-[11px] font-semibold text-muted-foreground uppercase tracking-wide">
-                        Cached Accounts
-                      </div>
+                    <div className="space-y-2">
+                      <FieldLabel htmlFor="token">Cached accounts</FieldLabel>
                       {Object.entries(accounts).map(([steamId, account]) => (
-                        <button
+                        <div
                           key={steamId}
-                          type="button"
-                          onClick={(e) => {
-                            e.stopPropagation()
-                            handleAccountSwitch(steamId)
-                          }}
                           className={cn(
-                            'flex w-full items-center gap-2.5 rounded-md px-2 py-2 text-sm hover:bg-accent transition-colors',
+                            'flex w-full items-stretch gap-2.5 rounded-md px-2 py-2 text-sm hover:bg-accent transition-colors',
                             activeSteamId === steamId && 'bg-accent'
                           )}
                         >
-                          <Avatar className="h-6 w-6">
-                            <AvatarImage src={account.avatarUrl} alt={account.username} />
-                            <AvatarFallback className="bg-muted text-xs">
-                              <User className="h-3 w-3" />
-                            </AvatarFallback>
-                          </Avatar>
-                          <div className="flex-1 text-left">
-                            <div className="font-medium leading-none">{account.username || steamId}</div>
-                            {account.username && <div className="text-xs text-muted-foreground mt-1">{steamId}</div>}
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation()
+                              handleAccountSwitch(steamId)
+                            }}
+                            className="flex items-center gap-2.5 flex-1 min-w-0"
+                          >
+                            <Avatar className="h-6 w-6">
+                              <AvatarImage src={account.avatarUrl} alt={account.username} />
+                              <AvatarFallback className="bg-muted text-xs">
+                                <User className="h-3 w-3" />
+                              </AvatarFallback>
+                            </Avatar>
+                            <div className="flex-1 text-left">
+                              <div className="font-medium leading-none">{account.username || steamId}</div>
+                              {account.username && <div className="text-xs text-muted-foreground mt-1">{steamId}</div>}
+                            </div>
+                          </button>
+                          <div className="flex gap-1.5">
+                            {activeSteamId === steamId && (
+                              <>
+                                <div
+                                  title={
+                                    userSession !== UserSessionType.LOGGED_IN_ONLINE
+                                      ? 'Need to be logged in to force reload inventory'
+                                      : ''
+                                  }
+                                >
+                                  <Button
+                                    variant="secondary"
+                                    size="icon"
+                                    onClick={handleForceReload}
+                                    disabled={isLoading || userSession !== UserSessionType.LOGGED_IN_ONLINE}
+                                    title="Force reload inventory"
+                                    className="h-full w-8 hover:bg-accent-foreground/10 rounded-md"
+                                  >
+                                    <IconWrapper>
+                                      <RotateCw />
+                                    </IconWrapper>
+                                  </Button>
+                                </div>
+                                <Button
+                                  variant="secondary"
+                                  size="icon"
+                                  onClick={handleLogout}
+                                  disabled={
+                                    isLoading ||
+                                    (userSession !== UserSessionType.LOGGED_IN_ONLINE &&
+                                      userSession !== UserSessionType.LOGGED_IN_OFFLINE)
+                                  }
+                                  title="Log out"
+                                  className="h-full w-8 hover:bg-accent-foreground/10 rounded-md"
+                                >
+                                  <IconWrapper>
+                                    <LogOut />
+                                  </IconWrapper>
+                                </Button>
+                              </>
+                            )}
                           </div>
-                          {activeSteamId === steamId && <Check className="h-4 w-4 text-primary" />}
-                        </button>
+                        </div>
                       ))}
                     </div>
                   </>

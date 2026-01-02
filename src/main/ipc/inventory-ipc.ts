@@ -5,6 +5,7 @@ import { ConvertedInventory, RawInventory, ConvertedContainer, TransferItems } f
 import { convertContainer, getQualities, getRarities } from '../util/item-utils'
 import { inventoryFileExists, loadInventoryFromFile, syncInventoryCache } from '../util/inventory-utils'
 import Semaphore from '../util/semaphore'
+import { accounts } from '../util/client-store-utils'
 
 // Global transfer state
 let isTransferCancelled = false
@@ -123,11 +124,15 @@ export function setupInventoryIPC(): void {
       }
       const steamId = SteamSession.getInstance().getSteamId()
 
-      if (!steamId) {
+      if (steamId === null) {
         throw new Error('No Steam user logged in or selected from cache')
       }
       if (!fromCache && SteamSession.getInstance().isLoggedIn() === false) {
         throw new Error('Log in before refreshing inventory')
+      }
+      const account = accounts.getAccounts()[steamId]
+      if (!account) {
+        throw new Error('No account found for SteamID: ' + steamId)
       }
 
       console.log(
@@ -141,10 +146,14 @@ export function setupInventoryIPC(): void {
           throw new Error(`Need to login as user ${steamId} first to use cached inventory`)
         }
 
-        console.log(`Loading cached inventory`)
+        console.log(`Loading cached inventory for user ${account.username}`)
         rawInventory = await loadInventoryFromFile(steamId)
       } else {
         rawInventory = await syncInventoryCache(steamId, onlyChangedContainers)
+      }
+
+      if (!rawInventory || !rawInventory.inventory) {
+        throw new Error('Failed to load inventory for ' + account.username)
       }
 
       console.log(`Loaded inventory with ${rawInventory.containers.length} containers`)

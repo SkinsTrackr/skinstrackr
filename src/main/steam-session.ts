@@ -1,5 +1,6 @@
 import SteamUser, { EResult } from 'steam-user'
 import GlobalOffensive from 'globaloffensive'
+import { accounts } from './util/client-store-utils'
 
 /**
  * Singleton class to manage Steam session across the application
@@ -67,6 +68,11 @@ class SteamSession {
    */
   async loginCachedUser(steamId: string): Promise<string> {
     return new Promise<string>((resolve, reject) => {
+      if (accounts.getAccounts()[steamId] === undefined) {
+        reject(new Error('Cached user account for steamId ' + steamId + ' not found'))
+        return
+      }
+
       const disconnectedListener = (eresult: EResult, msg?: string): void => {
         this.getUser().off('error', errorListener)
         if (eresult === EResult.NoConnection) {
@@ -83,15 +89,9 @@ class SteamSession {
       }
 
       if (this.isLoggedIn()) {
-        if (this.getSteamId() === steamId) {
-          console.warn('Already logged in to the requested cached user:', steamId)
-          return
-        }
-
         this.getUser().once('disconnected', disconnectedListener)
         this.getUser().once('error', errorListener)
 
-        // TODO test this
         console.log('Logging out from current user before logging in to cached user:', steamId)
         this.getUser().logOff()
       } else {
