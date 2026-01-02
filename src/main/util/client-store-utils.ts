@@ -6,6 +6,7 @@ import SteamUser from 'steam-user'
 const StoreConstructor = (Store as unknown as { default: typeof Store }).default || Store
 const store = new StoreConstructor<ClientStore>({
   defaults: {
+    schemaVersion: 1,
     settings: {},
     accounts: {}
   }

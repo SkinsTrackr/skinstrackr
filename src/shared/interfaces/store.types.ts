@@ -1,4 +1,5 @@
 export interface ClientStore {
+  schemaVersion: number
   settings: Settings
   accounts: Record<string, Account>
 }

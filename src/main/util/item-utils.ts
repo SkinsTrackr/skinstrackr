@@ -15,7 +15,8 @@ import {
   Quality,
   Rarity,
   RawContainer,
-  Sticker
+  Sticker,
+  Highlight
 } from '@shared/interfaces/inventory.types'
 
 let qualities: Record<string, Quality> = {}
@@ -27,6 +28,7 @@ let prices: Record<string, ItemPrice> = {}
 let musicKits: Record<string, MusicKit> = {}
 let paints: Record<string, Paint> = {}
 let stickers: Record<string, Sticker> = {}
+let highlights: Record<string, Highlight> = {}
 
 const DEF_INDEX_STICKER = 1209
 const DEF_INDEX_PATCH = 4609
@@ -38,6 +40,8 @@ const DEF_INDEX_CHARM = 1355
 const ATTRIBUTE_GRAFFITI_TINT = 233
 const ATTRIBUTE_MUSIC_KIT_ID = 166
 const ATTRIBUTE_CHARM_ID = 299
+const ATTRIBUTE_HIGHLIGHT_ID = 314
+const ATTRIBUTE_STICKER_SLAB_ID = 321
 export const ATTRIBUTE_MODIFICATION_DATE = 271
 const ATTRIBUTE_FREE_REWARD_STATUS = 277 // Used to filter out non-tradable items
 
@@ -76,6 +80,7 @@ export async function fetchItemData(): Promise<void> {
     musicKits = JSON.parse(fs.readFileSync(env.MUSIC_KIT_DATA_PATH, 'utf-8')) as Record<string, MusicKit>
     paints = JSON.parse(fs.readFileSync(env.PAINT_DATA_PATH, 'utf-8')) as Record<string, Paint>
     stickers = JSON.parse(fs.readFileSync(env.STICKER_DATA_PATH, 'utf-8')) as Record<string, Sticker>
+    highlights = JSON.parse(fs.readFileSync(env.HIGHLIGHT_DATA_PATH, 'utf-8')) as Record<string, Highlight>
   } catch (error) {
     console.error('Failed to load fetched items: ', error)
     throw error
@@ -183,12 +188,21 @@ export function convertInventoryItem(item: GlobalOffensive.InventoryItem): Conve
   }
 
   // Item is charm
-  // NOT TESTED
   else if (item.def_index === DEF_INDEX_CHARM) {
     const charm = charms[readAttribute(item, ATTRIBUTE_CHARM_ID) || '']
+    const highlight = highlights[readAttribute(item, ATTRIBUTE_HIGHLIGHT_ID) || '']
+    const stickerInSlab = stickers[readAttribute(item, ATTRIBUTE_STICKER_SLAB_ID) || '']
 
-    hashName = charm?.name ? `${commonItem.name} | ${charm.name}` : undefined
-    imagePath = charm?.image_path || undefined
+    if (stickerInSlab) {
+      hashName = charm?.name + ' | ' + stickerInSlab.name
+      imagePath = stickerInSlab?.image_path + '_1355_37' || charm?.image_path || undefined
+    } else {
+      hashName = charm?.name
+        ? `${commonItem.name} | ${charm.name}${highlight?.name ? ` | ${highlight.name}` : ''}`
+        : undefined
+      imagePath = charm?.image_path || undefined
+    }
+
     dataName = charm?.data_name
   }
 

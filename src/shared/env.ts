@@ -8,7 +8,7 @@ const envSchema = z.object({
   ITEM_FILES: z
     .string()
     .default(
-      'item_prices.json,charms.json,common_items.json,graffiti_tints.json,music_kits.json,paints.json,qualities.json,rarities.json,stickers.json'
+      'item_prices.json,charms.json,common_items.json,graffiti_tints.json,music_kits.json,paints.json,qualities.json,rarities.json,stickers.json,highlights.json'
     )
     .transform((val) => val.split(',')),
 
@@ -22,7 +22,8 @@ const envSchema = z.object({
   PRICE_DATA_PATH: z.string().default('data/item_prices.json'),
   MUSIC_KIT_DATA_PATH: z.string().default('data/music_kits.json'),
   PAINT_DATA_PATH: z.string().default('data/paints.json'),
-  STICKER_DATA_PATH: z.string().default('data/stickers.json')
+  STICKER_DATA_PATH: z.string().default('data/stickers.json'),
+  HIGHLIGHT_DATA_PATH: z.string().default('data/highlights.json')
 })
 
 function parseEnv(): Env {

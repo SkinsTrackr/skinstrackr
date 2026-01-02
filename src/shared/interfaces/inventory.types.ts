@@ -129,6 +129,12 @@ export interface Charm {
   image_path?: string
 }
 
+export interface Highlight {
+  index: string
+  data_name: string
+  name?: string
+}
+
 export interface ItemPrice {
   market_hash_name: string
   price: number

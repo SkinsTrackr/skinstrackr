@@ -1,9 +1,9 @@
 {
   "name": "skinstrackr",
   "version": "1.0.0",
-  "description": "Manage skins for CS2",
+  "description": "Manage inventory and storage units for CS2",
   "main": "./out/main/index.js",
-  "author": "jzimr",
+  "author": "jzimr (Oooodin)",
   "homepage": "https://github.com/SkinsTrackr/skinstrackr/",
   "scripts": {
     "format": "prettier --write .",

@@ -14,7 +14,6 @@ interface TransferMenuProps {
 export const TransferMenu: FC<TransferMenuProps> = ({ transfer, setTransfer }) => {
   const [isPopoverOpen, setIsPopoverOpen] = useState(false)
 
-  //   return transfer.mode === null ? (
   return (
     <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
       <PopoverTrigger asChild>

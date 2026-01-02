@@ -87,6 +87,7 @@ export default function BottomNavbar(): JSX.Element {
                   <div
                     className={cn(
                       'absolute -bottom-0.5 -right-0.5 h-2.5 w-2.5 rounded-full border-2 border-background transition-colors',
+                      userSession === UserSessionType.LOGGED_IN_OFFLINE && 'bg-red-500',
                       userSession === UserSessionType.LOGGED_IN_ONLINE && 'bg-green-500',
                       userSession === UserSessionType.CACHE && 'bg-yellow-500',
                       userSession === UserSessionType.NONE && 'bg-muted-foreground/30'
@@ -98,6 +99,7 @@ export default function BottomNavbar(): JSX.Element {
                     {currentAccount?.username || 'No account'}
                   </span>
                   <span className="text-[10px] text-muted-foreground/70 leading-none mt-1">
+                    {userSession === UserSessionType.LOGGED_IN_OFFLINE && 'Offline'}
                     {userSession === UserSessionType.LOGGED_IN_ONLINE && 'Online'}
                     {userSession === UserSessionType.CACHE && 'Cached'}
                     {userSession === UserSessionType.NONE && 'Not logged in'}
