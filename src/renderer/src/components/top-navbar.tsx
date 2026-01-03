@@ -22,7 +22,10 @@ export default function TopNavbar(): JSX.Element {
   return (
     <div className="w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="flex h-14 items-center px-8">
-        <div className="text-xl font-bold pr-24">SkinsTrackr</div>
+        <div className="flex items-center text-xl font-bold pr-18">
+          <img src="/src/assets/logo-no-bg.png" alt="SkinsTrackr Logo" className="h-12 w-12" />
+          <span className="text-white">SkinsTrackr</span>
+        </div>
 
         <div className="flex space-x-4">
           {navItems.map((item) => (

@@ -4,6 +4,7 @@ import { GameSessionEvent, SteamLoginRequest, SteamSessionEvent } from '@shared/
 import { ConvertedInventory, TransferItems } from '@shared/interfaces/inventory.types'
 import { env } from '@shared/env'
 import { Account, Settings } from '@shared/interfaces/store.types'
+import GlobalOffensive from 'globaloffensive'
 
 // Custom APIs for renderer
 const api = {
@@ -30,6 +31,9 @@ const api = {
   },
   cancelTransfer: (): Promise<void> => {
     return ipcRenderer.invoke('main:cancel-transfer')
+  },
+  getRawItemData: (itemId: number): Promise<GlobalOffensive.InventoryItem> => {
+    return ipcRenderer.invoke('main:get-raw-item-data', itemId)
   },
 
   /**

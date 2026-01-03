@@ -14,6 +14,7 @@ export interface CustomAPI {
   loadAccounts: () => Promise<Record<string, Account>>
   transferItems: (transfer: TransferItems) => Promise<boolean>
   cancelTransfer: () => Promise<void>
+  getRawItemData: (itemId: number) => Promise<GlobalOffensive.InventoryItem>
 
   /**
    * Main --->>> Renderer

@@ -5,6 +5,8 @@ import { cn } from '@/lib/utils'
 import { ArrowRightLeft, ChevronDown, PackageMinus, PackagePlus } from 'lucide-react'
 import { TransferItems } from '@shared/interfaces/inventory.types'
 import { IconWrapper } from '../styles/icon-wrapper'
+import { useSession } from '@/contexts/SessionContext'
+import { UserSessionType } from '@shared/enums/session-type'
 
 interface TransferMenuProps {
   transfer: TransferItems
@@ -13,6 +15,7 @@ interface TransferMenuProps {
 
 export const TransferMenu: FC<TransferMenuProps> = ({ transfer, setTransfer }) => {
   const [isPopoverOpen, setIsPopoverOpen] = useState(false)
+  const { userSession } = useSession()
 
   return (
     <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
@@ -51,6 +54,7 @@ export const TransferMenu: FC<TransferMenuProps> = ({ transfer, setTransfer }) =
         <div className="space-y-1">
           <Button
             variant="ghost"
+            disabled={userSession !== UserSessionType.LOGGED_IN_ONLINE}
             className={cn(
               'w-full justify-start gap-2 h-auto py-2.5 px-3',
               'hover:bg-yellow-500/10 hover:text-yellow-600 dark:hover:text-yellow-500',
@@ -71,6 +75,7 @@ export const TransferMenu: FC<TransferMenuProps> = ({ transfer, setTransfer }) =
           </Button>
           <Button
             variant="ghost"
+            disabled={userSession !== UserSessionType.LOGGED_IN_ONLINE}
             className={cn(
               'w-full justify-start gap-2 h-auto py-2.5 px-3',
               'hover:bg-yellow-500/10 hover:text-yellow-600 dark:hover:text-yellow-500',

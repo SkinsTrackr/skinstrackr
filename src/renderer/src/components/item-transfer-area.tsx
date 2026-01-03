@@ -6,6 +6,7 @@ import { ArrowRightLeft } from 'lucide-react'
 import { useInventory } from '@/contexts/InventoryContext'
 import { showToast } from './toast'
 import { cn } from '@/lib/utils'
+import { getCleanErrorMessage } from '@/lib/error-utils'
 
 const getTransferAreaStyle = (): {
   className: string
@@ -59,16 +60,16 @@ export const ItemTransferArea: FC<ItemTransferAreaProps> = ({ transfer, containe
 
     try {
       await window.api.transferItems(transfer)
+      await inventory.loadInventory(false, true)
     } catch (error) {
       console.log(error)
-      //   showToast(String(error), 'error')
+      showToast(getCleanErrorMessage(error), 'error')
     } finally {
       // Reset selected items after successful transfer
       setTransfer((prev) => ({
         ...prev,
         selectedItems: {}
       }))
-      await inventory.loadInventory(false, true)
       setIsTransferring(false)
       if (isCancelling) {
         setIsCancelling(false)

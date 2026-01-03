@@ -2,7 +2,10 @@ import { ConvertedContainer, ConvertedItem, Rarity, TransferItems } from '@share
 import { FC, useRef, useState, useEffect, useCallback, useMemo } from 'react'
 import { Card, CardContent } from './ui/card'
 import { Input } from './ui/input'
+import { Button } from './ui/button'
 import { cn } from '@/lib/utils'
+import { useInventory } from '@/contexts/InventoryContext'
+import { showToast } from './toast'
 
 interface ItemCardProps {
   items: ConvertedItem[]
@@ -18,6 +21,7 @@ export const ItemCard: FC<ItemCardProps> = ({ items, name, rarity, transfer, set
   const [isInputFocused, setIsInputFocused] = useState<boolean>(false)
   const inputRef = useRef<HTMLInputElement>(null)
   const updateTimeoutRef = useRef<NodeJS.Timeout | null>(null)
+  const { getRawItem } = useInventory()
 
   const allSelectedItems = useMemo(() => Object.values(transfer.selectedItems || {}).flat(), [transfer.selectedItems])
 
@@ -208,6 +212,30 @@ export const ItemCard: FC<ItemCardProps> = ({ items, name, rarity, transfer, set
     setLocalInputValue('')
   }
 
+  const handleCopyItemData = async (e: React.MouseEvent): Promise<void> => {
+    e.stopPropagation()
+
+    try {
+      const itemId = items[0].id
+      if (itemId === undefined) {
+        console.error('Item ID is undefined')
+        return
+      }
+
+      const rawItem = await getRawItem(itemId)
+      if (rawItem) {
+        await navigator.clipboard.writeText(JSON.stringify(rawItem, null, 2))
+        showToast('Item data copied to clipboard', 'success')
+      } else {
+        console.error('Failed to get raw item data')
+        showToast('Failed to get raw item data', 'error')
+      }
+    } catch (error) {
+      console.error('Failed to copy item data:', error)
+      showToast('Failed to get raw item data', 'error')
+    }
+  }
+
   return (
     <Card
       className={cn(
@@ -297,6 +325,15 @@ export const ItemCard: FC<ItemCardProps> = ({ items, name, rarity, transfer, set
               {name || 'Unknown Item'}
             </span>
           </div>
+
+          {/* Copy Item Data Button for Unknown Items */}
+          {name?.startsWith('Unknown Item') && (
+            <div className="flex justify-center">
+              <Button size="sm" variant="outline" onClick={handleCopyItemData} className="h-6 px-2 text-xs">
+                Copy Item Ref
+              </Button>
+            </div>
+          )}
 
           {/* Float Value Bar - Fixed height for alignment */}
           <div className="h-[18px] flex items-center">

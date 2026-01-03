@@ -48,7 +48,7 @@ export default function BottomNavbar(): JSX.Element {
   const handleForceReload = async (e: React.MouseEvent): Promise<void> => {
     e.stopPropagation()
     if (!isLoading && userSession === UserSessionType.LOGGED_IN_ONLINE) {
-      await loadInventory(false, false)
+      await loadInventory(false, true)
     } else {
       showToast('Cannot force reload. Inventory is currently loading or user is not online', 'error')
     }

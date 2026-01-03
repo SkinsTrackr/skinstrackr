@@ -11,6 +11,29 @@ import { accounts } from '../util/client-store-utils'
 let isTransferCancelled = false
 
 export function setupInventoryIPC(): void {
+  ipcMain.handle('main:get-raw-item-data', async (_event, itemId: number): Promise<GlobalOffensive.InventoryItem> => {
+    const steamId = SteamSession.getInstance().getSteamId()!
+    const inventory = await loadInventoryFromFile(steamId)
+
+    return new Promise((resolve, reject) => {
+      for (const item of inventory.inventory.items) {
+        if (Number(item.id) === itemId) {
+          resolve(item)
+          return
+        }
+      }
+      for (const container of inventory.containers) {
+        for (const item of container.items) {
+          if (Number(item.id) === itemId) {
+            resolve(item)
+            return
+          }
+        }
+      }
+      reject(new Error(`Item with ID ${itemId} not found in inventory`))
+    })
+  })
+
   ipcMain.handle('main:cancel-transfer', async (): Promise<void> => {
     console.log('Cancel transfer requested')
     isTransferCancelled = true

@@ -247,6 +247,9 @@ export function convertInventoryItem(item: GlobalOffensive.InventoryItem): Conve
         hashName += ` (${getWearName('hashName', item.paint_wear)})`
       }
     }
+  } else {
+    // Fallback for unknown items
+    hashName = 'Unknown Item (#' + item.def_index + ')'
   }
 
   return {

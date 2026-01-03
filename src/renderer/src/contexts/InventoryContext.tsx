@@ -2,6 +2,7 @@ import { createContext, useContext, useState, ReactNode, JSX, useCallback } from
 import { ConvertedInventory } from '@shared/interfaces/inventory.types'
 import { showToast } from '@/components/toast'
 import { getCleanErrorMessage } from '@/lib/error-utils'
+import GlobalOffensive from 'globaloffensive'
 
 interface InventoryContextType {
   inventory: ConvertedInventory
@@ -10,6 +11,7 @@ interface InventoryContextType {
   totalItems: number
   totalValue: number
   lastRefresh: string
+  getRawItem: (itemId: number) => Promise<GlobalOffensive.InventoryItem | undefined>
 }
 
 const InventoryContext = createContext<InventoryContextType | undefined>(undefined)
@@ -38,6 +40,16 @@ export function InventoryProvider({ children }: { children: ReactNode }): JSX.El
   const [totalItems, setTotalItems] = useState(0)
   const [lastRefresh, setLastRefresh] = useState('Never')
 
+  const getRawItem = useCallback(async (itemId: number): Promise<GlobalOffensive.InventoryItem | undefined> => {
+    try {
+      const rawItem = await window.api.getRawItemData(itemId)
+      return rawItem
+    } catch (error) {
+      console.error('Failed to get raw item data:', error)
+      return
+    }
+  }, [])
+
   const loadInventory = useCallback(async (fromCache: boolean, onlyChangedContainers: boolean): Promise<void> => {
     try {
       setIsLoading(true)
@@ -58,7 +70,9 @@ export function InventoryProvider({ children }: { children: ReactNode }): JSX.El
   }, [])
 
   return (
-    <InventoryContext.Provider value={{ inventory, loadInventory, isLoading, totalItems, totalValue, lastRefresh }}>
+    <InventoryContext.Provider
+      value={{ inventory, loadInventory, isLoading, totalItems, totalValue, lastRefresh, getRawItem }}
+    >
       {children}
     </InventoryContext.Provider>
   )
