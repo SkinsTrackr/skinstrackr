@@ -372,13 +372,13 @@ export const ItemCard: FC<ItemCardProps> = ({ items, name, rarity, transfer, set
             <div className="text-center w-full">
               {items[0].price !== undefined && items[0].price > 0 ? (
                 <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-1.5 w-full px-2">
-                  <span className="text-sm font-medium text-green-600 dark:text-green-500 tabular-nums text-right">
-                    ${items[0].price.toFixed(2)}
+                  <span className="text-sm font-medium dark:text-green-500/90 tabular-nums text-right">
+                    ${(items[0].price * items.length).toFixed(2)}
                   </span>
                   <span className="text-muted-foreground/40">•</span>
                   {items.length > 1 ? (
-                    <span className="text-sm font-medium text-green-600/80 dark:text-green-500/80 tabular-nums text-left">
-                      ${(items[0].price * items.length).toFixed(2)}
+                    <span className="text-sm font-medium dark:text-green-500/60 tabular-nums text-left">
+                      ${items[0].price.toFixed(2)}
                     </span>
                   ) : (
                     <span></span>

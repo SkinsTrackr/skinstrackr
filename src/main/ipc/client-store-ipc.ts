@@ -10,6 +10,10 @@ export function setupClientStoreIPC(): void {
     return settings.getSettings()
   })
 
+  ipcMain.handle('main:save-settings', async (_event, newSettings: Settings): Promise<void> => {
+    settings.setSettings(newSettings)
+  })
+
   ipcMain.handle('main:load-accounts', async (): Promise<Record<string, Account>> => {
     return accounts.getAccounts()
   })

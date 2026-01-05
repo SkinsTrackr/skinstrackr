@@ -8,7 +8,7 @@ import { JSX } from 'react'
 const navItems = [
   //   { name: 'Overview', path: '/overview', icon: LayoutDashboard },
   { name: 'Inventory', path: '/inventory', icon: Boxes },
-  { name: 'Settings', path: '/setting', icon: Settings }
+  { name: 'Settings', path: '/settings', icon: Settings }
 ]
 
 export default function TopNavbar(): JSX.Element {

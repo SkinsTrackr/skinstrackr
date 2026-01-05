@@ -11,6 +11,7 @@ export interface CustomAPI {
   loginCache: (userId: string) => Promise<string>
   loadInventory: (fromCache: boolean, onlyChangedContainers: boolean) => Promise<ConvertedInventory>
   loadSettings: () => Promise<Settings>
+  saveSettings: (settings: Settings) => Promise<void>
   loadAccounts: () => Promise<Record<string, Account>>
   transferItems: (transfer: TransferItems) => Promise<boolean>
   cancelTransfer: () => Promise<void>

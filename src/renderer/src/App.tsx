@@ -5,6 +5,7 @@ import InventoryPage from './pages/inventory'
 import BottomNavbar from './components/bottom-navbar'
 import { useClientStore } from './contexts/ClientStoreContext'
 import { useSession } from './contexts/SessionContext'
+import SettingsPage from './pages/settings'
 
 function App(): React.JSX.Element {
   const location = useLocation()
@@ -50,7 +51,7 @@ function App(): React.JSX.Element {
           <Route path="/" element={<Navigate to="/inventory" replace />} />
           {/* <Route path="/overview" element={<DashboardPage />} /> */}
           <Route path="/inventory" element={<InventoryPage />} />
-          {/* <Route path="/settings" element={<SettingsPage />} /> */}
+          <Route path="/settings" element={<SettingsPage />} />
         </Routes>
       </main>
       {!hideNavbars && <BottomNavbar />}

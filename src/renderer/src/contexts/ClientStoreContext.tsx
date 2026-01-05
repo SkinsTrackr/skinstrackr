@@ -4,6 +4,7 @@ import { Account, Settings } from '@shared/interfaces/store.types'
 interface ClientStoreContextType {
   settings: Settings
   loadSettings: () => Promise<Settings>
+  saveSettings: (settings: Settings) => Promise<void>
   accounts: Record<string, Account>
   loadAccounts: () => Promise<Record<string, Account>>
   accountsLoaded: boolean
@@ -23,6 +24,16 @@ export function ClientStoreProvider({ children }: { children: ReactNode }): JSX.
       return result
     } catch (error) {
       console.error('Failed to load settings:', error)
+      throw error
+    }
+  }, [])
+
+  const saveSettings = useCallback(async (newSettings: Settings): Promise<void> => {
+    try {
+      await window.api.saveSettings(newSettings)
+      setSettings(newSettings)
+    } catch (error) {
+      console.error('Failed to save settings:', error)
       throw error
     }
   }, [])
@@ -48,7 +59,9 @@ export function ClientStoreProvider({ children }: { children: ReactNode }): JSX.
   }, [loadAccounts])
 
   return (
-    <ClientStoreContext.Provider value={{ settings, loadSettings, accounts, loadAccounts, accountsLoaded }}>
+    <ClientStoreContext.Provider
+      value={{ settings, loadSettings, saveSettings, accounts, loadAccounts, accountsLoaded }}
+    >
       {children}
     </ClientStoreContext.Provider>
   )

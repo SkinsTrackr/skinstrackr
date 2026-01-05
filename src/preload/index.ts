@@ -23,6 +23,9 @@ const api = {
   loadSettings: (): Promise<Settings> => {
     return ipcRenderer.invoke('main:load-settings')
   },
+  saveSettings: (settings: Settings): Promise<void> => {
+    return ipcRenderer.invoke('main:save-settings', settings)
+  },
   loadAccounts: (): Promise<Record<string, Account>> => {
     return ipcRenderer.invoke('main:load-accounts')
   },
