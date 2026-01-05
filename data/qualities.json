@@ -1,0 +1,91 @@
+{
+  "0": {
+    "index": 0,
+    "data_name": "normal",
+    "name": "Normal",
+    "color": "#B2B2B2"
+  },
+  "1": {
+    "index": 1,
+    "data_name": "genuine",
+    "name": "Genuine",
+    "color": "#4D7455"
+  },
+  "2": {
+    "index": 2,
+    "data_name": "vintage",
+    "name": "Vintage",
+    "color": "#476291"
+  },
+  "3": {
+    "index": 3,
+    "data_name": "unusual",
+    "name": "★",
+    "color": "#8650AC"
+  },
+  "4": {
+    "index": 4,
+    "data_name": "unique",
+    "name": "Unique",
+    "color": "#D2D2D2"
+  },
+  "5": {
+    "index": 5,
+    "data_name": "community",
+    "name": "Community",
+    "color": "#70B04A"
+  },
+  "6": {
+    "index": 6,
+    "data_name": "developer",
+    "name": "Valve",
+    "color": "#A50F79"
+  },
+  "7": {
+    "index": 7,
+    "data_name": "selfmade",
+    "name": "Prototype",
+    "color": "#70B04A"
+  },
+  "8": {
+    "index": 8,
+    "data_name": "customized",
+    "name": "Customized",
+    "color": "#FFEEEE"
+  },
+  "9": {
+    "index": 9,
+    "data_name": "strange",
+    "name": "StatTrak™",
+    "color": "#CF6A32"
+  },
+  "10": {
+    "index": 10,
+    "data_name": "completed",
+    "name": "Completed",
+    "color": "#8650AC"
+  },
+  "11": {
+    "index": 11,
+    "data_name": "haunted",
+    "color": "#8650AC"
+  },
+  "12": {
+    "index": 12,
+    "data_name": "tournament",
+    "name": "Souvenir",
+    "color": "#FFD700"
+  },
+  "13": {
+    "index": 13,
+    "data_name": "highlight",
+    "name": "Highlight",
+    "color": "#FFD7AA"
+  },
+  "14": {
+    "index": 14,
+    "data_name": "volatile",
+    "name": "Volatile",
+    "color": "#B43232"
+  }
+}

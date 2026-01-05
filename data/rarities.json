@@ -1,0 +1,72 @@
+{
+  "0": {
+    "index": 0,
+    "data_name": "default",
+    "name_default": "Default",
+    "name_weapon": "Stock",
+    "name_character": "Default",
+    "color": "#ded6cc"
+  },
+  "1": {
+    "index": 1,
+    "data_name": "common",
+    "name_default": "Base Grade",
+    "name_weapon": "Consumer Grade",
+    "name_character": "",
+    "color": "#b0c3d9"
+  },
+  "2": {
+    "index": 2,
+    "data_name": "uncommon",
+    "name_default": "Medium Grade",
+    "name_weapon": "Industrial Grade",
+    "name_character": "",
+    "color": "#5e98d9"
+  },
+  "3": {
+    "index": 3,
+    "data_name": "rare",
+    "name_default": "High Grade",
+    "name_weapon": "Mil-Spec Grade",
+    "name_character": "Distinguished",
+    "color": "#4b69ff"
+  },
+  "4": {
+    "index": 4,
+    "data_name": "mythical",
+    "name_default": "Remarkable",
+    "name_weapon": "Restricted",
+    "name_character": "Exceptional",
+    "color": "#8847ff"
+  },
+  "5": {
+    "index": 5,
+    "data_name": "legendary",
+    "name_default": "Exotic",
+    "name_weapon": "Classified",
+    "name_character": "Superior",
+    "color": "#d32ce6"
+  },
+  "6": {
+    "index": 6,
+    "data_name": "ancient",
+    "name_default": "Extraordinary",
+    "name_weapon": "Covert",
+    "name_character": "Master",
+    "color": "#eb4b4b"
+  },
+  "7": {
+    "index": 7,
+    "data_name": "immortal",
+    "name_default": "Contraband",
+    "name_weapon": "Contraband",
+    "name_character": "Contraband",
+    "color": "#e4ae39"
+  },
+  "99": {
+    "index": 99,
+    "data_name": "unusual",
+    "name_default": "★",
+    "color": "#ffd700"
+  }
+}

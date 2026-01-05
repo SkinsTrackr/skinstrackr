@@ -1,0 +1,97 @@
+{
+  "1": {
+    "index": 1,
+    "data_name": "brick_red",
+    "name": "Brick Red"
+  },
+  "2": {
+    "index": 2,
+    "data_name": "blood_red",
+    "name": "Blood Red"
+  },
+  "3": {
+    "index": 3,
+    "data_name": "tiger_orange",
+    "name": "Tiger Orange"
+  },
+  "4": {
+    "index": 4,
+    "data_name": "dust_brown",
+    "name": "Dust Brown"
+  },
+  "5": {
+    "index": 5,
+    "data_name": "desert_amber",
+    "name": "Desert Amber"
+  },
+  "6": {
+    "index": 6,
+    "data_name": "tracer_yellow",
+    "name": "Tracer Yellow"
+  },
+  "7": {
+    "index": 7,
+    "data_name": "battle_green",
+    "name": "Battle Green"
+  },
+  "8": {
+    "index": 8,
+    "data_name": "jungle_green",
+    "name": "Jungle Green"
+  },
+  "9": {
+    "index": 9,
+    "data_name": "frog_green",
+    "name": "Frog Green"
+  },
+  "10": {
+    "index": 10,
+    "data_name": "cash_green",
+    "name": "Cash Green"
+  },
+  "11": {
+    "index": 11,
+    "data_name": "wire_blue",
+    "name": "Wire Blue"
+  },
+  "12": {
+    "index": 12,
+    "data_name": "monarch_blue",
+    "name": "Monarch Blue"
+  },
+  "13": {
+    "index": 13,
+    "data_name": "swat_blue",
+    "name": "SWAT Blue"
+  },
+  "14": {
+    "index": 14,
+    "data_name": "violent_violet",
+    "name": "Violent Violet"
+  },
+  "15": {
+    "index": 15,
+    "data_name": "monster_purple",
+    "name": "Monster Purple"
+  },
+  "16": {
+    "index": 16,
+    "data_name": "bazooka_pink",
+    "name": "Bazooka Pink"
+  },
+  "17": {
+    "index": 17,
+    "data_name": "princess_pink",
+    "name": "Princess Pink"
+  },
+  "18": {
+    "index": 18,
+    "data_name": "war_pig_pink",
+    "name": "War Pig Pink"
+  },
+  "19": {
+    "index": 19,
+    "data_name": "shark_white",
+    "name": "Shark White"
+  }
+}

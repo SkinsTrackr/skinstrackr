@@ -7,4 +7,4 @@ out
 build
 .vscode/
 .env
-/data
+/data/*_inventory*

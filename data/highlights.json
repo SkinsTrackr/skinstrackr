@@ -1,0 +1,4327 @@
+{
+  "1": {
+    "index": "1",
+    "data_name": "aus2025_chopper2kvsmouzonmirage1",
+    "name": "chopper Double Kill"
+  },
+  "2": {
+    "index": "2",
+    "data_name": "aus2025_chopperdiesfrom100byutilityvsmouzonmirage",
+    "name": "100 Utility Damage"
+  },
+  "3": {
+    "index": "3",
+    "data_name": "aus2025_chopperwins1v1vsbrollanonmiragemouz",
+    "name": "1v2 Denied"
+  },
+  "4": {
+    "index": "4",
+    "data_name": "aus2025_chopper3ktowinmap",
+    "name": "chopper Triple Entry"
+  },
+  "5": {
+    "index": "5",
+    "data_name": "aus2025_donk2kvsmouzonmirage",
+    "name": "Double Pistol Kill"
+  },
+  "6": {
+    "index": "6",
+    "data_name": "aus2025_donk3kandcheekydefusevsspiritonmirage",
+    "name": "Pros Never Fake"
+  },
+  "7": {
+    "index": "7",
+    "data_name": "aus2025_donk2withinsanehsflickvspiritonmirage",
+    "name": "Inhuman Reactions"
+  },
+  "8": {
+    "index": "8",
+    "data_name": "aus2025_donk3with1v1win",
+    "name": "Triple Kill And A Defuse"
+  },
+  "9": {
+    "index": "9",
+    "data_name": "aus2025_jimpphat4kvsspiritonmirage1",
+    "name": "Jimpphat Quadra Kill"
+  },
+  "10": {
+    "index": "10",
+    "data_name": "aus2025_jimpphatrunninghsvsspiritonmirage",
+    "name": "The Run And Gun"
+  },
+  "11": {
+    "index": "11",
+    "data_name": "aus2025_jimpphat2ktosecureretakevsspiritonmirage",
+    "name": "Jimpphat Double Kill"
+  },
+  "12": {
+    "index": "12",
+    "data_name": "aus2025_jimpphatlosesclutchtotimevsmouzonmirage",
+    "name": "Always Buy A Defuser"
+  },
+  "13": {
+    "index": "13",
+    "data_name": "aus2025_jimpphat2kandwinscluthvsspiritonmirage",
+    "name": "Jimpphat: The Clutch God"
+  },
+  "14": {
+    "index": "14",
+    "data_name": "aus2025_magix1v2tosecureot",
+    "name": "1v2 Clutch"
+  },
+  "15": {
+    "index": "15",
+    "data_name": "aus2025_magix4kand1v3winvsmouzonmirage",
+    "name": "Clutch King"
+  },
+  "16": {
+    "index": "16",
+    "data_name": "aus2025_shirofastawpflickvsmouzonmirage1",
+    "name": "Quick Reactions"
+  },
+  "17": {
+    "index": "17",
+    "data_name": "aus2025_shirodidntseexertionandlostentryvsmouzonmirage",
+    "name": "Missed Him"
+  },
+  "18": {
+    "index": "18",
+    "data_name": "aus2025_spinxnadedto3hpvsspiritonmirage1",
+    "name": "Two Nades To The Head"
+  },
+  "19": {
+    "index": "19",
+    "data_name": "aus2025_spinxclose1v2clutch",
+    "name": "Almost"
+  },
+  "20": {
+    "index": "20",
+    "data_name": "aus2025_spinxfast2konbsitetosecureotvsspiritonmirage",
+    "name": "Quick Double Kill"
+  },
+  "21": {
+    "index": "21",
+    "data_name": "aus2025_spinxinsane4kclutchvsspiritonmirage",
+    "name": "Spinx Quadra Kill"
+  },
+  "22": {
+    "index": "22",
+    "data_name": "aus2025_torszipistol3kvspsiritonmirage",
+    "name": "torzsi Triple Kill"
+  },
+  "23": {
+    "index": "23",
+    "data_name": "aus2025_torszi3kwithcheekymolokillonmirage",
+    "name": "Burning Triple Kill"
+  },
+  "24": {
+    "index": "24",
+    "data_name": "aus2025_zontix3kfrompalacevsmouzonmirage",
+    "name": "zont1x Triple Kill"
+  },
+  "25": {
+    "index": "25",
+    "data_name": "aus2025_zontix3kandwinsclutchvspiritonmirage",
+    "name": "A Triple And Icy Veins"
+  },
+  "26": {
+    "index": "26",
+    "data_name": "aus2025_brollan2kvsspiritondust2",
+    "name": "Brollan Double Kill"
+  },
+  "27": {
+    "index": "27",
+    "data_name": "aus2025_brollan3kvsspiritondust2",
+    "name": "Brollan Triple Kill"
+  },
+  "28": {
+    "index": "28",
+    "data_name": "aus2025_brollanfast2kinpistolvsspiritondust2",
+    "name": "Brollan Smoke Criminal"
+  },
+  "29": {
+    "index": "29",
+    "data_name": "aus2025_brollandiesfrom100to0fromutilityvsspiritondust2",
+    "name": "The Iron Man"
+  },
+  "30": {
+    "index": "30",
+    "data_name": "aus2025_brollancleanentryvsspiritondust2",
+    "name": "Too Fast Reactions"
+  },
+  "31": {
+    "index": "31",
+    "data_name": "aus2025_chopper3kmp9vsspiritondust2",
+    "name": "The Flying Spray"
+  },
+  "32": {
+    "index": "32",
+    "data_name": "aus2025_donk4kandfailed1v1vsmouzondust2",
+    "name": "Almost The Ace"
+  },
+  "33": {
+    "index": "33",
+    "data_name": "aus2025_donkaceonbvsmouzondust2",
+    "name": "donk Ace"
+  },
+  "34": {
+    "index": "34",
+    "data_name": "aus2025_donkfastmp2kvsmouzondust2",
+    "name": "Fast MP9 Double Kill"
+  },
+  "35": {
+    "index": "35",
+    "data_name": "aus2025_donkdodgeflashandentryvsmouzondust2",
+    "name": "1 Holds 1 Dodges"
+  },
+  "36": {
+    "index": "36",
+    "data_name": "aus2025_jimpphat4konretakevspsiritondust2",
+    "name": "I'm Right Behind You"
+  },
+  "37": {
+    "index": "37",
+    "data_name": "aus2025_jimpphatswift2kentryonbvsspiritondust",
+    "name": "Jimpphat Double Entry"
+  },
+  "38": {
+    "index": "38",
+    "data_name": "aus2025_jimpphat2kinmiddust2vsspirit",
+    "name": "Baited Into A Double Kill"
+  },
+  "39": {
+    "index": "39",
+    "data_name": "aus2025_jimpphat2kspraydownvsspiritondust2",
+    "name": "2K Spraydown"
+  },
+  "40": {
+    "index": "40",
+    "data_name": "aus2025_magixx3konafterplantvsmouzondust2",
+    "name": "Not Over Yet"
+  },
+  "41": {
+    "index": "41",
+    "data_name": "aus2025_magixx2konadefensevsspiritondust2",
+    "name": "magixx Double Kill"
+  },
+  "42": {
+    "index": "42",
+    "data_name": "aus2025_shiro3kscoutvsmouzondust2",
+    "name": "Scout Demon"
+  },
+  "43": {
+    "index": "43",
+    "data_name": "aus2025_shirofailedhetomissfreekillvsspiritondust2",
+    "name": "Not Quite The Angle"
+  },
+  "44": {
+    "index": "44",
+    "data_name": "aus2025_shiroawp2kvsmouzondust2",
+    "name": "Sharpshooter"
+  },
+  "45": {
+    "index": "45",
+    "data_name": "aus2025_shirothrowawayawpin1v2ondust2vsmouz",
+    "name": "AWP Denied"
+  },
+  "46": {
+    "index": "46",
+    "data_name": "aus2025_spinx3konsitedust2vsspirit",
+    "name": "Spinx Dust II Triple Kill"
+  },
+  "47": {
+    "index": "47",
+    "data_name": "aus2025_spinxquadkilltowinmapvsspiritondust2",
+    "name": "Masterclass Lurk"
+  },
+  "48": {
+    "index": "48",
+    "data_name": "aus2025_spinxmisplaysroundvsspiritondust2",
+    "name": "Where Are You Buddy?"
+  },
+  "49": {
+    "index": "49",
+    "data_name": "aus2025_spinx2konbdefensevspiritondust2",
+    "name": "Spinx: Help Is Here"
+  },
+  "50": {
+    "index": "50",
+    "data_name": "aus2025_xertion3konbsitedust2vspirit",
+    "name": "xertioN: The Joker"
+  },
+  "51": {
+    "index": "51",
+    "data_name": "aus2025_xertionclean3konasitevsspiritondust2",
+    "name": "xertioN Dust II Triple Kill"
+  },
+  "52": {
+    "index": "52",
+    "data_name": "aus2025_chopper2kfromdooronnukevsmouzonnuke",
+    "name": "Missed Him But It's Okay"
+  },
+  "53": {
+    "index": "53",
+    "data_name": "aus2025_chopperfailstohearthedoordiesinthesidevsmouzonnuke",
+    "name": "Surprise Behind You"
+  },
+  "54": {
+    "index": "54",
+    "data_name": "aus2025_donk3kpistolvsmouzonnuke",
+    "name": "Triple Pistol"
+  },
+  "55": {
+    "index": "55",
+    "data_name": "aus2025_donkclean3kvsmouzonnuke",
+    "name": "donk Triple Kill"
+  },
+  "56": {
+    "index": "56",
+    "data_name": "aus2025_donkmissedopportunityvsmouzonnuke",
+    "name": "Stand Still"
+  },
+  "57": {
+    "index": "57",
+    "data_name": "aus2025_jimpphat2kmp9vsspiritonnuke",
+    "name": "3-2-1-GO!"
+  },
+  "58": {
+    "index": "58",
+    "data_name": "aus2025_jimpphat2konnukevsspirit",
+    "name": "Jimpphat Spray And Pray"
+  },
+  "59": {
+    "index": "59",
+    "data_name": "aus2025_magix2fastkillsonadefensenukevsmouz",
+    "name": "Anchoring Double Kill"
+  },
+  "60": {
+    "index": "60",
+    "data_name": "aus2025_shiroawp2kvsmouzonnuke",
+    "name": "Double AWP Entry"
+  },
+  "61": {
+    "index": "61",
+    "data_name": "aus2025_shirolose1v2tolosemapvsmouzonnuke",
+    "name": "Wont go quietly"
+  },
+  "62": {
+    "index": "62",
+    "data_name": "aus2025_spinxfast2kentryvsspiritonnuke",
+    "name": "The Flying Entry"
+  },
+  "63": {
+    "index": "63",
+    "data_name": "aus2025_spinx3kvsmouzonnuke",
+    "name": "Thanks For The M4A1-S"
+  },
+  "64": {
+    "index": "64",
+    "data_name": "aus2025_spinx2kpistolvsspiritonnuke",
+    "name": "Nuke Double Dink"
+  },
+  "65": {
+    "index": "65",
+    "data_name": "aus2025_spinxclosedefuse",
+    "name": "Too Close"
+  },
+  "66": {
+    "index": "66",
+    "data_name": "aus2025_spinx2konbvsspiritonnuke",
+    "name": "Spinx Double Nuke Kill"
+  },
+  "67": {
+    "index": "67",
+    "data_name": "aus2025_spinx2kvsspiritonnuke",
+    "name": "The Help Is Here"
+  },
+  "68": {
+    "index": "68",
+    "data_name": "aus2025_spinx2kandwinmapvsspiritonnuke",
+    "name": "Let's Goo"
+  },
+  "69": {
+    "index": "69",
+    "data_name": "aus2025_torszi2konafterplantvsspiritonnuke",
+    "name": "torzsi Double Nuke Kill"
+  },
+  "70": {
+    "index": "70",
+    "data_name": "aus2025_torsziawp2kvsspiritonnuke",
+    "name": "AWP Double Kill"
+  },
+  "71": {
+    "index": "71",
+    "data_name": "aus2025_torszi2awpentryvsspiritonnuke",
+    "name": "The Relocate"
+  },
+  "72": {
+    "index": "72",
+    "data_name": "aus2025_boosttorszitoentryvsspiritonnuke",
+    "name": "Surprise Boost"
+  },
+  "73": {
+    "index": "73",
+    "data_name": "aus2025_xertionfast3koutsidevsspiritonnuke",
+    "name": "xertioN: The Nuke Eco Fragger"
+  },
+  "74": {
+    "index": "74",
+    "data_name": "aus2025_xertion3kadefensvsspiritonnuke",
+    "name": "xertioN Nuke Triple Kill"
+  },
+  "75": {
+    "index": "75",
+    "data_name": "aus2025_zontix1kandtonofdmgvsmouzonnuke",
+    "name": "Damage Dealer"
+  },
+  "76": {
+    "index": "76",
+    "data_name": "aus2025_zontix3krampholdvsmouzonnuke",
+    "name": "Textbook Hold"
+  },
+  "77": {
+    "index": "77",
+    "data_name": "aus2025_zontixmasterclasslurkvsmouzonnuke",
+    "name": "The Ninja Lurker"
+  },
+  "78": {
+    "index": "78",
+    "data_name": "aus2025_biguzeradiesvsfuriaonnuke",
+    "name": "Tec-9 Tapped"
+  },
+  "79": {
+    "index": "79",
+    "data_name": "aus2025_biguzera3kvsfuriaonnuke",
+    "name": "Captain Brazil"
+  },
+  "80": {
+    "index": "80",
+    "data_name": "aus2025_dgt2kvsfuriaonnuke",
+    "name": "Sixth Sense"
+  },
+  "81": {
+    "index": "81",
+    "data_name": "aus2025_dgtfailed1v3vsfuriaonnuke",
+    "name": "dgt Almost Clutch"
+  },
+  "82": {
+    "index": "82",
+    "data_name": "aus2025_dgtclutchattemptvsfuriaonnuke",
+    "name": "dgt Clutch Attempt"
+  },
+  "83": {
+    "index": "83",
+    "data_name": "aus2025_fallenlowerdefensevspainonnuke",
+    "name": "Lower Defense"
+  },
+  "84": {
+    "index": "84",
+    "data_name": "aus2025_fallen2kvspainonnuke",
+    "name": "FalleN Double Nuke Kill"
+  },
+  "85": {
+    "index": "85",
+    "data_name": "aus2025_fallen1kvspainonnuke",
+    "name": "Leaving Scraps"
+  },
+  "86": {
+    "index": "86",
+    "data_name": "aus2025_fallentec9mastervspainonnuke",
+    "name": "Tec-9 Master"
+  },
+  "87": {
+    "index": "87",
+    "data_name": "aus2025_fallencloservspainonnuke",
+    "name": "FalleN Closer"
+  },
+  "88": {
+    "index": "88",
+    "data_name": "aus2025_molodoy1kvspainonnuke",
+    "name": "Fast Reactions"
+  },
+  "89": {
+    "index": "89",
+    "data_name": "aus2025_molodoy3kvspainonnuke",
+    "name": "molodoy Triple Kill"
+  },
+  "90": {
+    "index": "90",
+    "data_name": "aus2025_nqz2kvsfuriaonnuke",
+    "name": "nqz Double Nuke Kill"
+  },
+  "91": {
+    "index": "91",
+    "data_name": "aus2025_nqzdenyretakevsfuriaonnuke",
+    "name": "nqz Retake Denied"
+  },
+  "92": {
+    "index": "92",
+    "data_name": "aus2025_nqz1kvsfuriaonnuke",
+    "name": "AWP Kill"
+  },
+  "93": {
+    "index": "93",
+    "data_name": "aus2025_nqzjustonevsfuriaonnuke",
+    "name": "Just One"
+  },
+  "94": {
+    "index": "94",
+    "data_name": "aus2025_snowclutchvsfuriaonnuke",
+    "name": "8HP Clutch"
+  },
+  "95": {
+    "index": "95",
+    "data_name": "aus2025_snow3kvsfuriaonnuke",
+    "name": "Pistol King"
+  },
+  "96": {
+    "index": "96",
+    "data_name": "aus2025_yekindarpistolkillsvspainonnuke",
+    "name": "Pistol Kills"
+  },
+  "97": {
+    "index": "97",
+    "data_name": "aus2025_yekindarecokillsvspainonnuke",
+    "name": "Eco Farmer"
+  },
+  "98": {
+    "index": "98",
+    "data_name": "aus2025_yekindar2kvspainonnuke",
+    "name": "YEKINDAR Double Kill"
+  },
+  "99": {
+    "index": "99",
+    "data_name": "aus2025_yekindardiestoecovspainonnuke",
+    "name": "Surprise P2000"
+  },
+  "100": {
+    "index": "100",
+    "data_name": "aus2025_yuurih2kvspainonnuke",
+    "name": "Fire Fight"
+  },
+  "101": {
+    "index": "101",
+    "data_name": "aus2025_yuurihanchor2kvspainonnuke",
+    "name": "Anchor Man"
+  },
+  "102": {
+    "index": "102",
+    "data_name": "aus2025_yuurihentriesvspainonnuke",
+    "name": "yuurih Entry Fragger"
+  },
+  "103": {
+    "index": "103",
+    "data_name": "aus2025_biguzera2kvsfuriaonanubis",
+    "name": "biguzera Double Kill"
+  },
+  "104": {
+    "index": "104",
+    "data_name": "aus2025_dav1deus1v2vsfuriaonanubis",
+    "name": "dav1deuS Double Anubis Kill"
+  },
+  "105": {
+    "index": "105",
+    "data_name": "aus2025_dav1desecofragsvsfuriaonanubis",
+    "name": "Eco Frags"
+  },
+  "106": {
+    "index": "106",
+    "data_name": "aus2025_dav1deusclutchvsfuriaonanubis",
+    "name": "Closing Out"
+  },
+  "107": {
+    "index": "107",
+    "data_name": "aus2025_dav1deus1v3vsfuriaonanubis",
+    "name": "Clutching Up"
+  },
+  "108": {
+    "index": "108",
+    "data_name": "aus2025_dav1deus2kvsfuriaonanubis",
+    "name": "Smoke Defender"
+  },
+  "109": {
+    "index": "109",
+    "data_name": "aus2025_dgtpistolgodvsfuriaonanubis",
+    "name": "Smoked'em"
+  },
+  "110": {
+    "index": "110",
+    "data_name": "aus2025_dgt3kvsfuriaonanubis",
+    "name": "Stack Kill"
+  },
+  "111": {
+    "index": "111",
+    "data_name": "aus2025_dgtopportunityvsfuriaonanubis",
+    "name": "Golden Opportunity"
+  },
+  "112": {
+    "index": "112",
+    "data_name": "aus2025_fallen2kvspainonanubis",
+    "name": "Sneaky Pistol"
+  },
+  "113": {
+    "index": "113",
+    "data_name": "aus2025_fallenfinishervspainonanubis",
+    "name": "FalleN Double Anubis Kill"
+  },
+  "114": {
+    "index": "114",
+    "data_name": "aus2025_fallenpistolkillsvspainonanubis",
+    "name": "Quick Two"
+  },
+  "115": {
+    "index": "115",
+    "data_name": "aus2025_ksceratonadekillvspainonanubis",
+    "name": "KSCERATO Kobe"
+  },
+  "116": {
+    "index": "116",
+    "data_name": "aus2025_ksceratonoclutchvspainonanubis",
+    "name": "KSCERATO Too Slow"
+  },
+  "117": {
+    "index": "117",
+    "data_name": "aus2025_kscerato2kvspainonanubis",
+    "name": "KSCERATO Double Kill"
+  },
+  "118": {
+    "index": "118",
+    "data_name": "aus2025_molodoydoublemissvspainonanubis",
+    "name": "Missed'em"
+  },
+  "119": {
+    "index": "119",
+    "data_name": "aus2025_nqzfailedclutchvsfuriaonanubis",
+    "name": "nqz Clutch Attempt"
+  },
+  "120": {
+    "index": "120",
+    "data_name": "aus2025_nqz4kvsfuriaonanubis",
+    "name": "nqz Quad Kill"
+  },
+  "121": {
+    "index": "121",
+    "data_name": "aus2025_nqz2kvsfuriaonanubis",
+    "name": "nqz Double Anubis Kill"
+  },
+  "122": {
+    "index": "122",
+    "data_name": "aus2025_snow2kvsfuriaonanubis",
+    "name": "snow Double Kill"
+  },
+  "123": {
+    "index": "123",
+    "data_name": "aus2025_snowchaoskillsvsfuriaonanubis",
+    "name": "Chaos Mode"
+  },
+  "124": {
+    "index": "124",
+    "data_name": "aus2025_snow3kvsfuriaonanubis",
+    "name": "snow Triple Kill"
+  },
+  "125": {
+    "index": "125",
+    "data_name": "aus2025_yekindar3kvspainonanubis",
+    "name": "YEKINDAR Triple Kill"
+  },
+  "126": {
+    "index": "126",
+    "data_name": "aus2025_yuurihdoubleentryvspainonanubis",
+    "name": "Opening Up"
+  },
+  "127": {
+    "index": "127",
+    "data_name": "aus2025_yuurihdoublepistolvspainonanubis",
+    "name": "yuurih Double Kill"
+  },
+  "128": {
+    "index": "128",
+    "data_name": "aus2025_biguzera2kentryoninfernovsfuria",
+    "name": "biguzera: The Entry Demon"
+  },
+  "129": {
+    "index": "129",
+    "data_name": "aus2025_dav1deus2kvsfuriahoninferno",
+    "name": "Surprise Flank"
+  },
+  "130": {
+    "index": "130",
+    "data_name": "aus2025_dav1deus2ktowinseriesvsfuriahoninferno",
+    "name": "Double Kill To Victory"
+  },
+  "131": {
+    "index": "131",
+    "data_name": "aus2025_fallen2kpistolvspainoninferno",
+    "name": "Two FalleN Pistol Headshots"
+  },
+  "132": {
+    "index": "132",
+    "data_name": "aus2025_fallen3konbananavspainoninferno",
+    "name": "FalleN King Of Banana"
+  },
+  "133": {
+    "index": "133",
+    "data_name": "aus2025_fallen3kafterplantvspainoninferno",
+    "name": "Afterplant Secured"
+  },
+  "134": {
+    "index": "134",
+    "data_name": "aus2025_ksceratortriplefrompitvspainoninferno",
+    "name": "KSCERATO Triple Kill"
+  },
+  "135": {
+    "index": "135",
+    "data_name": "aus2025_kscerato3kfailedclutchvspainoninferno",
+    "name": "Too Strong Jiggles"
+  },
+  "136": {
+    "index": "136",
+    "data_name": "aus2025_molodoy3kfrompitvspainoninferno",
+    "name": "The Anchor In Pit"
+  },
+  "137": {
+    "index": "137",
+    "data_name": "aus2025_molodoy2kandfailedclutchvspainoninferno",
+    "name": "molodoy Almost The Hero"
+  },
+  "138": {
+    "index": "138",
+    "data_name": "aus2025_molodoy3kclutchvspainoninferno",
+    "name": "A Triple Into Overtime"
+  },
+  "139": {
+    "index": "139",
+    "data_name": "aus2025_nqz3koninfernovspain",
+    "name": "Look Behind You"
+  },
+  "140": {
+    "index": "140",
+    "data_name": "aus2025_nqz2awpkillsfrompitvspainoninferno",
+    "name": "Miss Into A Double Kill"
+  },
+  "141": {
+    "index": "141",
+    "data_name": "aus2025_nqzistooslowforyuurihvsfuriahoninferno",
+    "name": "nqz Too Slow"
+  },
+  "142": {
+    "index": "142",
+    "data_name": "aus2025_nqzawp3kvsfuriahoninferno",
+    "name": "Peek Me And You're Dead"
+  },
+  "143": {
+    "index": "143",
+    "data_name": "aus2025_snowspraytransferivspainoninferno",
+    "name": "Applaud The Spray Transfer"
+  },
+  "144": {
+    "index": "144",
+    "data_name": "aus2025_snowbadjigglevsfuriahoninferno",
+    "name": "Jiggle Too Wide And You're Dead"
+  },
+  "145": {
+    "index": "145",
+    "data_name": "aus2025_yekindar2kpistolvspainoninferno",
+    "name": "Two YEKINDAR Pistol Headshots"
+  },
+  "146": {
+    "index": "146",
+    "data_name": "aus2025_yekindar3kecofragsvspainoninferno",
+    "name": "The Eco Hunter"
+  },
+  "147": {
+    "index": "147",
+    "data_name": "aus2025_yekindarfastbananatakevspainoninferno",
+    "name": "Utility Rush"
+  },
+  "148": {
+    "index": "148",
+    "data_name": "aus2025_yekindarquickdoublevspainoninferno",
+    "name": "Sneaky Double Kill"
+  },
+  "149": {
+    "index": "149",
+    "data_name": "aus2025_yekindar4kvspainoninferno",
+    "name": "YEKINDAR King Of Banana"
+  },
+  "150": {
+    "index": "150",
+    "data_name": "aus2025_yekindar2kbalconyentryvspainoninferno",
+    "name": "Flying Double Entry"
+  },
+  "151": {
+    "index": "151",
+    "data_name": "aus2025_yekindarmissplaywithjumpvspainoninferno",
+    "name": "Instant Reaction Headshot"
+  },
+  "152": {
+    "index": "152",
+    "data_name": "aus2025_yuurik2konavspainoninfreno",
+    "name": "Two Is Not Enough"
+  },
+  "153": {
+    "index": "153",
+    "data_name": "aus2025_aleksibtriplefailedclutchvsvitalityonmirage",
+    "name": "The Grenadier"
+  },
+  "154": {
+    "index": "154",
+    "data_name": "aus2025_aleksib2kbholdvsvitalityonmirage",
+    "name": "Aleksib Double Kill"
+  },
+  "155": {
+    "index": "155",
+    "data_name": "aus2025_b1t2cleanheadshotsvsvitalityonmirage",
+    "name": "b1t Double AK Kill"
+  },
+  "156": {
+    "index": "156",
+    "data_name": "aus2025_b1tdoubleentryvsvitalityonmirage",
+    "name": "b1t Double Entry"
+  },
+  "157": {
+    "index": "157",
+    "data_name": "aus2025_b1tdoubledualieentryvsvitalityonmirage",
+    "name": "b1t: The Mirage Cowboy"
+  },
+  "158": {
+    "index": "158",
+    "data_name": "aus2025_b1tfast2ecosvsvitalityonmirage",
+    "name": "b1t Double MP9 Kill"
+  },
+  "159": {
+    "index": "159",
+    "data_name": "aus2025_flamezspraytransfervsnavionmirage",
+    "name": "The Spray Transfer"
+  },
+  "160": {
+    "index": "160",
+    "data_name": "aus2025_flamesdoublentryvsnavionmirage",
+    "name": "flameZ: The Entry Demon"
+  },
+  "161": {
+    "index": "161",
+    "data_name": "aus2025_flameztripleentryvsnavionmirage",
+    "name": "flameZ Triple Entry"
+  },
+  "162": {
+    "index": "162",
+    "data_name": "aus2025_imquadkillvsvitalityonmirage",
+    "name": "iM Quad Kill"
+  },
+  "163": {
+    "index": "163",
+    "data_name": "aus2025_jlentryandhevsvitalityonmirage",
+    "name": "An Entry And A Donk"
+  },
+  "164": {
+    "index": "164",
+    "data_name": "aus2025_jltriplehsvsecovsnavionmirage",
+    "name": "Triple Headshot"
+  },
+  "165": {
+    "index": "165",
+    "data_name": "aus2025_mezii2kpistolvsnavionmirage",
+    "name": "mezii Double Mirage Kill"
+  },
+  "166": {
+    "index": "166",
+    "data_name": "aus2025_mezii4kclutchvsnavionmirage",
+    "name": "Quad Kill And A Clutch"
+  },
+  "167": {
+    "index": "167",
+    "data_name": "aus2025_meziiflickvsnavionmirage",
+    "name": "The Spraying Flick"
+  },
+  "168": {
+    "index": "168",
+    "data_name": "aus2025_ropzbholdvsnavionmirage",
+    "name": "B Site Survivor"
+  },
+  "169": {
+    "index": "169",
+    "data_name": "aus2025_ropzdoublesprayvsnavionmirage",
+    "name": "Double Spraydown"
+  },
+  "170": {
+    "index": "170",
+    "data_name": "aus2025_wonderful2kdeagvsvitalityonmirage",
+    "name": "w0nderful Double Deagle"
+  },
+  "171": {
+    "index": "171",
+    "data_name": "aus2025_wonderfulteamkillvsvitalityonmirage",
+    "name": "w0nderful Teamkiller"
+  },
+  "172": {
+    "index": "172",
+    "data_name": "aus2025_wonderful2kandcluchvsvitalityonmirage",
+    "name": "w0nderful: The Clutch God"
+  },
+  "173": {
+    "index": "173",
+    "data_name": "aus2025_wonderful3kawpvsvitalityonmirage",
+    "name": "Triple AWP Kill"
+  },
+  "174": {
+    "index": "174",
+    "data_name": "aus2025_wonderfulgamblevsvitalityonmirage",
+    "name": "The Gamble"
+  },
+  "175": {
+    "index": "175",
+    "data_name": "aus2025_zywooraremissesandaflickvsnavionmirage",
+    "name": "Rare Misses But Manages A Flick"
+  },
+  "176": {
+    "index": "176",
+    "data_name": "aus2025_zywoo2kvsnavionmirage",
+    "name": "ZywOo Double Mirage Kill"
+  },
+  "177": {
+    "index": "177",
+    "data_name": "aus2025_zywoodeniestheaceclutchvsnavionmirage",
+    "name": "Denied"
+  },
+  "178": {
+    "index": "178",
+    "data_name": "aus2025_zywoo4kakvsnavionmirage",
+    "name": "He Can Rifle Too"
+  },
+  "179": {
+    "index": "179",
+    "data_name": "aus2025_apex2kvsnavionvitality",
+    "name": "The Smoke Sneaker"
+  },
+  "180": {
+    "index": "180",
+    "data_name": "aus2025_apexwhiffvsnavionnuke",
+    "name": "The Whiff"
+  },
+  "181": {
+    "index": "181",
+    "data_name": "aus2025_apex2kinclutchvsnavionnuke",
+    "name": "Clutching MP9"
+  },
+  "182": {
+    "index": "182",
+    "data_name": "aus2025_apexforgotreloadvsnavionnuke",
+    "name": "1 Bullet"
+  },
+  "183": {
+    "index": "183",
+    "data_name": "aus2025_apexblockingsmokesvsnavionnuke",
+    "name": "Bodyblocking Smokes"
+  },
+  "184": {
+    "index": "184",
+    "data_name": "aus2025_b1t2kpistolvsvitalityonnuke",
+    "name": "b1t: The Nuke Cowboy"
+  },
+  "185": {
+    "index": "185",
+    "data_name": "aus2025_flamez2kinnervsnavionnuke",
+    "name": "flameZ Double Nuke Kill"
+  },
+  "186": {
+    "index": "186",
+    "data_name": "aus2025_imsilmtaneousdeathvsvitalityonnuke",
+    "name": "Simultaneous Death"
+  },
+  "187": {
+    "index": "187",
+    "data_name": "aus2025_mezii3kpistolvsnavionnuke",
+    "name": "mezii Triple Pistol Kill"
+  },
+  "188": {
+    "index": "188",
+    "data_name": "aus2025_mezii3kvsnavionnuke",
+    "name": "mezii Triple Entry"
+  },
+  "189": {
+    "index": "189",
+    "data_name": "aus2025_meziitkvsnavionnuke",
+    "name": "mezii Teamkiller"
+  },
+  "190": {
+    "index": "190",
+    "data_name": "aus2025_meziiladderkillvsnavionuke",
+    "name": "On The Ladder??"
+  },
+  "191": {
+    "index": "191",
+    "data_name": "aus2025_mezi2kinnervsnavionnuke",
+    "name": "Not Enough"
+  },
+  "192": {
+    "index": "192",
+    "data_name": "aus2025_mezii4kshutdownvsnavionnuke",
+    "name": "Quad Kill Shutdown"
+  },
+  "193": {
+    "index": "193",
+    "data_name": "aus2025_ropz2kvsnavionnuke",
+    "name": "ropz Double Nuke Kill"
+  },
+  "194": {
+    "index": "194",
+    "data_name": "aus2025_wonderful3kecovsvitalityonnuke",
+    "name": "w0nderful: The Eco Fragger"
+  },
+  "195": {
+    "index": "195",
+    "data_name": "aus2025_wonderful2kawpvsvitalityonnuke",
+    "name": "w0nderful Double AWP Kill"
+  },
+  "196": {
+    "index": "196",
+    "data_name": "aus2025_wonderfulfailedclutchvsvitalityonnuke",
+    "name": "w0nderful Combat AWP"
+  },
+  "197": {
+    "index": "197",
+    "data_name": "aus2025_zywoo2kvsnavionnuke",
+    "name": "ZywOo Double Nuke Kill"
+  },
+  "198": {
+    "index": "198",
+    "data_name": "aus2025_zywoo2kvsecovsnavionnuke",
+    "name": "You Won't Get My AK"
+  },
+  "199": {
+    "index": "199",
+    "data_name": "aus2025_zywooknifekillvsnavionnuke",
+    "name": "The Backstabber"
+  },
+  "200": {
+    "index": "200",
+    "data_name": "aus2025_zywoo3konsaversvsnavionnuke",
+    "name": "There's No Escape"
+  },
+  "201": {
+    "index": "201",
+    "data_name": "aus2025_zywoofailedclutchvsnavionnuke",
+    "name": "Look 1 Hand"
+  },
+  "202": {
+    "index": "202",
+    "data_name": "aus2025_zywoo2kentryvsnavionnuke",
+    "name": "The AWP Headshooter"
+  },
+  "203": {
+    "index": "203",
+    "data_name": "aus2025_zywoo2kdualiesvsnavionnuke",
+    "name": "ZywOo: The Cowboy"
+  },
+  "204": {
+    "index": "204",
+    "data_name": "aus2025_zywoo3krampvsnavionnuke",
+    "name": "Ramp Shutdown"
+  },
+  "205": {
+    "index": "205",
+    "data_name": "aus2025_910doubledeaglevsfazeonmirage",
+    "name": "Deagle Supremacy"
+  },
+  "206": {
+    "index": "206",
+    "data_name": "aus2025_9102kpistolvsfazeonmirage",
+    "name": "2 Pistol Headshots"
+  },
+  "207": {
+    "index": "207",
+    "data_name": "aus2025_9103ktowinmapvsfazeonmirage",
+    "name": "910 Triple Kill vs FaZe"
+  },
+  "208": {
+    "index": "208",
+    "data_name": "aus2025_blitzalmostkillsallvsfazeonmirage",
+    "name": "Almost 500 Damage"
+  },
+  "209": {
+    "index": "209",
+    "data_name": "aus2025_blitz2kvsfazeonmirage",
+    "name": "bLitz Double Smoke Kill"
+  },
+  "210": {
+    "index": "210",
+    "data_name": "aus2025_blitzkobeand2kvsfazeonmirage",
+    "name": "bLitz Kobe"
+  },
+  "211": {
+    "index": "211",
+    "data_name": "aus2025_blitzfast2kvsfazeonmirage",
+    "name": "Quick Double"
+  },
+  "212": {
+    "index": "212",
+    "data_name": "aus2025_blitztrytoknifevsfazeonmirage",
+    "name": "Knife?"
+  },
+  "213": {
+    "index": "213",
+    "data_name": "aus2025_eligecatchingsmokevsmongolzonmirage",
+    "name": "Catches Smoke"
+  },
+  "214": {
+    "index": "214",
+    "data_name": "aus2025_frozen2kvsmongolzonmirage",
+    "name": "The Fast Rotation"
+  },
+  "215": {
+    "index": "215",
+    "data_name": "aus2025_karrigandefensevsmongolzonmirage",
+    "name": "Defending Connector"
+  },
+  "216": {
+    "index": "216",
+    "data_name": "aus2025_karriganoncatwalkvsmongolzonmirage",
+    "name": "Mid Is Karrigan"
+  },
+  "217": {
+    "index": "217",
+    "data_name": "aus2025_karrigan2headshotsvsmongolzonmirage",
+    "name": "karrigan Double Headshot"
+  },
+  "218": {
+    "index": "218",
+    "data_name": "aus2025_karrigan2entrybvsmongolzonmirage",
+    "name": "Smokey Entry"
+  },
+  "219": {
+    "index": "219",
+    "data_name": "aus2025_mzinhodoubleentryvsfazeonmirage",
+    "name": "mzinho Double B-Site Entry"
+  },
+  "220": {
+    "index": "220",
+    "data_name": "aus2025_mzinho2kadefensevsfazeonmirage",
+    "name": "mzinho Double Mirage Kill"
+  },
+  "221": {
+    "index": "221",
+    "data_name": "aus2025_rain2kvsmongolzonmirage",
+    "name": "Clean Defense Double"
+  },
+  "222": {
+    "index": "222",
+    "data_name": "aus2025_rain2khsvsthemongolzonmirage",
+    "name": "rain Double Headshot"
+  },
+  "223": {
+    "index": "223",
+    "data_name": "aus2025_s1mple2kdualiesvsmongolzonmirage",
+    "name": "2K Dualies"
+  },
+  "224": {
+    "index": "224",
+    "data_name": "aus2025_s1mpleawarenessvsmongolzonmirage",
+    "name": "Awareness"
+  },
+  "225": {
+    "index": "225",
+    "data_name": "aus2025_s1mple2crucialmissesvsmongolzonmirage",
+    "name": "2 Crucial Misses"
+  },
+  "226": {
+    "index": "226",
+    "data_name": "aus2025_s1mple3kawpvsmongolzonmirage",
+    "name": "The AWP Triple"
+  },
+  "227": {
+    "index": "227",
+    "data_name": "aus2025_s1mplefunnymomentvsthemongolzonmirage",
+    "name": "Footshooter"
+  },
+  "228": {
+    "index": "228",
+    "data_name": "aus2025_s1mplewinsawpduelvsmongolzonmirage",
+    "name": "The AWP Head To Head"
+  },
+  "229": {
+    "index": "229",
+    "data_name": "aus2025_s1mplefailvsmongolzonmirage",
+    "name": "Don't Bring A Knife To A Gunfight"
+  },
+  "230": {
+    "index": "230",
+    "data_name": "aus2025_senzudoubleentryvsfazeonmirage",
+    "name": "Senzu Double Entry"
+  },
+  "231": {
+    "index": "231",
+    "data_name": "aus2025_senzu2kdefensevsfazeonmirage",
+    "name": "Double From The Defender"
+  },
+  "232": {
+    "index": "232",
+    "data_name": "aus2025_techno4k2konbvsfazeonmirage",
+    "name": "Techno4K Double B-Site Kill"
+  },
+  "233": {
+    "index": "233",
+    "data_name": "aus2025_9103kawpvsfazeonanubis",
+    "name": "AWP Defender"
+  },
+  "234": {
+    "index": "234",
+    "data_name": "aus2025_9103kawpwingamevsfazeanubis",
+    "name": "AWP Shutdown"
+  },
+  "235": {
+    "index": "235",
+    "data_name": "aus2025_blitz2khsvsecovsfazeonanubis",
+    "name": "bLitz Double Headshot"
+  },
+  "236": {
+    "index": "236",
+    "data_name": "aus2025_elige1v2clutchvsmongolzonanubis",
+    "name": "EliGE: The Clutch God"
+  },
+  "237": {
+    "index": "237",
+    "data_name": "aus2025_elige2kdeaglevsmongolzonanubis",
+    "name": "Parkour Deagle"
+  },
+  "238": {
+    "index": "238",
+    "data_name": "aus2025_eligeexposehimselfin1v2vsmongolzonanubis",
+    "name": "Exposed"
+  },
+  "239": {
+    "index": "239",
+    "data_name": "aus2025_elige3kdancingvsmongolzonanubis",
+    "name": "Dancing Legend"
+  },
+  "240": {
+    "index": "240",
+    "data_name": "aus2025_frozen3kvsmongolzonanubis",
+    "name": "frozen Triple Kill"
+  },
+  "241": {
+    "index": "241",
+    "data_name": "aus2025_frozen2khsvsmongolzonanubis",
+    "name": "frozen Double Headshot"
+  },
+  "242": {
+    "index": "242",
+    "data_name": "aus2025_karrigan2kvsmongolzonanubis",
+    "name": "karrigan Double Kill"
+  },
+  "243": {
+    "index": "243",
+    "data_name": "aus2025_karriganusachantvsmongolzonanubis",
+    "name": "USA USA USA"
+  },
+  "244": {
+    "index": "244",
+    "data_name": "aus2025_karrigan2kmac10vsmongolzonanubis",
+    "name": "The Running MAC-10"
+  },
+  "245": {
+    "index": "245",
+    "data_name": "aus2025_karrigan2kentryvsmongolzonanubis",
+    "name": "karrigan Entry Fragger"
+  },
+  "246": {
+    "index": "246",
+    "data_name": "aus2025_mzinho2kafterplantvsfazeonanubis",
+    "name": "mzinho Double Anubis Kill"
+  },
+  "247": {
+    "index": "247",
+    "data_name": "aus2025_mzinho2kvsecovsfazeonanubis",
+    "name": "Eco Finisher"
+  },
+  "248": {
+    "index": "248",
+    "data_name": "aus2025_mzinhochaseandisdeniedthe1v2vsfazeonanubis",
+    "name": "The Chase"
+  },
+  "249": {
+    "index": "249",
+    "data_name": "aus2025_rainswiftdoublevsmongolzonanubis",
+    "name": "rain Double Kill"
+  },
+  "250": {
+    "index": "250",
+    "data_name": "aus2025_rain3kvsmongolzonanubis",
+    "name": "rain Triple Kill"
+  },
+  "251": {
+    "index": "251",
+    "data_name": "aus2025_mongolzscaredofs1mplevsfazeonanubis",
+    "name": "Scared Of The Shotgun?"
+  },
+  "252": {
+    "index": "252",
+    "data_name": "aus2025_s1mple2kawpvsmongolzonanubis",
+    "name": "s1mple Double AWP Kill"
+  },
+  "253": {
+    "index": "253",
+    "data_name": "aus2025_s1mpleocmbatawpvsmongolzonanubis",
+    "name": "s1mple Combat AWP"
+  },
+  "254": {
+    "index": "254",
+    "data_name": "aus2025_senzu2kandclutchvsfazeonanubis",
+    "name": "Clutch Double Kill"
+  },
+  "255": {
+    "index": "255",
+    "data_name": "aus2025_senzu3kpistolvsfazeonanubis",
+    "name": "Senzu Triple Pistol Kill"
+  },
+  "256": {
+    "index": "256",
+    "data_name": "aus2025_senzuswift2kvsfazeonanubis",
+    "name": "Swift Double Kill"
+  },
+  "257": {
+    "index": "257",
+    "data_name": "aus2025_techno3kvsfazeonanubis",
+    "name": "Techno4K Triple Kill"
+  },
+  "258": {
+    "index": "258",
+    "data_name": "aus2025_technolosestotimevsfazeonanubis",
+    "name": "Time Loss"
+  },
+  "259": {
+    "index": "259",
+    "data_name": "aus2025_techno4ktriplevsfazeonanubis",
+    "name": "Techno4K Fortress"
+  },
+  "260": {
+    "index": "260",
+    "data_name": "aus2025_9102kdeagvspainonmirage",
+    "name": "910 Double Deagle"
+  },
+  "261": {
+    "index": "261",
+    "data_name": "aus2025_9101kvspainonmirage",
+    "name": "One Kill Is Enough"
+  },
+  "262": {
+    "index": "262",
+    "data_name": "aus2025_9102kawpvspainonmiragee",
+    "name": "910 Double AWP Kill"
+  },
+  "263": {
+    "index": "263",
+    "data_name": "aus2025_blitzswitcheroovspainonmirage",
+    "name": "The Switcheroo"
+  },
+  "264": {
+    "index": "264",
+    "data_name": "aus2025_blitz3kvspainonmirage",
+    "name": "bLitz Triple Kill vs paiN"
+  },
+  "265": {
+    "index": "265",
+    "data_name": "aus2025_blitz2khsvspainonmirage",
+    "name": "Quick Double HS"
+  },
+  "266": {
+    "index": "266",
+    "data_name": "aus2025_dav1deus2kecovsmongolzonmirage",
+    "name": "dav1deus Double Mirage Kill"
+  },
+  "267": {
+    "index": "267",
+    "data_name": "aus2025_dav1deusalmostclutchvsmongolzonmirage",
+    "name": "dav1deuS Almost Clutch"
+  },
+  "268": {
+    "index": "268",
+    "data_name": "aus2025_dav1deusmistakevsmongolzonmirage",
+    "name": "Missed A Spot"
+  },
+  "269": {
+    "index": "269",
+    "data_name": "aus2025_dav1deusclutchdeniedvsmongolzonmirage",
+    "name": "dav1deuS Clutch Denied"
+  },
+  "270": {
+    "index": "270",
+    "data_name": "aus2025_dgt3kvsmongolzonmirage",
+    "name": "dgt Triple Kill"
+  },
+  "271": {
+    "index": "271",
+    "data_name": "aus2025_dgt1kvsmongolzonmirage",
+    "name": "Matrix"
+  },
+  "272": {
+    "index": "272",
+    "data_name": "aus2025_mzinho2hsvspainonmirage",
+    "name": "Swift Double"
+  },
+  "273": {
+    "index": "273",
+    "data_name": "aus2025_mzinho3konavspainonmirage",
+    "name": "mzinho Triple Kill"
+  },
+  "274": {
+    "index": "274",
+    "data_name": "aus2025_mzinhodobleentryvspainonmirage",
+    "name": "mzinho Double A-Site Entry"
+  },
+  "275": {
+    "index": "275",
+    "data_name": "aus2025_mzinho3kvspainonmirage",
+    "name": "Flying Mongolian"
+  },
+  "276": {
+    "index": "276",
+    "data_name": "aus2025_mzinho2kaftertimevspainonmirage",
+    "name": "No Money For You"
+  },
+  "277": {
+    "index": "277",
+    "data_name": "aus2025_mzinho2kintovictoryvspainonmirage",
+    "name": "Double Into Victory"
+  },
+  "278": {
+    "index": "278",
+    "data_name": "aus2025_nqz3kvsmongolzonmirage",
+    "name": "nqz Triple Kill"
+  },
+  "279": {
+    "index": "279",
+    "data_name": "aus2025_nqzawprampagevsmongolzonmirage",
+    "name": "nqz AWP Rampage"
+  },
+  "280": {
+    "index": "280",
+    "data_name": "aus2025_senzuremoveawpvspainonmirage",
+    "name": "AWP Slayer"
+  },
+  "281": {
+    "index": "281",
+    "data_name": "aus2025_senznuinstahsvspainonmirage",
+    "name": "Instant Headshot"
+  },
+  "282": {
+    "index": "282",
+    "data_name": "aus2025_senznu2khsvspainonmirage",
+    "name": "Senzu Double Headshot"
+  },
+  "283": {
+    "index": "283",
+    "data_name": "aus2025_snow3kpistolvsmongolzonmirage",
+    "name": "Triple Berettas"
+  },
+  "284": {
+    "index": "284",
+    "data_name": "aus2025_snowhugblitzvsmongolzonmirage",
+    "name": "Huggers"
+  },
+  "285": {
+    "index": "285",
+    "data_name": "aus2025_techno4k2kvspainonmirage",
+    "name": "Techno4K Double A-Site Kill"
+  },
+  "286": {
+    "index": "286",
+    "data_name": "aus2025_techno4k2kinbackvspainonmirage",
+    "name": "2 In The Back"
+  },
+  "287": {
+    "index": "287",
+    "data_name": "aus2025_techno4k2kdualiesvspainonmirage",
+    "name": "Techno4k: The Cowboy vs paiN"
+  },
+  "288": {
+    "index": "288",
+    "data_name": "aus2025_apexcleansupvsmouzonmirage",
+    "name": "Cleaning Up"
+  },
+  "289": {
+    "index": "289",
+    "data_name": "aus2025_apexpistolsneutralizedvsmouzonmirage",
+    "name": "Pistols Neutralized"
+  },
+  "290": {
+    "index": "290",
+    "data_name": "aus2025_apexofftargetvsmouzonmirage",
+    "name": "Off Target"
+  },
+  "291": {
+    "index": "291",
+    "data_name": "aus2025_apexmixedfirevsmouzonmirage",
+    "name": "Versatile Shooter"
+  },
+  "292": {
+    "index": "292",
+    "data_name": "aus2025_brollanroundwinningkillsvsvitalityonmirage",
+    "name": "Brollan Closer"
+  },
+  "293": {
+    "index": "293",
+    "data_name": "aus2025_brollandeaglefuryvsvitalityonmirage",
+    "name": "Brollan Double Deagle"
+  },
+  "294": {
+    "index": "294",
+    "data_name": "aus2025_flamezaceunleashedvsmouzonmirage",
+    "name": "Ace Unleashed"
+  },
+  "295": {
+    "index": "295",
+    "data_name": "aus2025_flamezyoushallnotpassvsmouzonmirage",
+    "name": "flameZ Triple Kill vs MOUZ"
+  },
+  "296": {
+    "index": "296",
+    "data_name": "aus2025_flamezwreckagevsmouzonmirage",
+    "name": "Shut Down"
+  },
+  "297": {
+    "index": "297",
+    "data_name": "aus2025_flamezsmokeambushvsmouzonmirage",
+    "name": "Smoke Ambush"
+  },
+  "298": {
+    "index": "298",
+    "data_name": "aus2025_flamezsmokeshotsvsmouzonmirage",
+    "name": "Smoke Shots"
+  },
+  "299": {
+    "index": "299",
+    "data_name": "aus2025_jimpphatunseenblastvsvitalityonmirage",
+    "name": "Surprise Grenade"
+  },
+  "300": {
+    "index": "300",
+    "data_name": "aus2025_jimpphatcleansweepvsvitalityonmirage",
+    "name": "Jimpphat Clean Sweep"
+  },
+  "301": {
+    "index": "301",
+    "data_name": "aus2025_meziitickettakedownvsmouzonmirage",
+    "name": "Ticket Takedown"
+  },
+  "302": {
+    "index": "302",
+    "data_name": "aus2025_meziibsiteblockedvsmouzonmirage",
+    "name": "Blocking B"
+  },
+  "303": {
+    "index": "303",
+    "data_name": "aus2025_ropzglockcarnagevsmouzonmirage",
+    "name": "Glock Carnage"
+  },
+  "304": {
+    "index": "304",
+    "data_name": "aus2025_ropzmassacrevsmouzonmirage",
+    "name": "Massacre"
+  },
+  "305": {
+    "index": "305",
+    "data_name": "aus2025_ropzcoverfirevsmouzonmirage",
+    "name": "Cover Fire"
+  },
+  "306": {
+    "index": "306",
+    "data_name": "aus2025_ropzprecisionvsmouzonmirage",
+    "name": "Precision"
+  },
+  "307": {
+    "index": "307",
+    "data_name": "aus2025_spinxtwodownonesitevsvitalityonmirage",
+    "name": "Spinx Double Mirage Kill"
+  },
+  "308": {
+    "index": "308",
+    "data_name": "aus2025_torzsipistolroundherovsvitalityonmirage",
+    "name": "Pistol Hero"
+  },
+  "309": {
+    "index": "309",
+    "data_name": "aus2025_torzsitunnelvisionvsvitalityonmirage",
+    "name": "Tunnel Vision"
+  },
+  "310": {
+    "index": "310",
+    "data_name": "aus2025_xertionglockdoubletroublevsvitalityonmirage",
+    "name": "xertioN Double Kill"
+  },
+  "311": {
+    "index": "311",
+    "data_name": "aus2025_xertiondeadlydeaglevsvitalityonmirage",
+    "name": "Deadly Deagle"
+  },
+  "312": {
+    "index": "312",
+    "data_name": "aus2025_xertiongalilpowervsvitalityonmirage",
+    "name": "Galil Power"
+  },
+  "313": {
+    "index": "313",
+    "data_name": "aus2025_xertionlockedoutvsvitalityonmirage",
+    "name": "Locked Out"
+  },
+  "314": {
+    "index": "314",
+    "data_name": "aus2025_zywoofocusedbutfallenvsmouzonmirage",
+    "name": "Focused But Fallen"
+  },
+  "315": {
+    "index": "315",
+    "data_name": "aus2025_zywoofastdoublevsmouzonmirage",
+    "name": "Fast Double"
+  },
+  "316": {
+    "index": "316",
+    "data_name": "aus2025_zywoovitalvsmouzonmirage",
+    "name": "Vital"
+  },
+  "317": {
+    "index": "317",
+    "data_name": "aus2025_apexcheekyboostvsmouzontrain",
+    "name": "Cheeky Boost"
+  },
+  "318": {
+    "index": "318",
+    "data_name": "aus2025_apexpeekaboovsmouzontrain",
+    "name": "Peekaboo"
+  },
+  "319": {
+    "index": "319",
+    "data_name": "aus2025_apex2kdefendbvsmouzontrain",
+    "name": "The Defender"
+  },
+  "320": {
+    "index": "320",
+    "data_name": "aus2025_apex1v2afterplantvsmouzontrain",
+    "name": "Surprise Play"
+  },
+  "321": {
+    "index": "321",
+    "data_name": "aus2025_brollandestroyedvsvitalityontrain",
+    "name": "No Chance"
+  },
+  "322": {
+    "index": "322",
+    "data_name": "aus2025_brollanrunninggalilvsvitalityontrain",
+    "name": "Running Galil"
+  },
+  "323": {
+    "index": "323",
+    "data_name": "aus2025_flamez2kvsmouzontrain",
+    "name": "flameZ Double Train Kill"
+  },
+  "324": {
+    "index": "324",
+    "data_name": "aus2025_flamezonetapvsmouzontrain",
+    "name": "One Tap"
+  },
+  "325": {
+    "index": "325",
+    "data_name": "aus2025_jimphatlosetotimevsvitalityontrain",
+    "name": "Just Peek Me"
+  },
+  "326": {
+    "index": "326",
+    "data_name": "aus2025_jimpphat2kinnervsvitalityontrain",
+    "name": "Forgot About Me?"
+  },
+  "327": {
+    "index": "327",
+    "data_name": "aus2025_mezitriggerdisciplinenotenoughvsmouzontrain",
+    "name": "Trigger Happy"
+  },
+  "328": {
+    "index": "328",
+    "data_name": "aus2025_ropz2kuspvsmouzontrain",
+    "name": "USP Masterclass"
+  },
+  "329": {
+    "index": "329",
+    "data_name": "aus2025_ropz2kvsecovsmouzontrain",
+    "name": "ropz Double Train Kill"
+  },
+  "330": {
+    "index": "330",
+    "data_name": "aus2025_ropz2kinnervsmouzontrain",
+    "name": "Defender"
+  },
+  "331": {
+    "index": "331",
+    "data_name": "aus2025_ropz2krotatevsmouzontrain",
+    "name": "Backup Is Here"
+  },
+  "332": {
+    "index": "332",
+    "data_name": "aus2025_ropz2onetapsvsmouzontrain",
+    "name": "Shutdown By HE"
+  },
+  "333": {
+    "index": "333",
+    "data_name": "aus2025_ropz2kvsmouzontrain",
+    "name": "Opener"
+  },
+  "334": {
+    "index": "334",
+    "data_name": "aus2025_spinxfailedlurkvsfazeontrain",
+    "name": "Failed Lurk"
+  },
+  "335": {
+    "index": "335",
+    "data_name": "aus2025_spinx3kvsvitalityontrain",
+    "name": "Spinx Train Triple Kill"
+  },
+  "336": {
+    "index": "336",
+    "data_name": "aus2025_spinxswift2khsvsvitalityontrain",
+    "name": "Train Double Dink"
+  },
+  "337": {
+    "index": "337",
+    "data_name": "aus2025_torszifailedclutchvsvitalityontrain",
+    "name": "torzsi Clutch Denied"
+  },
+  "338": {
+    "index": "338",
+    "data_name": "aus2025_xertioncowboy3kvsvitalityontrain",
+    "name": "xertioN: The Cowboy"
+  },
+  "339": {
+    "index": "339",
+    "data_name": "aus2025_xertion2kecovsvitalityontrain",
+    "name": "xertioN: The Train Eco Fragger"
+  },
+  "340": {
+    "index": "340",
+    "data_name": "aus2025_zywoo2kvsecovsmouzontrain",
+    "name": "ZywOo Double Kill"
+  },
+  "341": {
+    "index": "341",
+    "data_name": "aus2025_zywoo2kawpvsmouzontrain",
+    "name": "The AWP Double"
+  },
+  "342": {
+    "index": "342",
+    "data_name": "aus2025_zywooawprampagevsmouzontrain",
+    "name": "ZywOo AWP Rampage"
+  },
+  "343": {
+    "index": "343",
+    "data_name": "aus2025_zywoo3kdominatingvsmouzontrain",
+    "name": "The Dominator"
+  },
+  "344": {
+    "index": "344",
+    "data_name": "aus2025_zywoo2khsvsmouzontrain",
+    "name": "ZywOo Double Headshot"
+  },
+  "345": {
+    "index": "345",
+    "data_name": "aus2025_apexstrikesbackataustincrowd",
+    "name": "Strikes Back"
+  },
+  "346": {
+    "index": "346",
+    "data_name": "aus2025_910clutchdeniedvsvitalityonmirage",
+    "name": "910 Clutch Denied"
+  },
+  "347": {
+    "index": "347",
+    "data_name": "aus2025_910triplekillvsvitalityonmirage",
+    "name": "910 Triple Kill vs Vitality"
+  },
+  "348": {
+    "index": "348",
+    "data_name": "aus2025_9102kawpvsvitalityonmirage",
+    "name": "910 Double Kill"
+  },
+  "349": {
+    "index": "349",
+    "data_name": "aus2025_910acevsvitalityonmirage",
+    "name": "910 Ace"
+  },
+  "350": {
+    "index": "350",
+    "data_name": "aus2025_apex3kvsmongolzonmirage",
+    "name": "apEX Triple Kill"
+  },
+  "351": {
+    "index": "351",
+    "data_name": "aus2025_apex2kvsecovsmongolzonmirage",
+    "name": "The Nade Delivery"
+  },
+  "352": {
+    "index": "352",
+    "data_name": "aus2025_apexflashplayvsmongolzonmirage",
+    "name": "Unlucky"
+  },
+  "353": {
+    "index": "353",
+    "data_name": "aus2025_apexjokerasitevsmongolzonmirage",
+    "name": "apEX: The Joker"
+  },
+  "354": {
+    "index": "354",
+    "data_name": "aus2025_blitz3kvsvitalityonmirage",
+    "name": "bLitz Triple Kill vs Vitality"
+  },
+  "355": {
+    "index": "355",
+    "data_name": "aus2025_blitzclutchdeniedvsvitalityonmirage",
+    "name": "bLitz Almost The Hero"
+  },
+  "356": {
+    "index": "356",
+    "data_name": "aus2025_blitz2kvsvitalityonmirage",
+    "name": "bLitz Double Connector Kill"
+  },
+  "357": {
+    "index": "357",
+    "data_name": "aus2025_flamezclutchdeniedvsmongolzonmirage",
+    "name": "flameZ Clutch Denied"
+  },
+  "358": {
+    "index": "358",
+    "data_name": "aus2025_flamez3kvsmongolzonmirage",
+    "name": "flameZ Triple Kill vs MongolZ"
+  },
+  "359": {
+    "index": "359",
+    "data_name": "aus2025_meziteamflashedvsmongolzonmirage",
+    "name": "The Teamflash"
+  },
+  "360": {
+    "index": "360",
+    "data_name": "aus2025_meziifailbacktobackclutchvsmongolzonmirage",
+    "name": "mezii Almost Clutch"
+  },
+  "361": {
+    "index": "361",
+    "data_name": "aus2025_meziiclutchdeniedvsmongolzonmirage",
+    "name": "mezii Clutch Denied"
+  },
+  "362": {
+    "index": "362",
+    "data_name": "aus2025_mzinhowallbangvsvitalityonmirage",
+    "name": "The Suspect"
+  },
+  "363": {
+    "index": "363",
+    "data_name": "aus2025_ropzcowboyvsmongolzonmirage",
+    "name": "ropz: The Cowboy"
+  },
+  "364": {
+    "index": "364",
+    "data_name": "aus2025_senzu3kecovsvitalityonmirage",
+    "name": "Senzu: The Eco Fragger - Top Mid"
+  },
+  "365": {
+    "index": "365",
+    "data_name": "aus2025_senzuecofraggervsvitalityonmirage",
+    "name": "Senzu: The Eco Fragger - Cat"
+  },
+  "366": {
+    "index": "366",
+    "data_name": "aus2025_techno4krampageandclutchvsvitalityonmirage",
+    "name": "Techno4K: The Clutch God"
+  },
+  "367": {
+    "index": "367",
+    "data_name": "aus2025_tehcno4kclutchdemonvsvitalityonmirage",
+    "name": "The Clutch Demon"
+  },
+  "368": {
+    "index": "368",
+    "data_name": "aus2025_techno4k2kdualiesvsvitalityonmirage",
+    "name": "Techno4K: The Cowboy vs Vitality"
+  },
+  "369": {
+    "index": "369",
+    "data_name": "aus2025_techno4k2kwinmapvsvitalityonmirage",
+    "name": "Techno4K Closer"
+  },
+  "370": {
+    "index": "370",
+    "data_name": "aus2025_zywoosmokecriminalvsmongolzonmirage",
+    "name": "ZywOo Smoke Criminal"
+  },
+  "371": {
+    "index": "371",
+    "data_name": "aus2025_zywoosmokespeakervsmongolzonmirage",
+    "name": "Smoke Speaker"
+  },
+  "372": {
+    "index": "372",
+    "data_name": "aus2025_zywoobreaksmokevsmongolzonmirage",
+    "name": "Smoke Breaker"
+  },
+  "373": {
+    "index": "373",
+    "data_name": "aus2025_apex2kpistolvsmongolzdust2",
+    "name": "apEX Double Kill"
+  },
+  "374": {
+    "index": "374",
+    "data_name": "aus2025_apexkobevsmongolzondust2",
+    "name": "Kobes"
+  },
+  "375": {
+    "index": "375",
+    "data_name": "aus2025_apex2kbvsmongolzondust2",
+    "name": "apEX: Help Is Here"
+  },
+  "376": {
+    "index": "376",
+    "data_name": "aus2025_apexflyingglockvsmongolzondust2",
+    "name": "Flying Frenchman"
+  },
+  "377": {
+    "index": "377",
+    "data_name": "aus2025_blitz2kvsvitalityondust2",
+    "name": "bLitz Double Dust II Kill"
+  },
+  "378": {
+    "index": "378",
+    "data_name": "aus2025_flamez2kecovsmongolzondust2",
+    "name": "Eco Fragger"
+  },
+  "379": {
+    "index": "379",
+    "data_name": "aus2025_flamez2kvsmongolzondust2",
+    "name": "flameZ Double Dust II Kill"
+  },
+  "380": {
+    "index": "380",
+    "data_name": "aus2025_flamez2kafterplantvsmongolzondust2",
+    "name": "Dust II Retake King"
+  },
+  "381": {
+    "index": "381",
+    "data_name": "aus2025_flamez2kavsmongolzondust2",
+    "name": "A Defender"
+  },
+  "382": {
+    "index": "382",
+    "data_name": "aus2025_flamezlosetotimevsmongolzondust2",
+    "name": "No Time"
+  },
+  "383": {
+    "index": "383",
+    "data_name": "aus2025_mezii2kvsmongolzondust2",
+    "name": "mezii Double Dust II Kill"
+  },
+  "384": {
+    "index": "384",
+    "data_name": "aus2025_meziientry2kvsmongolzondust2",
+    "name": "Surprise Entry"
+  },
+  "385": {
+    "index": "385",
+    "data_name": "aus2025_meziiclutchvsmongolzondust2",
+    "name": "Clutch Veteran"
+  },
+  "386": {
+    "index": "386",
+    "data_name": "aus2025_mezii2kandwinmapvsmongolzondust2",
+    "name": "Closing Kills"
+  },
+  "387": {
+    "index": "387",
+    "data_name": "aus2025_mzinhoclose1v3vsvitalityondust2",
+    "name": "Fear Him"
+  },
+  "388": {
+    "index": "388",
+    "data_name": "aus2025_mzinhoonetapvsvitalityondust2",
+    "name": "180 One Tap"
+  },
+  "389": {
+    "index": "389",
+    "data_name": "aus2025_ropz2kdualsvsmongolzondust2",
+    "name": "The Dual Double"
+  },
+  "390": {
+    "index": "390",
+    "data_name": "aus2025_ropz2kbvsmongolzondust2",
+    "name": "ropz Spray And Pray"
+  },
+  "391": {
+    "index": "391",
+    "data_name": "aus2025_ropz4kvsmongolzondust2",
+    "name": "ropz Quad Kill"
+  },
+  "392": {
+    "index": "392",
+    "data_name": "aus2025_ropzclotchdeniedvsmongolzondust2",
+    "name": "ropz Clutch Denied"
+  },
+  "393": {
+    "index": "393",
+    "data_name": "aus2025_senzuclutchgodvsvitalityondust2",
+    "name": "Senzu: The Clutch God"
+  },
+  "394": {
+    "index": "394",
+    "data_name": "aus2025_senznuclutchdeniedvsvitalityondust2",
+    "name": "Senzu Clutch Denied"
+  },
+  "395": {
+    "index": "395",
+    "data_name": "aus2025_techno2kandwhiffvsmongolzondust2",
+    "name": "Techno4K Almost The Hero"
+  },
+  "396": {
+    "index": "396",
+    "data_name": "aus2025_techno3kandclutchvsvitalityondust2",
+    "name": "Triple Kill Clutch"
+  },
+  "397": {
+    "index": "397",
+    "data_name": "aus2025_zywoo2kecovsmongolzondust2",
+    "name": "ZywOo: The Eco Fragger"
+  },
+  "398": {
+    "index": "398",
+    "data_name": "aus2025_zywoo3kvsmongolzondust2",
+    "name": "ZywOo Triple Kill"
+  },
+  "399": {
+    "index": "399",
+    "data_name": "aus2025_910openandclosevspainonanubis",
+    "name": "Open And Close"
+  },
+  "400": {
+    "index": "400",
+    "data_name": "aus2025_910jumpspotdodgevspainonanubis",
+    "name": "Jump Spot Dodge"
+  },
+  "401": {
+    "index": "401",
+    "data_name": "aus2025_910killtriodeliveredvspainonanubis",
+    "name": "Kill Trio Delivered"
+  },
+  "402": {
+    "index": "402",
+    "data_name": "aus2025_910triplekillcloservspainonanubis",
+    "name": "Triple Kill Closer"
+  },
+  "403": {
+    "index": "403",
+    "data_name": "aus2025_biguzeraibelieveicanflyvsthemongolzonanubis",
+    "name": "I Believe I Can Fly"
+  },
+  "404": {
+    "index": "404",
+    "data_name": "aus2025_blitzecotastesgoodvspainonanubis",
+    "name": "Eco Tastes Good"
+  },
+  "405": {
+    "index": "405",
+    "data_name": "aus2025_blitzstrugglingagainstglocksvspainonanubis",
+    "name": "Struggling Against Glocks"
+  },
+  "406": {
+    "index": "406",
+    "data_name": "aus2025_dav1deusrightbeindyouvsthemongolzonanubis",
+    "name": "Right Behind You"
+  },
+  "407": {
+    "index": "407",
+    "data_name": "aus2025_dgt2kvsthemongolzonanubis",
+    "name": "USP King"
+  },
+  "408": {
+    "index": "408",
+    "data_name": "aus2025_dgt1kvsthemongolzonaubis",
+    "name": "One With The MP9"
+  },
+  "409": {
+    "index": "409",
+    "data_name": "aus2025_mzinho3kvspainonanubis",
+    "name": "Triple Trouble"
+  },
+  "410": {
+    "index": "410",
+    "data_name": "aus2025_mzinhopreaimvspainonanubis",
+    "name": "Pre Aim"
+  },
+  "411": {
+    "index": "411",
+    "data_name": "aus2025_mzinhoflashingdoesntmattervsthemongolzonanubis",
+    "name": "Eyes Open"
+  },
+  "412": {
+    "index": "412",
+    "data_name": "aus2025_mzinhodoubleglockdownvspainonanubis",
+    "name": "Double Glock Down"
+  },
+  "413": {
+    "index": "413",
+    "data_name": "aus2025_nqzmissedshotmissedchancevsthemongolzonanubis",
+    "name": "Missed Shot And Missed Chance"
+  },
+  "414": {
+    "index": "414",
+    "data_name": "aus2025_nqzicantseevsthemongolzonanubis",
+    "name": "I Can't See"
+  },
+  "415": {
+    "index": "415",
+    "data_name": "aus2025_senzuyoucanthidevspainonanubis",
+    "name": "You Can't Hide"
+  },
+  "416": {
+    "index": "416",
+    "data_name": "aus2025_senzuclutchornothingvspainonanubis",
+    "name": "Clutch or Nothing"
+  },
+  "417": {
+    "index": "417",
+    "data_name": "aus2025_senzudeagledoublevspainonanubis",
+    "name": "Senzu Double Deagle"
+  },
+  "418": {
+    "index": "418",
+    "data_name": "aus2025_senzuclutchanddefusevspainonanubis",
+    "name": "Clutch and Defuse"
+  },
+  "419": {
+    "index": "419",
+    "data_name": "aus2025_senzuglockstakendownvspainonanubis",
+    "name": "Glocks Taken Down"
+  },
+  "420": {
+    "index": "420",
+    "data_name": "aus2025_snow2kvsthemongolzonanubis",
+    "name": "Double Duals Dominate"
+  },
+  "421": {
+    "index": "421",
+    "data_name": "aus2025_snownicetryvsthemongolzonanubis",
+    "name": "Nice Try"
+  },
+  "422": {
+    "index": "422",
+    "data_name": "aus2025_snowglockdoubledownvsthemongolzonanubis",
+    "name": "Glock Double Down"
+  },
+  "423": {
+    "index": "423",
+    "data_name": "aus2025_techno4ktripleterroronanubis",
+    "name": "Techno4k Triple Terror"
+  },
+  "424": {
+    "index": "424",
+    "data_name": "aus2025_techno4kdualsnodamagevspainonanubis",
+    "name": "Duals No Damage"
+  },
+  "425": {
+    "index": "425",
+    "data_name": "aus2025_techno4kriflepowerplayvspainonanubis",
+    "name": "Rifle Powerplay"
+  },
+  "426": {
+    "index": "426",
+    "data_name": "aus2025_apexsneakyslayervsvitalityoninferno",
+    "name": "Sneaky Killer"
+  },
+  "427": {
+    "index": "427",
+    "data_name": "aus2025_apexairbornevsmouzoninferno",
+    "name": "Airborne"
+  },
+  "428": {
+    "index": "428",
+    "data_name": "aus2025_brollanexploitvitalityoninferno",
+    "name": "Exploit"
+  },
+  "429": {
+    "index": "429",
+    "data_name": "aus2025_brollanriflecontrolvsvitalityoninferno",
+    "name": "Rifle Control"
+  },
+  "430": {
+    "index": "430",
+    "data_name": "aus2025_brollanblastvsvitalityoninferno",
+    "name": "Blast"
+  },
+  "431": {
+    "index": "431",
+    "data_name": "aus2025_flamezlasteffortvsmouzoninferno",
+    "name": "Last Effort"
+  },
+  "432": {
+    "index": "432",
+    "data_name": "aus2025_jimpphatpitholdvsvitalityoninferno",
+    "name": "Pit Hold"
+  },
+  "433": {
+    "index": "433",
+    "data_name": "aus2025_jimpphatpitpotvsvitalityoninferno",
+    "name": "Pit Power"
+  },
+  "434": {
+    "index": "434",
+    "data_name": "aus2025_jimpphatpunisherfrompitvsvitalityoninferno",
+    "name": "Punisher from Pit"
+  },
+  "435": {
+    "index": "435",
+    "data_name": "aus2025_jimpphatretakemastervsvitalityoninferno",
+    "name": "Retake Master"
+  },
+  "436": {
+    "index": "436",
+    "data_name": "aus2025_jimpphatjimmyjabsvsvitalityoninferno",
+    "name": "Jimmy Jabs"
+  },
+  "437": {
+    "index": "437",
+    "data_name": "aus2025_ropzrapidfirevsmouzoninferno",
+    "name": "Rapid Fire"
+  },
+  "438": {
+    "index": "438",
+    "data_name": "aus2025_ropzstrongholdvsmouzoninferno",
+    "name": "Stronghold"
+  },
+  "439": {
+    "index": "439",
+    "data_name": "aus2025_spinxstrikevsvitalityoninferno",
+    "name": "Spinx Inferno Triple Kill"
+  },
+  "440": {
+    "index": "440",
+    "data_name": "aus2025_spinxsiterecoveryvsvitalityoninferno",
+    "name": "Site Recovery"
+  },
+  "441": {
+    "index": "441",
+    "data_name": "aus2025_spinxsharpshootervsvitalityoninferno",
+    "name": "Sharp Shooter"
+  },
+  "442": {
+    "index": "442",
+    "data_name": "aus2025_spinxhiddenthreatvsvitalityoninferno",
+    "name": "Hidden Threat"
+  },
+  "443": {
+    "index": "443",
+    "data_name": "aus2025_torzsideadlydefensevsvitalityoninferno",
+    "name": "Deadly Defense"
+  },
+  "444": {
+    "index": "444",
+    "data_name": "aus2025_torzsifamasimpactvsvitalityoninferno",
+    "name": "FAMAS Specialist"
+  },
+  "445": {
+    "index": "445",
+    "data_name": "aus2025_torzsidualkillvsvitalityoninferno",
+    "name": "torzsi Double Inferno Kill"
+  },
+  "446": {
+    "index": "446",
+    "data_name": "aus2025_torzsiclosecallvsvitalityoninferno",
+    "name": "Close Call"
+  },
+  "447": {
+    "index": "447",
+    "data_name": "aus2025_torzsilethallongvsvitalityoninferno",
+    "name": "Lethal On Long"
+  },
+  "448": {
+    "index": "448",
+    "data_name": "aus2025_torzsihitormissvsvitalityoninferno",
+    "name": "Hit or Miss"
+  },
+  "449": {
+    "index": "449",
+    "data_name": "aus2025_torzsitaggingvsvitalityoninferno",
+    "name": "Tagging"
+  },
+  "450": {
+    "index": "450",
+    "data_name": "aus2025_torzsibombsitebattlevsvitalityoninferno",
+    "name": "Bombsite Battle"
+  },
+  "451": {
+    "index": "451",
+    "data_name": "aus2025_xertionpistolpunishervsvitalityoninferno",
+    "name": "Pistol Punisher"
+  },
+  "452": {
+    "index": "452",
+    "data_name": "aus2025_zywooroundcloservsmouzoninferno",
+    "name": "Round Closer"
+  },
+  "453": {
+    "index": "453",
+    "data_name": "aus2025_zywooalmosttherevsmouzoninferno",
+    "name": "Almost There"
+  },
+  "454": {
+    "index": "454",
+    "data_name": "aus2025_zywoostrikingmp9vsmouzoninferno",
+    "name": "Striking MP9"
+  },
+  "455": {
+    "index": "455",
+    "data_name": "aus2025_zywooriflerampagevsmouzoninferno",
+    "name": "Rifle Rampage"
+  },
+  "456": {
+    "index": "456",
+    "data_name": "aus2025_zywooonemagvsmouzoninferno",
+    "name": "One Mag"
+  },
+  "457": {
+    "index": "457",
+    "data_name": "aus2025_910misfirevsvitalityoninferno",
+    "name": "Misfire"
+  },
+  "458": {
+    "index": "458",
+    "data_name": "aus2025_910strikingvsvitalityoninferno",
+    "name": "Striking AWP"
+  },
+  "459": {
+    "index": "459",
+    "data_name": "aus2025_910strugglevsvitalityoninferno",
+    "name": "Struggle"
+  },
+  "460": {
+    "index": "460",
+    "data_name": "aus2025_910sprayandprayvsvitalityoninferno",
+    "name": "910 Spray and Pray"
+  },
+  "461": {
+    "index": "461",
+    "data_name": "aus2025_910killchainvsvitalityoninferno",
+    "name": "Kill Chain"
+  },
+  "462": {
+    "index": "462",
+    "data_name": "aus2025_910doubledownvsvitalityoninferno",
+    "name": "Double Down"
+  },
+  "463": {
+    "index": "463",
+    "data_name": "aus2025_apexkillstreakvsthemongolzoninferno",
+    "name": "Kill Streak"
+  },
+  "464": {
+    "index": "464",
+    "data_name": "aus2025_apexroundsecorevsthemongolzoninferno",
+    "name": "Lead By Example"
+  },
+  "465": {
+    "index": "465",
+    "data_name": "aus2025_apexholdlinevsthemongolzoninferno",
+    "name": "Hold Line"
+  },
+  "466": {
+    "index": "466",
+    "data_name": "aus2025_apexbombsiteclearedvsthemongolzoninferno",
+    "name": "Bombsite Cleared"
+  },
+  "467": {
+    "index": "467",
+    "data_name": "aus2025_apexownfirevsthemongolzoninferno",
+    "name": "Own Fire"
+  },
+  "468": {
+    "index": "468",
+    "data_name": "aus2025_blitzheroiceffortvsvitalityoninferno",
+    "name": "Heroic Effort"
+  },
+  "469": {
+    "index": "469",
+    "data_name": "aus2025_blitzboomvsvitalityoninferno",
+    "name": "Boom"
+  },
+  "470": {
+    "index": "470",
+    "data_name": "aus2025_blitzbackstabbervsvitalityoninferno",
+    "name": "Backstabber"
+  },
+  "471": {
+    "index": "471",
+    "data_name": "aus2025_flamezretakedeniedvsthemongolzoninferno",
+    "name": "flameZ Retake Denied"
+  },
+  "472": {
+    "index": "472",
+    "data_name": "aus2025_flameztesting123vsthemongolzoninferno",
+    "name": "Testing123"
+  },
+  "473": {
+    "index": "473",
+    "data_name": "aus2025_flamezretakekingvsthemongolzoninferno",
+    "name": "Inferno Retake King"
+  },
+  "474": {
+    "index": "474",
+    "data_name": "aus2025_flamezalmostclutchvsthemongolzoninferno",
+    "name": "flameZ Almost Clutch"
+  },
+  "475": {
+    "index": "475",
+    "data_name": "aus2025_flamezroundherevsthemongolzoninferno",
+    "name": "Round Here"
+  },
+  "476": {
+    "index": "476",
+    "data_name": "aus2025_meziidominationvsthemongolzoninferno",
+    "name": "Domination"
+  },
+  "477": {
+    "index": "477",
+    "data_name": "aus2025_meziistandingstrongvsthemongolzoninferno",
+    "name": "Standing Strong"
+  },
+  "478": {
+    "index": "478",
+    "data_name": "aus2025_meziiboostkillvsthemongolzoninferno",
+    "name": "Boost Kill"
+  },
+  "479": {
+    "index": "479",
+    "data_name": "aus2025_meziiwarningshotvsthemongolzoninferno",
+    "name": "Warning Shot"
+  },
+  "480": {
+    "index": "480",
+    "data_name": "aus2025_meziicleansweepvsthemongolzoninferno",
+    "name": "mezii Clean Sweep"
+  },
+  "481": {
+    "index": "481",
+    "data_name": "aus2025_mzinhogamechangervsvitalityoninferno",
+    "name": "Game Changer"
+  },
+  "482": {
+    "index": "482",
+    "data_name": "aus2025_mzinhomomentumvsvitalityoninferno",
+    "name": "Momentum"
+  },
+  "483": {
+    "index": "483",
+    "data_name": "aus2025_mzinhoquickkillsvsvitalityoninferno",
+    "name": "Quick Kills"
+  },
+  "484": {
+    "index": "484",
+    "data_name": "aus2025_ropzrampagevsthemongolzoninferno",
+    "name": "Rampage"
+  },
+  "485": {
+    "index": "485",
+    "data_name": "aus2025_ropzfiercefightvsthemongolzoninferno",
+    "name": "Fierce Fight"
+  },
+  "486": {
+    "index": "486",
+    "data_name": "aus2025_ropzfailedrevengevsthemongolzoninferno",
+    "name": "Failed Revenge"
+  },
+  "487": {
+    "index": "487",
+    "data_name": "aus2025_senzuoneshotvsvitalityoninferno",
+    "name": "One Shot"
+  },
+  "488": {
+    "index": "488",
+    "data_name": "aus2025_senzusmokesprayvsvitalityoninferno",
+    "name": "Smoke Spray"
+  },
+  "489": {
+    "index": "489",
+    "data_name": "aus2025_senzustrikingshotsvsvitalityoninferno",
+    "name": "Striking Shots"
+  },
+  "490": {
+    "index": "490",
+    "data_name": "aus2025_techno4ktechnotriumphvsvitalityoninferno",
+    "name": "Techno Triumph"
+  },
+  "491": {
+    "index": "491",
+    "data_name": "aus2025_techno4ktimedpushvsvitaltyoninferno",
+    "name": "Timed Push"
+  },
+  "492": {
+    "index": "492",
+    "data_name": "aus2025_techno4kclutchwinvsvitalityoninferno",
+    "name": "Clutch Win"
+  },
+  "493": {
+    "index": "493",
+    "data_name": "bud2025_qf-navi-entrance",
+    "name": "Natus Vincere on the QF stage"
+  },
+  "494": {
+    "index": "494",
+    "data_name": "bud2025_qf-furia-entrance",
+    "name": "FURIA on the QF stage"
+  },
+  "495": {
+    "index": "495",
+    "data_name": "bud2025_qf-w0nderful-quadro-kill-on-mirage",
+    "name": "w0nderful shuts Mid"
+  },
+  "496": {
+    "index": "496",
+    "data_name": "bud2025_qf-aleksib-triple-kill-on-mirage",
+    "name": "Aleksib Underpass sweep"
+  },
+  "497": {
+    "index": "497",
+    "data_name": "bud2025_qf-b1t-triple-kill-on-mirage-1",
+    "name": "b1t Apartments play"
+  },
+  "498": {
+    "index": "498",
+    "data_name": "bud2025_qf-b1t-triple-kill-on-mirage-2",
+    "name": "b1t mid-air catch"
+  },
+  "499": {
+    "index": "499",
+    "data_name": "bud2025_qf-b1t-triple-kill-on-mirage-3",
+    "name": "b1t smoke breakthrough"
+  },
+  "500": {
+    "index": "500",
+    "data_name": "bud2025_qf-im-triple-kill-on-mirage",
+    "name": "iM Connector burst"
+  },
+  "501": {
+    "index": "501",
+    "data_name": "bud2025_qf-im-quadro-kill-on-mirage",
+    "name": "iM AK massacre"
+  },
+  "502": {
+    "index": "502",
+    "data_name": "bud2025_qf-im-double-kill-on-mirage",
+    "name": "iM sick-flick"
+  },
+  "503": {
+    "index": "503",
+    "data_name": "bud2025_qf-makazze-triple-kill-on-mirage",
+    "name": "makazze B-aps stop"
+  },
+  "504": {
+    "index": "504",
+    "data_name": "bud2025_qf-yuurih-clutch-1v2-on-mirage",
+    "name": "yuurih A-site clutch"
+  },
+  "505": {
+    "index": "505",
+    "data_name": "bud2025_qf-w0nderful-vs-furia-on-mirage",
+    "name": "w0nderful vs FURIA on Mirage"
+  },
+  "506": {
+    "index": "506",
+    "data_name": "bud2025_qf-aleksib-vs-furia-on-mirage",
+    "name": "Aleksib vs FURIA on Mirage"
+  },
+  "507": {
+    "index": "507",
+    "data_name": "bud2025_qf-b1t-vs-furia-on-mirage",
+    "name": "b1t vs FURIA on Mirage"
+  },
+  "508": {
+    "index": "508",
+    "data_name": "bud2025_qf-im-vs-furia-on-mirage",
+    "name": "iM vs FURIA on Mirage"
+  },
+  "509": {
+    "index": "509",
+    "data_name": "bud2025_qf-makazze-vs-furia-on-mirage",
+    "name": "makazze vs FURIA on Mirage"
+  },
+  "510": {
+    "index": "510",
+    "data_name": "bud2025_qf-yekindar-vs-navi-on-mirage",
+    "name": "YEKINDAR vs Natus Vincere on Mirage"
+  },
+  "511": {
+    "index": "511",
+    "data_name": "bud2025_qf-kscerato-vs-navi-on-mirage",
+    "name": "KSCERATO vs Natus Vincere on Mirage"
+  },
+  "512": {
+    "index": "512",
+    "data_name": "bud2025_qf-fallen-vs-navi-on-mirage",
+    "name": "FalleN vs Natus Vincere on Mirage"
+  },
+  "513": {
+    "index": "513",
+    "data_name": "bud2025_qf-molodoy-vs-navi-on-mirage",
+    "name": "molodoy vs Natus Vincere on Mirage"
+  },
+  "514": {
+    "index": "514",
+    "data_name": "bud2025_qf-yuurih-vs-navi-on-mirage",
+    "name": "yuurih vs Natus Vincere on Mirage"
+  },
+  "515": {
+    "index": "515",
+    "data_name": "bud2025_qf-faze-entrance",
+    "name": "FaZe on the QF stage"
+  },
+  "516": {
+    "index": "516",
+    "data_name": "bud2025_qf-mouz-entrance",
+    "name": "MOUZ on the QF stage"
+  },
+  "517": {
+    "index": "517",
+    "data_name": "bud2025_qf-karrigan-triple-kill-on-nuke-1",
+    "name": "karrigan through fire"
+  },
+  "518": {
+    "index": "518",
+    "data_name": "bud2025_qf-karrigan-triple-kill-on-nuke-2",
+    "name": "karrigan cuts rotation"
+  },
+  "519": {
+    "index": "519",
+    "data_name": "bud2025_qf-twistzz-triple-kill-on-nuke",
+    "name": "Twistzz smoke breaker"
+  },
+  "520": {
+    "index": "520",
+    "data_name": "bud2025_qf-jcobbb-quadro-kill-on-nuke",
+    "name": "jcobbb entry force"
+  },
+  "521": {
+    "index": "521",
+    "data_name": "bud2025_qf-frozen-triple-kill-on-nuke",
+    "name": "frozen post-plant wall"
+  },
+  "522": {
+    "index": "522",
+    "data_name": "bud2025_qf-broky-triple-kill-on-nuke",
+    "name": "broky seals Nuke"
+  },
+  "523": {
+    "index": "523",
+    "data_name": "bud2025_qf-spinx-triple-kill-on-nuke-1",
+    "name": "Spinx instant refrag"
+  },
+  "524": {
+    "index": "524",
+    "data_name": "bud2025_qf-spinx-triple-kill-on-nuke-2",
+    "name": "Spinx plant pressure"
+  },
+  "525": {
+    "index": "525",
+    "data_name": "bud2025_qf-torzsi-triple-kill-on-nuke",
+    "name": "torzsi opening picks"
+  },
+  "526": {
+    "index": "526",
+    "data_name": "bud2025_qf-brollan-triple-kill-on-nuke",
+    "name": "Brollan Ramp action"
+  },
+  "527": {
+    "index": "527",
+    "data_name": "bud2025_qf-karrigan-vs-mouz-on-nuke",
+    "name": "karrigan vs MOUZ on Nuke"
+  },
+  "528": {
+    "index": "528",
+    "data_name": "bud2025_qf-broky-vs-mouz-on-nuke",
+    "name": "broky vs MOUZ on Nuke"
+  },
+  "529": {
+    "index": "529",
+    "data_name": "bud2025_qf-twistzz-vs-mouz-on-nuke",
+    "name": "Twistzz vs MOUZ on Nuke"
+  },
+  "530": {
+    "index": "530",
+    "data_name": "bud2025_qf-jcobbb-vs-mouz-on-nuke",
+    "name": "jcobbb vs MOUZ on Nuke"
+  },
+  "531": {
+    "index": "531",
+    "data_name": "bud2025_qf-frozen-vs-mouz-on-nuke",
+    "name": "frozen vs MOUZ on Nuke"
+  },
+  "532": {
+    "index": "532",
+    "data_name": "bud2025_qf-jimpphat-vs-faze-on-nuke",
+    "name": "Jimpphat vs FaZe on Nuke"
+  },
+  "533": {
+    "index": "533",
+    "data_name": "bud2025_qf-brollan-vs-faze-on-nuke",
+    "name": "Brollan vs FaZe on Nuke"
+  },
+  "534": {
+    "index": "534",
+    "data_name": "bud2025_qf-spinx-vs-faze-on-nuke",
+    "name": "Spinx vs FaZe on Nuke"
+  },
+  "535": {
+    "index": "535",
+    "data_name": "bud2025_qf-torzsi-vs-faze-on-nuke",
+    "name": "torzsi vs FaZe on Nuke"
+  },
+  "536": {
+    "index": "536",
+    "data_name": "bud2025_qf-xertion-vs-faze-on-nuke",
+    "name": "xertioN vs FaZe on Nuke"
+  },
+  "537": {
+    "index": "537",
+    "data_name": "bud2025_qf-spirit-entrance",
+    "name": "Spirit on the QF stage"
+  },
+  "538": {
+    "index": "538",
+    "data_name": "bud2025_qf-falcons-entrance",
+    "name": "Falcons on the QF stage"
+  },
+  "539": {
+    "index": "539",
+    "data_name": "bud2025_qf-chopper-triple-kill-on-nuke",
+    "name": "chopper strikes first"
+  },
+  "540": {
+    "index": "540",
+    "data_name": "bud2025_qf-m0nesy-triple-kill-on-nuke",
+    "name": "m0NESY defuse denial"
+  },
+  "541": {
+    "index": "541",
+    "data_name": "bud2025_qf-sh1ro-triple-kill-on-nuke-1",
+    "name": "sh1ro takes over"
+  },
+  "542": {
+    "index": "542",
+    "data_name": "bud2025_qf-sh1ro-triple-kill-on-nuke-2",
+    "name": "sh1ro B-site carnage"
+  },
+  "543": {
+    "index": "543",
+    "data_name": "bud2025_qf-zweih-quadro-kill-on-nuke",
+    "name": "zweih almost aces"
+  },
+  "544": {
+    "index": "544",
+    "data_name": "bud2025_qf-zweih-ace-on-nuke",
+    "name": "zweih ace"
+  },
+  "545": {
+    "index": "545",
+    "data_name": "bud2025_qf-donk-quadro-kill-on-nuke",
+    "name": "donk opens everything"
+  },
+  "546": {
+    "index": "546",
+    "data_name": "bud2025_qf-tn1r-triple-kill-on-nuke-1",
+    "name": "tN1R smoke assassin"
+  },
+  "547": {
+    "index": "547",
+    "data_name": "bud2025_qf-tn1r-triple-kill-on-nuke-2",
+    "name": "tN1R Ramp massacre"
+  },
+  "548": {
+    "index": "548",
+    "data_name": "bud2025_qf-kyousuke-triple-kill-on-nuke",
+    "name": "kyousuke Ramp wipe"
+  },
+  "549": {
+    "index": "549",
+    "data_name": "bud2025_qf-chopper-vs-falcons-on-nuke",
+    "name": "chopper vs Falcons on Nuke"
+  },
+  "550": {
+    "index": "550",
+    "data_name": "bud2025_qf-donk-vs-falcons-on-nuke",
+    "name": "donk vs Falcons on Nuke"
+  },
+  "551": {
+    "index": "551",
+    "data_name": "bud2025_qf-zweih-vs-falcons-on-nuke",
+    "name": "zweih vs Falcons on Nuke"
+  },
+  "552": {
+    "index": "552",
+    "data_name": "bud2025_qf-sh1ro-vs-falcons-on-nuke",
+    "name": "sh1ro vs Falcons on Nuke"
+  },
+  "553": {
+    "index": "553",
+    "data_name": "bud2025_qf-tn1r-vs-falcons-on-nuke",
+    "name": "tN1R vs Falcons on Nuke"
+  },
+  "554": {
+    "index": "554",
+    "data_name": "bud2025_qf-niko-vs-spirit-on-nuke",
+    "name": "NiKo vs Spirit on Nuke"
+  },
+  "555": {
+    "index": "555",
+    "data_name": "bud2025_qf-kyxsan-vs-spirit-on-nuke",
+    "name": "kyxsan vs Spirit on Nuke"
+  },
+  "556": {
+    "index": "556",
+    "data_name": "bud2025_qf-m0nesy-vs-spirit-on-nuke",
+    "name": "m0NESY vs Spirit on Nuke"
+  },
+  "557": {
+    "index": "557",
+    "data_name": "bud2025_qf-teses-vs-spirit-on-nuke",
+    "name": "TeSeS vs Spirit on Nuke"
+  },
+  "558": {
+    "index": "558",
+    "data_name": "bud2025_qf-kyousuke-vs-spirit-on-nuke",
+    "name": "kyousuke vs Spirit on Nuke"
+  },
+  "559": {
+    "index": "559",
+    "data_name": "bud2025_qf-vitality-entrance",
+    "name": "Vitality on the QF stage"
+  },
+  "560": {
+    "index": "560",
+    "data_name": "bud2025_qf-the-mongolz-entrance",
+    "name": "The MongolZ on the QF stage"
+  },
+  "561": {
+    "index": "561",
+    "data_name": "bud2025_qf-mezii-quadro-kill-on-mirage",
+    "name": "mezii opening chaos"
+  },
+  "562": {
+    "index": "562",
+    "data_name": "bud2025_qf-mezii-triple-kill-on-mirage",
+    "name": "mezii Forest play"
+  },
+  "563": {
+    "index": "563",
+    "data_name": "bud2025_qf-flamez-triple-kill-on-mirage-1",
+    "name": "flameZ mid brawl"
+  },
+  "564": {
+    "index": "564",
+    "data_name": "bud2025_qf-flamez-triple-kill-on-mirage-2",
+    "name": "flameZ everywhere"
+  },
+  "565": {
+    "index": "565",
+    "data_name": "bud2025_qf-zywoo-triple-kill-on-mirage",
+    "name": "ZywOo P250 madness"
+  },
+  "566": {
+    "index": "566",
+    "data_name": "bud2025_qf-zywoo-quadro-kill-on-mirage",
+    "name": "ZywOo final blow"
+  },
+  "567": {
+    "index": "567",
+    "data_name": "bud2025_qf-techno4k-triple-kill-on-mirage",
+    "name": "Techno4K triple punch"
+  },
+  "568": {
+    "index": "568",
+    "data_name": "bud2025_qf-910-triple-kill-on-mirage",
+    "name": "910 solid rotation"
+  },
+  "569": {
+    "index": "569",
+    "data_name": "bud2025_qf-zywoo-vs-the-mongolz-on-mirage",
+    "name": "ZywOo vs The MongolZ on Mirage"
+  },
+  "570": {
+    "index": "570",
+    "data_name": "bud2025_qf-apex-vs-the-mongolz-on-mirage",
+    "name": "apEX vs The MongolZ on Mirage"
+  },
+  "571": {
+    "index": "571",
+    "data_name": "bud2025_qf-mezii-vs-the-mongolz-on-mirage",
+    "name": "mezii vs The MongolZ on Mirage"
+  },
+  "572": {
+    "index": "572",
+    "data_name": "bud2025_qf-flamez-vs-the-mongolz-on-mirage",
+    "name": "flameZ vs The MongolZ on Mirage"
+  },
+  "573": {
+    "index": "573",
+    "data_name": "bud2025_qf-ropz-vs-the-mongolz-on-mirage",
+    "name": "ropz vs The MongolZ on Mirage"
+  },
+  "574": {
+    "index": "574",
+    "data_name": "bud2025_qf-blitz-vs-vitality-on-mirage",
+    "name": "bLitz vs Vitality on Mirage"
+  },
+  "575": {
+    "index": "575",
+    "data_name": "bud2025_qf-techno4k-vs-vitality-on-mirage",
+    "name": "Techno4K vs Vitality on Mirage"
+  },
+  "576": {
+    "index": "576",
+    "data_name": "bud2025_qf-mzinho-vs-vitality-on-mirage",
+    "name": "Mzinho vs Vitality on Mirage"
+  },
+  "577": {
+    "index": "577",
+    "data_name": "bud2025_qf-910-vs-vitality-on-mirage",
+    "name": "910 vs Vitality on Mirage"
+  },
+  "578": {
+    "index": "578",
+    "data_name": "bud2025_qf-controlez-vs-vitality-on-mirage",
+    "name": "controlez vs Vitality on Mirage"
+  },
+  "579": {
+    "index": "579",
+    "data_name": "bud2025_qf-w0nderful-triple-kill-on-inferno",
+    "name": "w0nderful plant lockdown"
+  },
+  "580": {
+    "index": "580",
+    "data_name": "bud2025_qf-aleksib-double-kill-on-inferno",
+    "name": "Aleksib smoke breaker"
+  },
+  "581": {
+    "index": "581",
+    "data_name": "bud2025_qf-b1t-quadro-kill-on-inferno",
+    "name": "b1t pistol shutdown"
+  },
+  "582": {
+    "index": "582",
+    "data_name": "bud2025_qf-im-quadro-kill-on-inferno",
+    "name": "iM nearly 1v5"
+  },
+  "583": {
+    "index": "583",
+    "data_name": "bud2025_qf-im-triple-kill-on-inferno",
+    "name": "iM Short cleanup"
+  },
+  "584": {
+    "index": "584",
+    "data_name": "bud2025_qf-yekindar-triple-kill-on-inferno",
+    "name": "YEKINDAR Glock charge"
+  },
+  "585": {
+    "index": "585",
+    "data_name": "bud2025_qf-kscerato-triple-kill-on-inferno",
+    "name": "KSCERATO boost play"
+  },
+  "586": {
+    "index": "586",
+    "data_name": "bud2025_qf-fallen-double-kill-on-inferno",
+    "name": "FalleN smoke play"
+  },
+  "587": {
+    "index": "587",
+    "data_name": "bud2025_qf-fallen-triple-kill-on-inferno-1",
+    "name": "FalleN Banana clutch"
+  },
+  "588": {
+    "index": "588",
+    "data_name": "bud2025_qf-fallen-triple-kill-on-inferno-2",
+    "name": "FalleN captain defuse"
+  },
+  "589": {
+    "index": "589",
+    "data_name": "bud2025_qf-molodoy-quadro-kill-on-inferno",
+    "name": "molodoy overtime quadro"
+  },
+  "590": {
+    "index": "590",
+    "data_name": "bud2025_qf-w0nderful-vs-furia-on-inferno",
+    "name": "w0nderful vs FURIA on Inferno"
+  },
+  "591": {
+    "index": "591",
+    "data_name": "bud2025_qf-aleksib-vs-furia-on-inferno",
+    "name": "Aleksib vs FURIA on Inferno"
+  },
+  "592": {
+    "index": "592",
+    "data_name": "bud2025_qf-b1t-vs-furia-on-inferno",
+    "name": "b1t vs FURIA on Inferno"
+  },
+  "593": {
+    "index": "593",
+    "data_name": "bud2025_qf-im-vs-furia-on-inferno",
+    "name": "iM vs FURIA on Inferno"
+  },
+  "594": {
+    "index": "594",
+    "data_name": "bud2025_qf-makazze-vs-furia-on-inferno",
+    "name": "makazze vs FURIA on Inferno"
+  },
+  "595": {
+    "index": "595",
+    "data_name": "bud2025_qf-yekindar-vs-navi-on-inferno",
+    "name": "YEKINDAR vs Natus Vincere on Inferno"
+  },
+  "596": {
+    "index": "596",
+    "data_name": "bud2025_qf-kscerato-vs-navi-on-inferno",
+    "name": "KSCERATO vs Natus Vincere on Inferno"
+  },
+  "597": {
+    "index": "597",
+    "data_name": "bud2025_qf-fallen-vs-navi-on-inferno",
+    "name": "FalleN vs Natus Vincere on Inferno"
+  },
+  "598": {
+    "index": "598",
+    "data_name": "bud2025_qf-molodoy-vs-navi-on-inferno",
+    "name": "molodoy vs Natus Vincere on Inferno"
+  },
+  "599": {
+    "index": "599",
+    "data_name": "bud2025_qf-yuurih-vs-navi-on-inferno",
+    "name": "yuurih vs Natus Vincere on Inferno"
+  },
+  "600": {
+    "index": "600",
+    "data_name": "bud2025_qf-faze-victory",
+    "name": "FaZe win in the QF"
+  },
+  "601": {
+    "index": "601",
+    "data_name": "bud2025_qf-broky-triple-kill-on-inferno-1",
+    "name": "broky mid-air magic"
+  },
+  "602": {
+    "index": "602",
+    "data_name": "bud2025_qf-broky-triple-kill-on-inferno-2",
+    "name": "broky Boiler cleanup"
+  },
+  "603": {
+    "index": "603",
+    "data_name": "bud2025_qf-broky-triple-kill-on-inferno-3",
+    "name": "broky post-plant fury"
+  },
+  "604": {
+    "index": "604",
+    "data_name": "bud2025_qf-frozen-triple-kill-on-inferno",
+    "name": "frozen Banana snap"
+  },
+  "605": {
+    "index": "605",
+    "data_name": "bud2025_qf-karrigan-he-damage-on-inferno",
+    "name": "karrigan nade finish"
+  },
+  "606": {
+    "index": "606",
+    "data_name": "bud2025_qf-torzsi-triple-kill-on-inferno",
+    "name": "torzsi Tec-9 rampage"
+  },
+  "607": {
+    "index": "607",
+    "data_name": "bud2025_qf-twistzz-triple-kill-on-inferno",
+    "name": "Twistzz dual chaos"
+  },
+  "608": {
+    "index": "608",
+    "data_name": "bud2025_qf-xertion-triple-kill-on-inferno",
+    "name": "xertioN clutch win"
+  },
+  "609": {
+    "index": "609",
+    "data_name": "bud2025_qf-broky-vs-mouz-on-inferno",
+    "name": "broky vs MOUZ on Inferno"
+  },
+  "610": {
+    "index": "610",
+    "data_name": "bud2025_qf-brollan-vs-faze-on-inferno",
+    "name": "Brollan vs FaZe on Inferno"
+  },
+  "611": {
+    "index": "611",
+    "data_name": "bud2025_qf-frozen-vs-mouz-on-inferno",
+    "name": "frozen vs MOUZ on Inferno"
+  },
+  "612": {
+    "index": "612",
+    "data_name": "bud2025_qf-jcobbb-vs-mouz-on-inferno",
+    "name": "jcobbb vs MOUZ on Inferno"
+  },
+  "613": {
+    "index": "613",
+    "data_name": "bud2025_qf-jimpphat-vs-faze-on-inferno",
+    "name": "Jimpphat vs FaZe on Inferno"
+  },
+  "614": {
+    "index": "614",
+    "data_name": "bud2025_qf-karrigan-vs-mouz-on-inferno",
+    "name": "karrigan vs MOUZ on Inferno"
+  },
+  "615": {
+    "index": "615",
+    "data_name": "bud2025_qf-spinx-vs-faze-on-inferno",
+    "name": "Spinx vs FaZe on Inferno"
+  },
+  "616": {
+    "index": "616",
+    "data_name": "bud2025_qf-torzsi-vs-faze-on-inferno",
+    "name": "torzsi vs FaZe on Inferno"
+  },
+  "617": {
+    "index": "617",
+    "data_name": "bud2025_qf-twistzz-vs-mouz-on-inferno",
+    "name": "Twistzz vs MOUZ on Inferno"
+  },
+  "618": {
+    "index": "618",
+    "data_name": "bud2025_qf-xertion-vs-faze-on-inferno",
+    "name": "xertioN vs FaZe on Inferno"
+  },
+  "619": {
+    "index": "619",
+    "data_name": "bud2025_qf-spirit-victory",
+    "name": "Spirit win in the QF"
+  },
+  "620": {
+    "index": "620",
+    "data_name": "bud2025_qf-chopper-triple-kill-on-dust2",
+    "name": "chopper A-site havoc"
+  },
+  "621": {
+    "index": "621",
+    "data_name": "bud2025_qf-donk-quadro-kill-on-dust2",
+    "name": "donk quad eruption"
+  },
+  "622": {
+    "index": "622",
+    "data_name": "bud2025_qf-kyousuke-triple-kill-on-dust2",
+    "name": "kyousuke smoke punish"
+  },
+  "623": {
+    "index": "623",
+    "data_name": "bud2025_qf-m0nesy-triple-kill-on-dust2",
+    "name": "m0NESY momentum swing"
+  },
+  "624": {
+    "index": "624",
+    "data_name": "bud2025_qf-sh1ro-quadro-kill-on-dust2",
+    "name": "sh1ro mid-air shutdown"
+  },
+  "625": {
+    "index": "625",
+    "data_name": "bud2025_qf-sh1ro-triple-kill-on-dust2",
+    "name": "sh1ro multi-action swing"
+  },
+  "626": {
+    "index": "626",
+    "data_name": "bud2025_qf-teses-quadro-kill-on-dust2",
+    "name": "TeSeS site purge"
+  },
+  "627": {
+    "index": "627",
+    "data_name": "bud2025_qf-tn1r-triple-kill-on-dust2",
+    "name": "tN1R Gandalf spray"
+  },
+  "628": {
+    "index": "628",
+    "data_name": "bud2025_qf-zweih-ace-on-dust2",
+    "name": "zweih flawless ace"
+  },
+  "629": {
+    "index": "629",
+    "data_name": "bud2025_qf-zweih-triple-kill-on-dust2",
+    "name": "zweih B-site fortress"
+  },
+  "630": {
+    "index": "630",
+    "data_name": "bud2025_qf-chopper-vs-falcons-on-dust2",
+    "name": "chopper vs Falcons on Dust II"
+  },
+  "631": {
+    "index": "631",
+    "data_name": "bud2025_qf-donk-vs-falcons-on-dust2",
+    "name": "donk vs Falcons on Dust II"
+  },
+  "632": {
+    "index": "632",
+    "data_name": "bud2025_qf-kyousuke-vs-spirit-on-dust2",
+    "name": "kyousuke vs Spirit on Dust II"
+  },
+  "633": {
+    "index": "633",
+    "data_name": "bud2025_qf-kyxsan-vs-spirit-on-dust2",
+    "name": "kyxsan vs Spirit on Dust II"
+  },
+  "634": {
+    "index": "634",
+    "data_name": "bud2025_qf-m0nesy-vs-spirit-on-dust2",
+    "name": "m0NESY vs Spirit on Dust II"
+  },
+  "635": {
+    "index": "635",
+    "data_name": "bud2025_qf-niko-vs-spirit-on-dust2",
+    "name": "NiKo vs Spirit on Dust II"
+  },
+  "636": {
+    "index": "636",
+    "data_name": "bud2025_qf-sh1ro-vs-falcons-on-dust2",
+    "name": "sh1ro vs Falcons on Dust II"
+  },
+  "637": {
+    "index": "637",
+    "data_name": "bud2025_qf-teses-vs-spirit-on-dust2",
+    "name": "TeSeS vs Spirit on Dust II"
+  },
+  "638": {
+    "index": "638",
+    "data_name": "bud2025_qf-tn1r-vs-falcons-on-dust2",
+    "name": "tN1R vs Falcons on Dust II"
+  },
+  "639": {
+    "index": "639",
+    "data_name": "bud2025_qf-zweih-vs-falcons-on-dust2",
+    "name": "zweih vs Falcons on Dust II"
+  },
+  "640": {
+    "index": "640",
+    "data_name": "bud2025_qf-vitality-victory",
+    "name": "Vitality win in the QF"
+  },
+  "641": {
+    "index": "641",
+    "data_name": "bud2025_qf-910-triple-kill-on-dust2",
+    "name": "910 MP9 mayhem"
+  },
+  "642": {
+    "index": "642",
+    "data_name": "bud2025_qf-mezii-triple-kill-on-dust2-1",
+    "name": "mezii B-site burst"
+  },
+  "643": {
+    "index": "643",
+    "data_name": "bud2025_qf-mezii-triple-kill-on-dust2-2",
+    "name": "mezii mid takeover"
+  },
+  "644": {
+    "index": "644",
+    "data_name": "bud2025_qf-mzinho-quadro-kill-on-dust2-1",
+    "name": "Mzinho Long control"
+  },
+  "645": {
+    "index": "645",
+    "data_name": "bud2025_qf-mzinho-quadro-kill-on-dust2-2",
+    "name": "Mzinho clears Short"
+  },
+  "646": {
+    "index": "646",
+    "data_name": "bud2025_qf-mzinho-triple-kill-on-dust2",
+    "name": "Mzinho mid surprise"
+  },
+  "647": {
+    "index": "647",
+    "data_name": "bud2025_qf-ropz-quadro-kill-on-dust2",
+    "name": "ropz 1v3 clutch"
+  },
+  "648": {
+    "index": "648",
+    "data_name": "bud2025_qf-ropz-triple-kill-on-dust2",
+    "name": "ropz pistol precision"
+  },
+  "649": {
+    "index": "649",
+    "data_name": "bud2025_qf-zywoo-triple-kill-on-dust2",
+    "name": "ZywOo triple finish"
+  },
+  "650": {
+    "index": "650",
+    "data_name": "bud2025_qf-910-vs-vitality-on-dust2",
+    "name": "910 vs Vitality on Dust II"
+  },
+  "651": {
+    "index": "651",
+    "data_name": "bud2025_qf-apex-vs-the-mongolz-on-dust2",
+    "name": "apEX vs The MongolZ on Dust II"
+  },
+  "652": {
+    "index": "652",
+    "data_name": "bud2025_qf-blitz-vs-vitality-on-dust2",
+    "name": "bLitz vs Vitality on Dust II"
+  },
+  "653": {
+    "index": "653",
+    "data_name": "bud2025_qf-controlez-vs-vitality-on-dust2",
+    "name": "controlez vs Vitality on Dust II"
+  },
+  "654": {
+    "index": "654",
+    "data_name": "bud2025_qf-flamez-vs-the-mongolz-on-dust2",
+    "name": "flameZ vs The MongolZ on Dust II"
+  },
+  "655": {
+    "index": "655",
+    "data_name": "bud2025_qf-mezii-vs-the-mongolz-on-dust2",
+    "name": "mezii vs The MongolZ on Dust II"
+  },
+  "656": {
+    "index": "656",
+    "data_name": "bud2025_qf-mzinho-vs-vitality-on-dust2",
+    "name": "Mzinho vs Vitality on Dust II"
+  },
+  "657": {
+    "index": "657",
+    "data_name": "bud2025_qf-ropz-vs-the-mongolz-on-dust2",
+    "name": "ropz vs The MongolZ on Dust II"
+  },
+  "658": {
+    "index": "658",
+    "data_name": "bud2025_qf-techno4k-vs-vitality-on-dust2",
+    "name": "Techno4K vs Vitality on Dust II"
+  },
+  "659": {
+    "index": "659",
+    "data_name": "bud2025_qf-zywoo-vs-the-mongolz-on-dust2",
+    "name": "ZywOo vs The MongolZ on Dust II"
+  },
+  "660": {
+    "index": "660",
+    "data_name": "bud2025_qf-navi-victory",
+    "name": "Natus Vincere win in the QF"
+  },
+  "661": {
+    "index": "661",
+    "data_name": "bud2025_qf-w0nderful-quadro-kill-on-train",
+    "name": "w0nderful smoke criminal"
+  },
+  "662": {
+    "index": "662",
+    "data_name": "bud2025_qf-aleksib-triple-kill-on-train",
+    "name": "Aleksib post-plant triple"
+  },
+  "663": {
+    "index": "663",
+    "data_name": "bud2025_qf-b1t-triple-kill-on-train",
+    "name": "b1t B-site ambush"
+  },
+  "664": {
+    "index": "664",
+    "data_name": "bud2025_qf-makazze-triple-kill-on-train-1",
+    "name": "makazze flash cleanup"
+  },
+  "665": {
+    "index": "665",
+    "data_name": "bud2025_qf-makazze-triple-kill-on-train-2",
+    "name": "makazze Ivy disruption"
+  },
+  "666": {
+    "index": "666",
+    "data_name": "bud2025_qf-makazze-triple-kill-on-train-3",
+    "name": "makazze pistol precision"
+  },
+  "667": {
+    "index": "667",
+    "data_name": "bud2025_qf-makazze-quadro-kill-on-train",
+    "name": "makazze fury unleashed"
+  },
+  "668": {
+    "index": "668",
+    "data_name": "bud2025_qf-kscerato-triple-kill-on-train",
+    "name": "KSCERATO A play"
+  },
+  "669": {
+    "index": "669",
+    "data_name": "bud2025_qf-fallen-triple-kill-on-train",
+    "name": "FalleN late-half triple"
+  },
+  "670": {
+    "index": "670",
+    "data_name": "bud2025_qf-w0nderful-vs-furia-on-train",
+    "name": "w0nderful vs FURIA on Train"
+  },
+  "671": {
+    "index": "671",
+    "data_name": "bud2025_qf-aleksib-vs-furia-on-train",
+    "name": "Aleksib vs FURIA on Train"
+  },
+  "672": {
+    "index": "672",
+    "data_name": "bud2025_qf-b1t-vs-furia-on-train",
+    "name": "b1t vs FURIA on Train"
+  },
+  "673": {
+    "index": "673",
+    "data_name": "bud2025_qf-im-vs-furia-on-train",
+    "name": "iM vs FURIA on Train"
+  },
+  "674": {
+    "index": "674",
+    "data_name": "bud2025_qf-makazze-vs-furia-on-train",
+    "name": "makazze vs FURIA on Train"
+  },
+  "675": {
+    "index": "675",
+    "data_name": "bud2025_qf-yekindar-vs-navi-on-train",
+    "name": "YEKINDAR vs Natus Vincere on Train"
+  },
+  "676": {
+    "index": "676",
+    "data_name": "bud2025_qf-kscerato-vs-navi-on-train",
+    "name": "KSCERATO vs Natus Vincere on Train"
+  },
+  "677": {
+    "index": "677",
+    "data_name": "bud2025_qf-fallen-vs-navi-on-train",
+    "name": "FalleN vs Natus Vincere on Train"
+  },
+  "678": {
+    "index": "678",
+    "data_name": "bud2025_qf-molodoy-vs-navi-on-train",
+    "name": "molodoy vs Natus Vincere on Train"
+  },
+  "679": {
+    "index": "679",
+    "data_name": "bud2025_qf-yuurih-vs-navi-on-train",
+    "name": "yuurih vs Natus Vincere on Train"
+  },
+  "680": {
+    "index": "680",
+    "data_name": "bud2025_sf-navi-entrance",
+    "name": "Natus Vincere on the SF stage"
+  },
+  "681": {
+    "index": "681",
+    "data_name": "bud2025_sf-faze-entrance",
+    "name": "FaZe on the SF stage"
+  },
+  "682": {
+    "index": "682",
+    "data_name": "bud2025_sf-aleksib-double-on-ancient",
+    "name": "Aleksib smoke read spray"
+  },
+  "683": {
+    "index": "683",
+    "data_name": "bud2025_sf-b1t-double-on-ancient",
+    "name": "b1t B-site stand"
+  },
+  "684": {
+    "index": "684",
+    "data_name": "bud2025_sf-im-triple-on-ancient",
+    "name": "iM USP-S quad threat"
+  },
+  "685": {
+    "index": "685",
+    "data_name": "bud2025_sf-jcobbb-quadro-on-ancient",
+    "name": "jcobbb Redroom sweep"
+  },
+  "686": {
+    "index": "686",
+    "data_name": "bud2025_sf-karrigan-double-on-ancient",
+    "name": "karrigan smoke double"
+  },
+  "687": {
+    "index": "687",
+    "data_name": "bud2025_sf-makazze-double-on-ancient",
+    "name": "makazze A-plant entry"
+  },
+  "688": {
+    "index": "688",
+    "data_name": "bud2025_sf-makazze-quadro-on-ancient",
+    "name": "makazze Mid wide swing"
+  },
+  "689": {
+    "index": "689",
+    "data_name": "bud2025_sf-makazze-triple-on-ancient",
+    "name": "makazze Redroom transfer"
+  },
+  "690": {
+    "index": "690",
+    "data_name": "bud2025_sf-w0nderful-double-on-ancient",
+    "name": "w0nderful Mid to A punish"
+  },
+  "691": {
+    "index": "691",
+    "data_name": "bud2025_sf-w0nderful-triple-on-ancient",
+    "name": "w0nderful A-site triple"
+  },
+  "692": {
+    "index": "692",
+    "data_name": "bud2025_sf-w0nderful-vs-faze-on-ancient",
+    "name": "w0nderful vs FaZe on Ancient"
+  },
+  "693": {
+    "index": "693",
+    "data_name": "bud2025_sf-aleksib-vs-faze-on-ancient",
+    "name": "Aleksib vs FaZe on Ancient"
+  },
+  "694": {
+    "index": "694",
+    "data_name": "bud2025_sf-b1t-vs-faze-on-ancient",
+    "name": "b1t vs FaZe on Ancient"
+  },
+  "695": {
+    "index": "695",
+    "data_name": "bud2025_sf-im-vs-faze-on-ancient",
+    "name": "iM vs FaZe on Ancient"
+  },
+  "696": {
+    "index": "696",
+    "data_name": "bud2025_sf-makazze-vs-faze-on-ancient",
+    "name": "makazze vs FaZe on Ancient"
+  },
+  "697": {
+    "index": "697",
+    "data_name": "bud2025_sf-karrigan-vs-navi-on-ancient",
+    "name": "karrigan vs Natus Vincere on Ancient"
+  },
+  "698": {
+    "index": "698",
+    "data_name": "bud2025_sf-broky-vs-navi-on-ancient",
+    "name": "broky vs Natus Vincere on Ancient"
+  },
+  "699": {
+    "index": "699",
+    "data_name": "bud2025_sf-twistzz-vs-navi-on-ancient",
+    "name": "Twistzz vs Natus Vincere on Ancient"
+  },
+  "700": {
+    "index": "700",
+    "data_name": "bud2025_sf-jcobbb-vs-navi-on-ancient",
+    "name": "jcobbb vs Natus Vincere on Ancient"
+  },
+  "701": {
+    "index": "701",
+    "data_name": "bud2025_sf-frozen-vs-navi-on-ancient",
+    "name": "frozen vs Natus Vincere on Ancient"
+  },
+  "702": {
+    "index": "702",
+    "data_name": "bud2025_sf-spirit-entrance",
+    "name": "Spirit on the SF stage"
+  },
+  "703": {
+    "index": "703",
+    "data_name": "bud2025_sf-vitality-entrance",
+    "name": "Vitality on the SF stage"
+  },
+  "704": {
+    "index": "704",
+    "data_name": "bud2025_sf-apex-double-on-mirage",
+    "name": "apEX overtime closer"
+  },
+  "705": {
+    "index": "705",
+    "data_name": "bud2025_sf-chopper-triple-on-mirage",
+    "name": "chopper calm 1v3"
+  },
+  "706": {
+    "index": "706",
+    "data_name": "bud2025_sf-donk-triple-on-mirage-1",
+    "name": "donk smoke burst"
+  },
+  "707": {
+    "index": "707",
+    "data_name": "bud2025_sf-donk-triple-on-mirage-2",
+    "name": "donk Mid takeover"
+  },
+  "708": {
+    "index": "708",
+    "data_name": "bud2025_sf-mezii-triple-on-mirage-1",
+    "name": "mezii B-aps shutdown"
+  },
+  "709": {
+    "index": "709",
+    "data_name": "bud2025_sf-mezii-triple-on-mirage-2",
+    "name": "mezii perfect read"
+  },
+  "710": {
+    "index": "710",
+    "data_name": "bud2025_sf-ropz-triple-on-mirage",
+    "name": "ropz round flip"
+  },
+  "711": {
+    "index": "711",
+    "data_name": "bud2025_sf-tn1r-triple-on-mirage-1",
+    "name": "tN1R Firebox gamble"
+  },
+  "712": {
+    "index": "712",
+    "data_name": "bud2025_sf-tn1r-triple-on-mirage-2",
+    "name": "tN1R finishing double"
+  },
+  "713": {
+    "index": "713",
+    "data_name": "bud2025_sf-zywoo-quadro-on-mirage",
+    "name": "ZywOo Short play"
+  },
+  "714": {
+    "index": "714",
+    "data_name": "bud2025_sf-apex-vs-spirit-on-mirage",
+    "name": "apEX vs Spirit on Mirage"
+  },
+  "715": {
+    "index": "715",
+    "data_name": "bud2025_sf-chopper-vs-vitality-on-mirage",
+    "name": "chopper vs Vitality on Mirage"
+  },
+  "716": {
+    "index": "716",
+    "data_name": "bud2025_sf-donk-vs-vitality-on-mirage",
+    "name": "donk vs Vitality on Mirage"
+  },
+  "717": {
+    "index": "717",
+    "data_name": "bud2025_sf-flamez-vs-spirit-on-mirage",
+    "name": "flameZ vs Spirit on Mirage"
+  },
+  "718": {
+    "index": "718",
+    "data_name": "bud2025_sf-mezii-vs-spirit-on-mirage",
+    "name": "mezii vs Spirit on Mirage"
+  },
+  "719": {
+    "index": "719",
+    "data_name": "bud2025_sf-ropz-vs-spirit-on-mirage",
+    "name": "ropz vs Spirit on Mirage"
+  },
+  "720": {
+    "index": "720",
+    "data_name": "bud2025_sf-sh1ro-vs-vitality-on-mirage",
+    "name": "sh1ro vs Vitality on Mirage"
+  },
+  "721": {
+    "index": "721",
+    "data_name": "bud2025_sf-tn1r-vs-vitality-on-mirage",
+    "name": "tN1R vs Vitality on Mirage"
+  },
+  "722": {
+    "index": "722",
+    "data_name": "bud2025_sf-zweih-vs-vitality-on-mirage",
+    "name": "zweih vs Vitality on Mirage"
+  },
+  "723": {
+    "index": "723",
+    "data_name": "bud2025_sf-zywoo-vs-spirit-on-mirage",
+    "name": "ZywOo vs Spirit on Mirage"
+  },
+  "724": {
+    "index": "724",
+    "data_name": "bud2025_sf-w0nderful-triple-on-nuke",
+    "name": "w0nderful long-range triple"
+  },
+  "725": {
+    "index": "725",
+    "data_name": "bud2025_sf-b1t-triple-on-nuke",
+    "name": "b1t Outside to B stop"
+  },
+  "726": {
+    "index": "726",
+    "data_name": "bud2025_sf-im-quadro-on-nuke-1",
+    "name": "iM pistol quad"
+  },
+  "727": {
+    "index": "727",
+    "data_name": "bud2025_sf-im-quadro-on-nuke-2",
+    "name": "iM rotation payoff"
+  },
+  "728": {
+    "index": "728",
+    "data_name": "bud2025_sf-karrigan-triple-on-nuke",
+    "name": "karrigan Main entry triple"
+  },
+  "729": {
+    "index": "729",
+    "data_name": "bud2025_sf-broky-triple-on-nuke",
+    "name": "broky A-site equalizer"
+  },
+  "730": {
+    "index": "730",
+    "data_name": "bud2025_sf-twistzz-quadro-on-nuke",
+    "name": "Twistzz Ramp bomb hold"
+  },
+  "731": {
+    "index": "731",
+    "data_name": "bud2025_sf-frozen-triple-on-nuke-1",
+    "name": "frozen Ramp triple"
+  },
+  "732": {
+    "index": "732",
+    "data_name": "bud2025_sf-frozen-triple-on-nuke-2",
+    "name": "frozen backstab cleanup"
+  },
+  "733": {
+    "index": "733",
+    "data_name": "bud2025_sf-w0nderful-vs-faze-on-nuke",
+    "name": "w0nderful vs FaZe on Nuke"
+  },
+  "734": {
+    "index": "734",
+    "data_name": "bud2025_sf-aleksib-vs-faze-on-nuke",
+    "name": "Aleksib vs FaZe on Nuke"
+  },
+  "735": {
+    "index": "735",
+    "data_name": "bud2025_sf-b1t-vs-faze-on-nuke",
+    "name": "b1t vs FaZe on Nuke"
+  },
+  "736": {
+    "index": "736",
+    "data_name": "bud2025_sf-im-vs-faze-on-nuke",
+    "name": "iM vs FaZe on Nuke"
+  },
+  "737": {
+    "index": "737",
+    "data_name": "bud2025_sf-makazze-vs-faze-on-nuke",
+    "name": "makazze vs FaZe on Nuke"
+  },
+  "738": {
+    "index": "738",
+    "data_name": "bud2025_sf-karrigan-vs-navi-on-nuke",
+    "name": "karrigan vs Natus Vincere on Nuke"
+  },
+  "739": {
+    "index": "739",
+    "data_name": "bud2025_sf-broky-vs-navi-on-nuke",
+    "name": "broky vs Natus Vincere on Nuke"
+  },
+  "740": {
+    "index": "740",
+    "data_name": "bud2025_sf-twistzz-vs-navi-on-nuke",
+    "name": "Twistzz vs Natus Vincere on Nuke"
+  },
+  "741": {
+    "index": "741",
+    "data_name": "bud2025_sf-jcobbb-vs-navi-on-nuke",
+    "name": "jcobbb vs Natus Vincere on Nuke"
+  },
+  "742": {
+    "index": "742",
+    "data_name": "bud2025_sf-frozen-vs-navi-on-nuke",
+    "name": "frozen vs Natus Vincere on Nuke"
+  },
+  "743": {
+    "index": "743",
+    "data_name": "bud2025_sf-vitality-victory",
+    "name": "Vitality wins in the SF"
+  },
+  "744": {
+    "index": "744",
+    "data_name": "bud2025_sf-donk-quadro-on-dust2",
+    "name": "donk door-to-AWP rampage"
+  },
+  "745": {
+    "index": "745",
+    "data_name": "bud2025_sf-zweih-triple-on-dust2",
+    "name": "zweih tunnels opener"
+  },
+  "746": {
+    "index": "746",
+    "data_name": "bud2025_sf-tn1r-double-on-dust2",
+    "name": "tN1R doors to B plant"
+  },
+  "747": {
+    "index": "747",
+    "data_name": "bud2025_sf-zywoo-triple-on-dust2-1",
+    "name": "ZywOo pistol round burst"
+  },
+  "748": {
+    "index": "748",
+    "data_name": "bud2025_sf-zywoo-triple-on-dust2-2",
+    "name": "ZywOo smoke stumble"
+  },
+  "749": {
+    "index": "749",
+    "data_name": "bud2025_sf-apex-double-on-dust2",
+    "name": "apEX early double"
+  },
+  "750": {
+    "index": "750",
+    "data_name": "bud2025_sf-apex-triple-on-dust2-1",
+    "name": "apEX A-site lockdown"
+  },
+  "751": {
+    "index": "751",
+    "data_name": "bud2025_sf-apex-triple-on-dust2-2",
+    "name": "apEX Long dance"
+  },
+  "752": {
+    "index": "752",
+    "data_name": "bud2025_sf-flamez-double-on-dust2",
+    "name": "flameZ map closer"
+  },
+  "753": {
+    "index": "753",
+    "data_name": "bud2025_sf-ropz-triple-on-dust2",
+    "name": "ropz smoke pick"
+  },
+  "754": {
+    "index": "754",
+    "data_name": "bud2025_sf-chopper-vs-vitality-on-dust2",
+    "name": "chopper vs Vitality on Dust II"
+  },
+  "755": {
+    "index": "755",
+    "data_name": "bud2025_sf-donk-vs-vitality-on-dust2",
+    "name": "donk vs Vitality on Dust II"
+  },
+  "756": {
+    "index": "756",
+    "data_name": "bud2025_sf-zweih-vs-vitality-on-dust2",
+    "name": "zweih vs Vitality on Dust II"
+  },
+  "757": {
+    "index": "757",
+    "data_name": "bud2025_sf-sh1ro-vs-vitality-on-dust2",
+    "name": "sh1ro vs Vitality on Dust II"
+  },
+  "758": {
+    "index": "758",
+    "data_name": "bud2025_sf-tn1r-vs-vitality-on-dust2",
+    "name": "tN1R vs Vitality on Dust II"
+  },
+  "759": {
+    "index": "759",
+    "data_name": "bud2025_sf-zywoo-vs-spirit-on-dust2",
+    "name": "ZywOo vs Spirit on Dust II"
+  },
+  "760": {
+    "index": "760",
+    "data_name": "bud2025_sf-apex-vs-spirit-on-dust2",
+    "name": "apEX vs Spirit on Dust II"
+  },
+  "761": {
+    "index": "761",
+    "data_name": "bud2025_sf-mezii-vs-spirit-on-dust2",
+    "name": "mezii vs Spirit on Dust II"
+  },
+  "762": {
+    "index": "762",
+    "data_name": "bud2025_sf-flamez-vs-spirit-on-dust2",
+    "name": "flameZ vs Spirit on Dust II"
+  },
+  "763": {
+    "index": "763",
+    "data_name": "bud2025_sf-ropz-vs-spirit-on-dust2",
+    "name": "ropz vs Spirit on Dust II"
+  },
+  "764": {
+    "index": "764",
+    "data_name": "bud2025_sf-faze-win",
+    "name": "FaZe win in the SF"
+  },
+  "765": {
+    "index": "765",
+    "data_name": "bud2025_sf-w0nderful-triple-on-inferno",
+    "name": "w0nderful post-plant hold"
+  },
+  "766": {
+    "index": "766",
+    "data_name": "bud2025_sf-aleksib-double-on-inferno",
+    "name": "Aleksib CT lockdown"
+  },
+  "767": {
+    "index": "767",
+    "data_name": "bud2025_sf-b1t-quadro-on-inferno",
+    "name": "b1t Triple timing quad"
+  },
+  "768": {
+    "index": "768",
+    "data_name": "bud2025_sf-b1t-defuse-on-inferno",
+    "name": "b1t last-second defuse"
+  },
+  "769": {
+    "index": "769",
+    "data_name": "bud2025_sf-karrigan-double-on-inferno",
+    "name": "karrigan pistol headshots"
+  },
+  "770": {
+    "index": "770",
+    "data_name": "bud2025_sf-broky-double-on-inferno",
+    "name": "broky Triple surprise"
+  },
+  "771": {
+    "index": "771",
+    "data_name": "bud2025_sf-twistzz-double-on-inferno",
+    "name": "Twistzz Banana to CT swing"
+  },
+  "772": {
+    "index": "772",
+    "data_name": "bud2025_sf-twistzz-quadro-on-inferno",
+    "name": "Twistzz Deagle quad"
+  },
+  "773": {
+    "index": "773",
+    "data_name": "bud2025_sf-jcobbb-triple-on-inferno",
+    "name": "jcobbb A-site spraydown"
+  },
+  "774": {
+    "index": "774",
+    "data_name": "bud2025_sf-frozen-triple-on-inferno",
+    "name": "frozen Banana opener"
+  },
+  "775": {
+    "index": "775",
+    "data_name": "bud2025_sf-w0nderful-vs-faze-on-inferno",
+    "name": "w0nderful vs FaZe on Inferno"
+  },
+  "776": {
+    "index": "776",
+    "data_name": "bud2025_sf-aleksib-vs-faze-on-inferno",
+    "name": "Aleksib vs FaZe on Inferno"
+  },
+  "777": {
+    "index": "777",
+    "data_name": "bud2025_sf-b1t-vs-faze-on-inferno",
+    "name": "b1t vs FaZe on Inferno"
+  },
+  "778": {
+    "index": "778",
+    "data_name": "bud2025_sf-im-vs-faze-on-inferno",
+    "name": "iM vs FaZe on Inferno"
+  },
+  "779": {
+    "index": "779",
+    "data_name": "bud2025_sf-makazze-vs-faze-on-inferno",
+    "name": "makazze vs FaZe on Inferno"
+  },
+  "780": {
+    "index": "780",
+    "data_name": "bud2025_sf-karrigan-vs-navi-on-inferno",
+    "name": "karrigan vs Natus Vincere on Inferno"
+  },
+  "781": {
+    "index": "781",
+    "data_name": "bud2025_sf-broky-vs-navi-on-inferno",
+    "name": "broky vs Natus Vincere on Inferno"
+  },
+  "782": {
+    "index": "782",
+    "data_name": "bud2025_sf-twistzz-vs-navi-on-inferno",
+    "name": "Twistzz vs Natus Vincere on Inferno"
+  },
+  "783": {
+    "index": "783",
+    "data_name": "bud2025_sf-jcobbb-vs-navi-on-inferno",
+    "name": "jcobbb vs Natus Vincere on Inferno"
+  },
+  "784": {
+    "index": "784",
+    "data_name": "bud2025_sf-frozen-vs-navi-on-inferno",
+    "name": "frozen vs Natus Vincere on Inferno"
+  },
+  "785": {
+    "index": "785",
+    "data_name": "bud2025_gf-vitality-entrance",
+    "name": "Vitality on the GF stage"
+  },
+  "786": {
+    "index": "786",
+    "data_name": "bud2025_gf-faze-entrance",
+    "name": "FaZe on the GF stage"
+  },
+  "787": {
+    "index": "787",
+    "data_name": "bud2025_gf-apex-double-on-nuke",
+    "name": "apEX smoke gap"
+  },
+  "788": {
+    "index": "788",
+    "data_name": "bud2025_gf-flamez-triple-on-nuke",
+    "name": "flameZ Squeaky triple"
+  },
+  "789": {
+    "index": "789",
+    "data_name": "bud2025_gf-jcobbb-triple-on-nuke",
+    "name": "jcobbb USP-S triple"
+  },
+  "790": {
+    "index": "790",
+    "data_name": "bud2025_gf-karrigan-triple-on-nuke-1",
+    "name": "karrigan rotation triple"
+  },
+  "791": {
+    "index": "791",
+    "data_name": "bud2025_gf-karrigan-triple-on-nuke-2",
+    "name": "karrigan Lobby MP9"
+  },
+  "792": {
+    "index": "792",
+    "data_name": "bud2025_gf-mezii-clutch-1v3-on-nuke",
+    "name": "mezii post-plant"
+  },
+  "793": {
+    "index": "793",
+    "data_name": "bud2025_gf-ropz-double-on-nuke",
+    "name": "ropz Heaven double"
+  },
+  "794": {
+    "index": "794",
+    "data_name": "bud2025_gf-twistzz-quadro-on-nuke",
+    "name": "Twistzz Secret quad"
+  },
+  "795": {
+    "index": "795",
+    "data_name": "bud2025_gf-twistzz-triple-on-nuke-1",
+    "name": "Twistzz pistol triple"
+  },
+  "796": {
+    "index": "796",
+    "data_name": "bud2025_gf-twistzz-triple-on-nuke-2",
+    "name": "Twistzz Garage triple"
+  },
+  "797": {
+    "index": "797",
+    "data_name": "bud2025_gf-apex-vs-faze-on-nuke",
+    "name": "apEX vs FaZe on Nuke"
+  },
+  "798": {
+    "index": "798",
+    "data_name": "bud2025_gf-broky-vs-vitality-on-nuke",
+    "name": "broky vs Vitality on Nuke"
+  },
+  "799": {
+    "index": "799",
+    "data_name": "bud2025_gf-flamez-vs-faze-on-nuke",
+    "name": "flameZ vs FaZe on Nuke"
+  },
+  "800": {
+    "index": "800",
+    "data_name": "bud2025_gf-frozen-vs-vitality-on-nuke",
+    "name": "frozen vs Vitality on Nuke"
+  },
+  "801": {
+    "index": "801",
+    "data_name": "bud2025_gf-jcobbb-vs-vitality-on-nuke",
+    "name": "jcobbb vs Vitality on Nuke"
+  },
+  "802": {
+    "index": "802",
+    "data_name": "bud2025_gf-karrigan-vs-vitality-on-nuke",
+    "name": "karrigan vs Vitality on Nuke"
+  },
+  "803": {
+    "index": "803",
+    "data_name": "bud2025_gf-mezii-vs-faze-on-nuke",
+    "name": "mezii vs FaZe on Nuke"
+  },
+  "804": {
+    "index": "804",
+    "data_name": "bud2025_gf-ropz-vs-faze-on-nuke",
+    "name": "ropz vs FaZe on Nuke"
+  },
+  "805": {
+    "index": "805",
+    "data_name": "bud2025_gf-twistzz-vs-vitality-on-nuke",
+    "name": "Twistzz vs Vitality on Nuke"
+  },
+  "806": {
+    "index": "806",
+    "data_name": "bud2025_gf-zywoo-vs-faze-on-nuke",
+    "name": "ZywOo vs FaZe on Nuke"
+  },
+  "807": {
+    "index": "807",
+    "data_name": "bud2025_gf-zywoo-quadro-on-dust2",
+    "name": "ZywOo Long pistol wall"
+  },
+  "808": {
+    "index": "808",
+    "data_name": "bud2025_gf-mezii-clutch-1v2-on-dust2",
+    "name": "mezii CT clutch"
+  },
+  "809": {
+    "index": "809",
+    "data_name": "bud2025_gf-flamez-quadro-on-dust2",
+    "name": "flameZ post-plant sweep"
+  },
+  "810": {
+    "index": "810",
+    "data_name": "bud2025_gf-ropz-double-on-dust2",
+    "name": "ropz Tunnel trap"
+  },
+  "811": {
+    "index": "811",
+    "data_name": "bud2025_gf-broky-triple-on-dust2-1",
+    "name": "broky duel to triple"
+  },
+  "812": {
+    "index": "812",
+    "data_name": "bud2025_gf-broky-double-on-dust2",
+    "name": "broky Doors closer"
+  },
+  "813": {
+    "index": "813",
+    "data_name": "bud2025_gf-broky-triple-on-dust2-2",
+    "name": "broky Scout showcase"
+  },
+  "814": {
+    "index": "814",
+    "data_name": "bud2025_gf-twistzz-double-on-dust2",
+    "name": "Twistzz smoke timing"
+  },
+  "815": {
+    "index": "815",
+    "data_name": "bud2025_gf-frozen-triple-on-dust2-1",
+    "name": "frozen Upper Tunnel sweep"
+  },
+  "816": {
+    "index": "816",
+    "data_name": "bud2025_gf-frozen-triple-on-dust2-2",
+    "name": "frozen B-site burst"
+  },
+  "817": {
+    "index": "817",
+    "data_name": "bud2025_gf-zywoo-vs-faze-on-dust2",
+    "name": "ZywOo vs FaZe on Dust II"
+  },
+  "818": {
+    "index": "818",
+    "data_name": "bud2025_gf-apex-vs-faze-on-dust2",
+    "name": "apEX vs FaZe on Dust II"
+  },
+  "819": {
+    "index": "819",
+    "data_name": "bud2025_gf-mezii-vs-faze-on-dust2",
+    "name": "mezii vs FaZe on Dust II"
+  },
+  "820": {
+    "index": "820",
+    "data_name": "bud2025_gf-flamez-vs-faze-on-dust2",
+    "name": "flameZ vs FaZe on Dust II"
+  },
+  "821": {
+    "index": "821",
+    "data_name": "bud2025_gf-ropz-vs-faze-on-dust2",
+    "name": "ropz vs FaZe on Dust II"
+  },
+  "822": {
+    "index": "822",
+    "data_name": "bud2025_gf-karrigan-vs-vitality-on-dust2",
+    "name": "karrigan vs Vitality on Dust II"
+  },
+  "823": {
+    "index": "823",
+    "data_name": "bud2025_gf-broky-vs-vitality-on-dust2",
+    "name": "broky vs Vitality on Dust II"
+  },
+  "824": {
+    "index": "824",
+    "data_name": "bud2025_gf-twistzz-vs-vitality-on-dust2",
+    "name": "Twistzz vs Vitality on Dust II"
+  },
+  "825": {
+    "index": "825",
+    "data_name": "bud2025_gf-jcobbb-vs-vitality-on-dust2",
+    "name": "jcobbb vs Vitality on Dust II"
+  },
+  "826": {
+    "index": "826",
+    "data_name": "bud2025_gf-frozen-vs-vitality-on-dust2",
+    "name": "frozen vs Vitality on Dust II"
+  },
+  "827": {
+    "index": "827",
+    "data_name": "bud2025_gf-zywoo-triple-on-inferno",
+    "name": "ZywOo Construction spray"
+  },
+  "828": {
+    "index": "828",
+    "data_name": "bud2025_gf-mezii-triple-on-inferno",
+    "name": "mezii Boost timing"
+  },
+  "829": {
+    "index": "829",
+    "data_name": "bud2025_gf-ropz-triple-on-inferno-1",
+    "name": "ropz crossfire triple"
+  },
+  "830": {
+    "index": "830",
+    "data_name": "bud2025_gf-ropz-triple-on-inferno-2",
+    "name": "ropz Pit triple"
+  },
+  "831": {
+    "index": "831",
+    "data_name": "bud2025_gf-broky-quadro-on-inferno",
+    "name": "broky A-site opener"
+  },
+  "832": {
+    "index": "832",
+    "data_name": "bud2025_gf-broky-triple-on-inferno",
+    "name": "broky lineup save"
+  },
+  "833": {
+    "index": "833",
+    "data_name": "bud2025_gf-frozen-triple-on-inferno-1",
+    "name": "frozen Banana nade"
+  },
+  "834": {
+    "index": "834",
+    "data_name": "bud2025_gf-frozen-triple-on-inferno-2",
+    "name": "frozen Banana rush"
+  },
+  "835": {
+    "index": "835",
+    "data_name": "bud2025_gf-zywoo-vs-faze-on-inferno",
+    "name": "ZywOo vs FaZe on Inferno"
+  },
+  "836": {
+    "index": "836",
+    "data_name": "bud2025_gf-apex-vs-faze-on-inferno",
+    "name": "apEX vs FaZe on Inferno"
+  },
+  "837": {
+    "index": "837",
+    "data_name": "bud2025_gf-mezii-vs-faze-on-inferno",
+    "name": "mezii vs FaZe on Inferno"
+  },
+  "838": {
+    "index": "838",
+    "data_name": "bud2025_gf-flamez-vs-faze-on-inferno",
+    "name": "flameZ vs FaZe on Inferno"
+  },
+  "839": {
+    "index": "839",
+    "data_name": "bud2025_gf-ropz-vs-faze-on-inferno",
+    "name": "ropz vs FaZe on Inferno"
+  },
+  "840": {
+    "index": "840",
+    "data_name": "bud2025_gf-karrigan-vs-vitality-on-inferno",
+    "name": "karrigan vs Vitality on Inferno"
+  },
+  "841": {
+    "index": "841",
+    "data_name": "bud2025_gf-broky-vs-vitality-on-inferno",
+    "name": "broky vs Vitality on Inferno"
+  },
+  "842": {
+    "index": "842",
+    "data_name": "bud2025_gf-twistzz-vs-vitality-on-inferno",
+    "name": "Twistzz vs Vitality on Inferno"
+  },
+  "843": {
+    "index": "843",
+    "data_name": "bud2025_gf-jcobbb-vs-vitality-on-inferno",
+    "name": "jcobbb vs Vitality on Inferno"
+  },
+  "844": {
+    "index": "844",
+    "data_name": "bud2025_gf-frozen-vs-vitality-on-inferno",
+    "name": "frozen vs Vitality on Inferno"
+  },
+  "845": {
+    "index": "845",
+    "data_name": "bud2025_gf-vitality-win",
+    "name": "Vitality win in the GF"
+  },
+  "846": {
+    "index": "846",
+    "data_name": "bud2025_gf-zywoo-triple-on-overpass",
+    "name": "ZywOo all angles"
+  },
+  "847": {
+    "index": "847",
+    "data_name": "bud2025_gf-zywoo-double-on-overpass",
+    "name": "ZywOo smoke Deagle"
+  },
+  "848": {
+    "index": "848",
+    "data_name": "bud2025_gf-mezii-triple-on-overpass",
+    "name": "mezii Connector triple"
+  },
+  "849": {
+    "index": "849",
+    "data_name": "bud2025_gf-flamez-triple-on-overpass",
+    "name": "flameZ Short to B"
+  },
+  "850": {
+    "index": "850",
+    "data_name": "bud2025_gf-ropz-quadro-on-overpass-1",
+    "name": "ropz pistol quadro"
+  },
+  "851": {
+    "index": "851",
+    "data_name": "bud2025_gf-ropz-quadro-on-overpass-2",
+    "name": "ropz Bank post-plant"
+  },
+  "852": {
+    "index": "852",
+    "data_name": "bud2025_gf-ropz-triple-on-overpass",
+    "name": "ropz A-site AWP"
+  },
+  "853": {
+    "index": "853",
+    "data_name": "bud2025_gf-apex-triple-on-overpass",
+    "name": "apEX B-site triple"
+  },
+  "854": {
+    "index": "854",
+    "data_name": "bud2025_gf-frozen-triple-on-overpass",
+    "name": "frozen A triple"
+  },
+  "855": {
+    "index": "855",
+    "data_name": "bud2025_gf-zywoo-vs-faze-on-overpass",
+    "name": "ZywOo vs FaZe on Overpass"
+  },
+  "856": {
+    "index": "856",
+    "data_name": "bud2025_gf-apex-vs-faze-on-overpass",
+    "name": "apEX vs FaZe on Overpass"
+  },
+  "857": {
+    "index": "857",
+    "data_name": "bud2025_gf-mezii-vs-faze-on-overpass",
+    "name": "mezii vs FaZe on Overpass"
+  },
+  "858": {
+    "index": "858",
+    "data_name": "bud2025_gf-flamez-vs-faze-on-overpass",
+    "name": "flameZ vs FaZe on Overpass"
+  },
+  "859": {
+    "index": "859",
+    "data_name": "bud2025_gf-ropz-vs-faze-on-overpass",
+    "name": "ropz vs FaZe on Overpass"
+  },
+  "860": {
+    "index": "860",
+    "data_name": "bud2025_gf-karrigan-vs-vitality-on-overpass",
+    "name": "karrigan vs Vitality on Overpass"
+  },
+  "861": {
+    "index": "861",
+    "data_name": "bud2025_gf-broky-vs-vitality-on-overpass",
+    "name": "broky vs Vitality on Overpass"
+  },
+  "862": {
+    "index": "862",
+    "data_name": "bud2025_gf-twistzz-vs-vitality-on-overpass",
+    "name": "Twistzz vs Vitality on Overpass"
+  },
+  "863": {
+    "index": "863",
+    "data_name": "bud2025_gf-jcobbb-vs-vitality-on-overpass",
+    "name": "jcobbb vs Vitality on Overpass"
+  },
+  "864": {
+    "index": "864",
+    "data_name": "bud2025_gf-frozen-vs-vitality-on-overpass",
+    "name": "frozen vs Vitality on Overpass"
+  },
+  "865": {
+    "index": "865",
+    "data_name": "bud2025_gf-twistzz-clutch-1v1-on-overpass",
+    "name": "Twistzz breaks the streak"
+  }
+}
