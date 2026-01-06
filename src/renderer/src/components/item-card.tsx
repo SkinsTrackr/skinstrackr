@@ -40,6 +40,12 @@ export const ItemCard: FC<ItemCardProps> = ({ items, name, rarity, transfer, set
   // Use local input value while typing, otherwise show the actual selected count
   const displayValue = localInputValue !== '' ? localInputValue : selectedCount > 0 ? selectedCount.toString() : ''
 
+  // TODO: Format price based on settings
+  const usd = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD'
+  })
+
   // Selects items from this card up to the specified amount and updates the state
   // If a card contains items from multiple containers, it will potentially select items from multiple containers
   const selectItemsFromCard = useCallback(
@@ -236,10 +242,16 @@ export const ItemCard: FC<ItemCardProps> = ({ items, name, rarity, transfer, set
     }
   }
 
+  const handleReportMissingItem = (e: React.MouseEvent): void => {
+    e.stopPropagation()
+
+    window.open(window.env.GOOGLE_FORMS_URL, '_blank')
+  }
+
   return (
     <Card
       className={cn(
-        'border-2 transition-all duration-200 relative overflow-hidden py-4',
+        'transition-all duration-200 relative overflow-hidden py-5',
         isDisabled && 'opacity-50 cursor-default',
         !isDisabled && transfer.mode !== null && 'cursor-pointer hover:bg-accent hover:shadow-sm',
         !isDisabled && transfer.mode === null && 'cursor-default',
@@ -328,10 +340,19 @@ export const ItemCard: FC<ItemCardProps> = ({ items, name, rarity, transfer, set
 
           {/* Copy Item Data Button for Unknown Items */}
           {name?.startsWith('Unknown Item') && (
-            <div className="flex justify-center">
-              <Button size="sm" variant="outline" onClick={handleCopyItemData} className="h-6 px-2 text-xs">
-                Copy Item Ref
-              </Button>
+            <div className="flex flex-col gap-1 justify-center">
+              <div className="flex items-center justify-center gap-2">
+                <span className="text-xs">1: </span>
+                <Button size="sm" variant="outline" onClick={handleCopyItemData} className="h-6 px-2 text-xs">
+                  Copy Item Ref
+                </Button>
+              </div>
+              <div className="flex items-center justify-center gap-2">
+                <span className="text-xs">2: </span>
+                <Button size="sm" variant="outline" onClick={handleReportMissingItem} className="h-6 px-2 text-xs">
+                  Report
+                </Button>
+              </div>
             </div>
           )}
 
@@ -373,12 +394,12 @@ export const ItemCard: FC<ItemCardProps> = ({ items, name, rarity, transfer, set
               {items[0].price !== undefined && items[0].price > 0 ? (
                 <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-1.5 w-full px-2">
                   <span className="text-sm font-medium dark:text-green-500/90 tabular-nums text-right">
-                    ${(items[0].price * items.length).toFixed(2)}
+                    {usd.format(items[0].price * items.length)}
                   </span>
                   <span className="text-muted-foreground/40">•</span>
                   {items.length > 1 ? (
                     <span className="text-sm font-medium dark:text-green-500/60 tabular-nums text-left">
-                      ${items[0].price.toFixed(2)}
+                      {usd.format(items[0].price)}
                     </span>
                   ) : (
                     <span></span>

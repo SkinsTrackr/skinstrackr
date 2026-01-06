@@ -29,7 +29,7 @@ export const ContainerCard: FC<ContainerCardProps> = ({ container, count, transf
     <Card
       key={container.id}
       className={cn(
-        'transition-all duration-200 relative border-2',
+        'transition-all duration-200 relative',
         selectable && 'cursor-pointer hover:bg-accent hover:shadow-sm',
         !selectable && 'cursor-default',
         transfer.fromContainerIds.includes(container.id!)

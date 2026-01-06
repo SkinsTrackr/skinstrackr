@@ -23,7 +23,11 @@ const envSchema = z.object({
   MUSIC_KIT_DATA_PATH: z.string().default('data/music_kits.json'),
   PAINT_DATA_PATH: z.string().default('data/paints.json'),
   STICKER_DATA_PATH: z.string().default('data/stickers.json'),
-  HIGHLIGHT_DATA_PATH: z.string().default('data/highlights.json')
+  HIGHLIGHT_DATA_PATH: z.string().default('data/highlights.json'),
+
+  GOOGLE_FORMS_URL: z.string().default('https://forms.gle/qxTKNiW6Bra95xnf7'),
+  DISCORD_INVITE_URL: z.string().default('https://discord.com/invite/Rmu3fGKGyu'),
+  GITHUB_REPO_URL: z.string().default('https://github.com/SkinsTrackr/skinstrackr')
 })
 
 function parseEnv(): Env {

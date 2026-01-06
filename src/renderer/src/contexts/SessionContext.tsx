@@ -46,7 +46,7 @@ export function SessionProvider({ children }: { children: ReactNode }): JSX.Elem
 
         const returnedSteamId = await window.api.loginCache(steamId)
         setActiveSteamId(returnedSteamId)
-        showToast('Logged into ' + account.username + ' from cache', 'info')
+        showToast('Loaded ' + account.username + ' from cache', 'info')
         setUserSession(UserSessionType.CACHE)
         await loadInventory(true, false)
       } catch (error) {

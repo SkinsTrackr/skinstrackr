@@ -189,7 +189,12 @@ export const ItemTransferArea: FC<ItemTransferAreaProps> = ({ transfer, containe
                       variant="outline"
                       size="sm"
                       onClick={handleTransfer}
-                      disabled={isTransferring || allSelectedItems.length === 0}
+                      disabled={
+                        isTransferring ||
+                        allSelectedItems.length === 0 ||
+                        transfer.fromContainerIds.length === 0 ||
+                        transfer.toContainerId === -1
+                      }
                       className={cn(
                         'h-8 px-3 gap-1.5 font-semibold transition-all',
                         'border-yellow-500/50 text-yellow-600 dark:text-yellow-500',

@@ -29,6 +29,6 @@ declare global {
   interface Window {
     electron: ElectronAPI
     api: CustomAPI
-    env: { ICONS_BASE_URL: string }
+    env: { ICONS_BASE_URL: string; GOOGLE_FORMS_URL: string; DISCORD_INVITE_URL: string; GITHUB_REPO_URL: string }
   }
 }

@@ -69,7 +69,10 @@ if (process.contextIsolated) {
     contextBridge.exposeInMainWorld('electron', electronAPI)
     contextBridge.exposeInMainWorld('api', api)
     contextBridge.exposeInMainWorld('env', {
-      ICONS_BASE_URL: env.ICONS_BASE_URL
+      ICONS_BASE_URL: env.ICONS_BASE_URL,
+      GOOGLE_FORMS_URL: env.GOOGLE_FORMS_URL,
+      DISCORD_INVITE_URL: env.DISCORD_INVITE_URL,
+      GITHUB_REPO_URL: env.GITHUB_REPO_URL
     })
   } catch (error) {
     console.error(error)
