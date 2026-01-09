@@ -1,7 +1,8 @@
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
+import { JSX } from 'react'
 
-export function showToast(msg: string, severity: 'success' | 'error' | 'info') {
+export function showToast(msg: string, severity: 'success' | 'error' | 'info'): JSX.Element {
   switch (severity) {
     case 'success':
       toast.success(msg)

@@ -23,8 +23,7 @@ const iconWrapperVariants = cva('flex items-center justify-center [&>svg]:!w-[50
 })
 
 export interface IconWrapperProps
-  extends React.HTMLAttributes<HTMLDivElement>,
-    VariantProps<typeof iconWrapperVariants> {}
+  extends React.HTMLAttributes<HTMLDivElement>, VariantProps<typeof iconWrapperVariants> {}
 
 function IconWrapper({ className, variant, size, ...props }: IconWrapperProps): React.JSX.Element {
   return <div data-slot="icon-wrapper" className={cn(iconWrapperVariants({ variant, size }), className)} {...props} />

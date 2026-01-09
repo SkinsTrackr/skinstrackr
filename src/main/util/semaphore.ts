@@ -9,7 +9,7 @@ export default class Semaphore {
 
   public async acquire(): Promise<void> {
     return new Promise((resolve) => {
-      const acquirePermit = () => {
+      const acquirePermit = (): void => {
         if (this.permits > 0) {
           this.permits--
           resolve()
