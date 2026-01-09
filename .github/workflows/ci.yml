@@ -44,11 +44,6 @@ jobs:
           npm run lint
           npm run typecheck
 
-      # - name: Build app
-      #   env:
-      #     CSC_IDENTITY_AUTO_DISCOVERY: false
-      #   run: npm run build
-
       # Install fpm on Linux for packaging .deb and .rpm
       - name: Install fpm (Linux)
         if: runner.os == 'Linux'
