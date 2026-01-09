@@ -5,6 +5,7 @@ import { Boxes, Settings } from 'lucide-react'
 import { useNavigate } from 'react-router'
 import { JSX } from 'react'
 import { SiDiscord, SiGithub } from '@icons-pack/react-simple-icons'
+import logoImage from '@/assets/logo-no-bg.png'
 
 const navItems = [
   //   { name: 'Overview', path: '/overview', icon: LayoutDashboard },
@@ -49,7 +50,7 @@ export default function TopNavbar(): JSX.Element {
     <div className="w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="flex h-14 items-center px-8">
         <div className="flex items-center text-xl font-bold pr-18">
-          <img src="/src/assets/logo-no-bg.png" alt="SkinsTrackr Logo" className="h-12 w-12" />
+          <img src={logoImage} alt="SkinsTrackr Logo" className="h-12 w-12" />
           <span className="text-white">SkinsTrackr</span>
         </div>
 
