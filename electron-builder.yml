@@ -30,9 +30,8 @@ nsis:
 
 mac:
   target:
-    - target:
-        - dmg
-        - zip # zip is used by auto-update on mac
+    - dmg
+    - zip # zip is used by auto-update on mac
   hardenedRuntime: true
   gatekeeperAssess: false
 
