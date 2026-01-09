@@ -1,4 +1,4 @@
-import { createContext, useContext, ReactNode, JSX, useEffect, useState, useCallback, Dispatch, useRef } from 'react'
+import { createContext, useContext, ReactNode, JSX, useEffect, useState, useCallback, Dispatch } from 'react'
 import { GameSessionEvent, SteamSessionEvent, SteamLoginRequest } from '@shared/interfaces/session.types'
 import { GameSessionEventType, SteamSessionEventType, UserSessionType } from '@shared/enums/session-type'
 import { showToast } from '../components/toast'

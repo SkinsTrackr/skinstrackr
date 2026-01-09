@@ -190,7 +190,9 @@ export async function syncInventoryCache(userId: string, onlyChangedContainers: 
 export async function saveInventoryToFile(inventory: RawInventory, userId: string): Promise<void> {
   const encoded = pack(inventory)
   await fs.writeFileSync(`./data/${userId}_inventory.bin`, encoded)
-  await fs.writeFileSync(`./data/${userId}_inventory.json`, JSON.stringify(inventory, null, 2), 'utf-8') // Just for testing TODO Remove
+
+  // Just for testing
+  //   await fs.writeFileSync(`./data/${userId}_inventory.json`, JSON.stringify(inventory, null, 2), 'utf-8')
 }
 
 export async function loadInventoryFromFile(userId: string): Promise<RawInventory> {

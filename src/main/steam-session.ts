@@ -44,7 +44,7 @@ class SteamSession {
    */
   async loginUserToSteam(details: SteamUser.LogOnDetailsNameToken): Promise<string> {
     return new Promise<string>((resolve, reject) => {
-      const loggedOnListener = (response): void => {
+      const loggedOnListener = (_response): void => {
         this.cachedSessionUserId = null
         this.getUser().off('error', errorListener)
         resolve(this.getUser().steamID!.getSteamID64()!)
@@ -73,7 +73,7 @@ class SteamSession {
         return
       }
 
-      const disconnectedListener = (eresult: EResult, msg?: string): void => {
+      const disconnectedListener = (eresult: EResult, _msg?: string): void => {
         this.getUser().off('error', errorListener)
         if (eresult === EResult.NoConnection) {
           this.cachedSessionUserId = steamId
