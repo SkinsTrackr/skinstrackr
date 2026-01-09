@@ -64,7 +64,7 @@ export async function fetchItemData(): Promise<void> {
       console.log('Fetched items: ' + fileName)
     } catch (error) {
       console.error('Error fetching prices from SteamAPIs:', error)
-      throw error
+      console.log('Using existing item data for: ' + fileName)
     }
   }
 

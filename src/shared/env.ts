@@ -2,8 +2,9 @@ import { z } from 'zod'
 
 // Validation of environment variables here
 const envSchema = z.object({
-  ITEMS_BASE_URL: z.string(),
-  ICONS_BASE_URL: z.string(),
+  // Default variables
+  ITEMS_BASE_URL: z.string().default('https://cs-items.skinstrackr.com'),
+  ICONS_BASE_URL: z.string().default('https://cs-icons.skinstrackr.com'),
 
   ITEM_FILES: z
     .string()
@@ -12,7 +13,6 @@ const envSchema = z.object({
     )
     .transform((val) => val.split(',')),
 
-  // Default variables
   DATA_DIR: z.string().default('data'),
   QUALITY_DATA_PATH: z.string().default('data/qualities.json'),
   RARITY_DATA_PATH: z.string().default('data/rarities.json'),
