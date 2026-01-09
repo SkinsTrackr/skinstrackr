@@ -51,7 +51,6 @@ jobs:
 
       - name: Build packages (Windows)
         if: runner.os == 'Windows'
-        env:
         run: npm run build:win -- --publish never
 
       - name: Build packages (macOS)
