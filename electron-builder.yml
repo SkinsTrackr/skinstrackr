@@ -40,3 +40,4 @@ linux:
     - deb
     - rpm
   category: Utility
+  maintainer: 'jzimr (Oooodin)'
