@@ -11,6 +11,7 @@ import { setupInventoryIPC } from './ipc/inventory-ipc'
 import { fetchItemData } from './util/item-utils'
 import 'dotenv/config'
 import { setupClientStoreIPC } from './ipc/client-store-ipc'
+import { initializeUpdater } from './updates'
 
 let mainWindow: BrowserWindow | null = null
 
@@ -86,6 +87,11 @@ app.whenReady().then(async () => {
   }
 
   createWindow()
+
+  // Initialize auto-updater after window is created
+  if (mainWindow) {
+    initializeUpdater(mainWindow)
+  }
 
   app.on('activate', function () {
     // On macOS it's common to re-create a window in the app when the

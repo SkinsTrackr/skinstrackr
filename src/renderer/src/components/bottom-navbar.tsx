@@ -1,11 +1,11 @@
-import { JSX, useState } from 'react'
+import { JSX, useState, useEffect } from 'react'
 import { Button } from './ui/button'
 import { Separator } from './ui/separator'
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 import { Popover, PopoverContent, PopoverTrigger } from './ui/popover'
 import { Input } from './ui/input'
 import { Field, FieldContent, FieldDescription, FieldGroup, FieldLabel } from './ui/field'
-import { User, DollarSign, ChevronDown, ExternalLink, Gem, RotateCw, LogOut } from 'lucide-react'
+import { User, DollarSign, ChevronDown, ExternalLink, Gem, RotateCw, LogOut, Download } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useInventory } from '@/contexts/InventoryContext'
 import { useSession } from '@/contexts/SessionContext'
@@ -21,8 +21,56 @@ export default function BottomNavbar(): JSX.Element {
   const { accounts } = useClientStore()
   const [popoverOpen, setPopoverOpen] = useState(false)
   const [token, setToken] = useState('')
+  const [updateAvailable, setUpdateAvailable] = useState(false)
+  const [updateVersion, setUpdateVersion] = useState('')
+  const [updateDownloaded, setUpdateDownloaded] = useState(false)
+  const [downloading, setDownloading] = useState(false)
+  const [currentVersion, setCurrentVersion] = useState('')
 
   const currentAccount = activeSteamId ? accounts[activeSteamId] : undefined
+
+  useEffect(() => {
+    // Get current app version
+    window.api.getAppVersion().then(setCurrentVersion)
+
+    const unsubscribeAvailable = window.api.onUpdateAvailable((version) => {
+      setUpdateAvailable(true)
+      setUpdateVersion(version)
+    })
+
+    const unsubscribeDownloaded = window.api.onUpdateDownloaded(() => {
+      setUpdateDownloaded(true)
+      setDownloading(false)
+      showToast('Update downloaded! Click to install and restart.', 'success')
+    })
+
+    return () => {
+      unsubscribeAvailable()
+      unsubscribeDownloaded()
+    }
+  }, [])
+
+  const handleDownloadUpdate = async (): Promise<void> => {
+    try {
+      setDownloading(true)
+      showToast('Downloading update...', 'info')
+      await window.api.downloadUpdate()
+    } catch (error) {
+      console.error('Failed to download update:', error)
+      showToast('Failed to download update', 'error')
+    } finally {
+      setDownloading(false)
+    }
+  }
+
+  const handleInstallUpdate = async (): Promise<void> => {
+    try {
+      await window.api.installUpdate()
+    } catch (error) {
+      console.error('Failed to install update:', error)
+      showToast('Failed to install update', 'error')
+    }
+  }
 
   const handleAccountSwitch = async (steamId: string): Promise<void> => {
     // TODO: Implement account switching logic
@@ -257,6 +305,40 @@ export default function BottomNavbar(): JSX.Element {
               </div>
             </div>
           </div>
+        </div>
+
+        {/* Right section - Version and Update button */}
+        <div className="ml-auto flex items-center gap-3">
+          {updateAvailable && !updateDownloaded && (
+            <Button
+              onClick={handleDownloadUpdate}
+              disabled={downloading}
+              variant="outline"
+              size="sm"
+              className={cn('dark:text-yellow-500')}
+            >
+              <IconWrapper size="sm" variant="solid">
+                <Download />
+              </IconWrapper>
+              <span className="text-xs font-semibold">
+                {downloading ? 'Downloading...' : `Update to v${updateVersion}`}
+              </span>
+            </Button>
+          )}
+          {updateDownloaded && (
+            <Button onClick={handleInstallUpdate} variant="outline" size="sm" className={cn('dark:text-yellow-500')}>
+              <IconWrapper size="sm" variant="solid">
+                <Download />
+              </IconWrapper>
+              <span className="text-xs font-semibold">Install v{updateVersion} & Restart</span>
+            </Button>
+          )}
+
+          {currentVersion && (
+            <div className="flex items-center gap-1.5 px-2">
+              <span className="text-xs font-bold text-foreground/80">v{currentVersion}</span>
+            </div>
+          )}
         </div>
       </div>
     </div>

@@ -44,18 +44,17 @@ jobs:
         run: npm ci
 
       # Install fpm on Linux for packaging .deb and .rpm
-      - name: Install fpm (Linux)
-        if: runner.os == 'Linux'
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y ruby ruby-dev rubygems build-essential
-          sudo gem install --no-document fpm
+      #- name: Install fpm (Linux)
+      #  if: runner.os == 'Linux'
+      #  run: |
+      #    sudo apt-get update
+      #    sudo apt-get install -y ruby ruby-dev rubygems build-essential
+      #    sudo gem install --no-document fpm
 
       - name: Build and release (Linux)
         if: matrix.platform == 'linux'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          USE_SYSTEM_FPM: true
           EP_DRAFT: true
           EP_PRE_RELEASE: false
         run: npm run build:linux -- --publish always
@@ -93,8 +92,7 @@ jobs:
             dist/*.exe
             dist/*.dmg
             dist/*.zip
-            dist/*.deb
-            dist/*.rpm
+            dist/*.AppImage
           if-no-files-found: error
           retention-days: 7
 

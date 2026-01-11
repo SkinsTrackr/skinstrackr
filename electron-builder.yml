@@ -1,5 +1,5 @@
 appId: com.skinstrackr.app
-productName: skinstrackr
+productName: SkinsTrackr
 directories:
   output: dist
   buildResources: build
@@ -18,6 +18,8 @@ asarUnpack:
 # Auto-update metadata + publishing target
 publish:
   provider: github
+  owner: SkinsTrackr
+  repo: skinstrackr
 
 win:
   target:
@@ -37,7 +39,6 @@ mac:
 
 linux:
   target:
-    - deb
-    - rpm
+    - AppImage
   category: Utility
   maintainer: 'jzimr (Oooodin)'

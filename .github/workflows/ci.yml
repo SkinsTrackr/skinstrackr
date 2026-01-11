@@ -45,12 +45,12 @@ jobs:
           npm run typecheck
 
       # Install fpm on Linux for packaging .deb and .rpm
-      - name: Install fpm (Linux)
-        if: runner.os == 'Linux'
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y ruby ruby-dev rubygems build-essential
-          sudo gem install --no-document fpm
+      #- name: Install fpm (Linux)
+      #  if: runner.os == 'Linux'
+      #  run: |
+      #    sudo apt-get update
+      #    sudo apt-get install -y ruby ruby-dev rubygems build-essential
+      #    sudo gem install --no-document fpm
 
       - name: Build packages (Linux)
         if: runner.os == 'Linux'

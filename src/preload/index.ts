@@ -38,6 +38,15 @@ const api = {
   getRawItemData: (itemId: number): Promise<GlobalOffensive.InventoryItem> => {
     return ipcRenderer.invoke('main:get-raw-item-data', itemId)
   },
+  downloadUpdate: (): Promise<void> => {
+    return ipcRenderer.invoke('main:download-update')
+  },
+  installUpdate: (): Promise<void> => {
+    return ipcRenderer.invoke('main:install-update')
+  },
+  getAppVersion: (): Promise<string> => {
+    return ipcRenderer.invoke('main:get-app-version')
+  },
 
   /**
    * Main --->>> Renderer
@@ -58,6 +67,16 @@ const api = {
     const listener = (_event, itemId: number, success: boolean): void => callback(itemId, success)
     ipcRenderer.on('renderer:transfer-progress', listener)
     return () => ipcRenderer.removeListener('renderer:transfer-progress', listener)
+  },
+  onUpdateAvailable: (callback: (version: string) => void) => {
+    const listener = (_event, version: string): void => callback(version)
+    ipcRenderer.on('renderer:update-available', listener)
+    return () => ipcRenderer.removeListener('renderer:update-available', listener)
+  },
+  onUpdateDownloaded: (callback: () => void) => {
+    const listener = (): void => callback()
+    ipcRenderer.on('renderer:update-downloaded', listener)
+    return () => ipcRenderer.removeListener('renderer:update-downloaded', listener)
   }
 }
 

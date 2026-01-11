@@ -72,17 +72,40 @@ export async function fetchItemData(): Promise<void> {
 
   try {
     console.log('Loading item data from fetched items')
-    qualities = JSON.parse(fs.readFileSync(env.QUALITY_DATA_PATH, 'utf-8')) as Record<string, Quality>
-    rarities = JSON.parse(fs.readFileSync(env.RARITY_DATA_PATH, 'utf-8')) as Record<string, Rarity>
-    charms = JSON.parse(fs.readFileSync(env.CHARM_DATA_PATH, 'utf-8')) as Record<string, Charm>
-    commonItems = JSON.parse(fs.readFileSync(env.COMMON_ITEM_DATA_PATH, 'utf-8')) as Record<string, CommonItem>
-    graffitiTints = JSON.parse(fs.readFileSync(env.GRAFFITI_TINT_DATA_PATH, 'utf-8')) as Record<string, GraffitiPaint>
-    const pricesTemp = JSON.parse(fs.readFileSync(env.PRICE_DATA_PATH, 'utf-8')) as ItemPrice[]
+    qualities = JSON.parse(
+      fs.readFileSync(path.join(app.getPath('userData'), env.QUALITY_DATA_PATH), 'utf-8')
+    ) as Record<string, Quality>
+    rarities = JSON.parse(fs.readFileSync(path.join(app.getPath('userData'), env.RARITY_DATA_PATH), 'utf-8')) as Record<
+      string,
+      Rarity
+    >
+    charms = JSON.parse(fs.readFileSync(path.join(app.getPath('userData'), env.CHARM_DATA_PATH), 'utf-8')) as Record<
+      string,
+      Charm
+    >
+    commonItems = JSON.parse(
+      fs.readFileSync(path.join(app.getPath('userData'), env.COMMON_ITEM_DATA_PATH), 'utf-8')
+    ) as Record<string, CommonItem>
+    graffitiTints = JSON.parse(
+      fs.readFileSync(path.join(app.getPath('userData'), env.GRAFFITI_TINT_DATA_PATH), 'utf-8')
+    ) as Record<string, GraffitiPaint>
+    const pricesTemp = JSON.parse(
+      fs.readFileSync(path.join(app.getPath('userData'), env.PRICE_DATA_PATH), 'utf-8')
+    ) as ItemPrice[]
     prices = Object.fromEntries(pricesTemp.map((item) => [item.market_hash_name, item]))
-    musicKits = JSON.parse(fs.readFileSync(env.MUSIC_KIT_DATA_PATH, 'utf-8')) as Record<string, MusicKit>
-    paints = JSON.parse(fs.readFileSync(env.PAINT_DATA_PATH, 'utf-8')) as Record<string, Paint>
-    stickers = JSON.parse(fs.readFileSync(env.STICKER_DATA_PATH, 'utf-8')) as Record<string, Sticker>
-    highlights = JSON.parse(fs.readFileSync(env.HIGHLIGHT_DATA_PATH, 'utf-8')) as Record<string, Highlight>
+    musicKits = JSON.parse(
+      fs.readFileSync(path.join(app.getPath('userData'), env.MUSIC_KIT_DATA_PATH), 'utf-8')
+    ) as Record<string, MusicKit>
+    paints = JSON.parse(fs.readFileSync(path.join(app.getPath('userData'), env.PAINT_DATA_PATH), 'utf-8')) as Record<
+      string,
+      Paint
+    >
+    stickers = JSON.parse(
+      fs.readFileSync(path.join(app.getPath('userData'), env.STICKER_DATA_PATH), 'utf-8')
+    ) as Record<string, Sticker>
+    highlights = JSON.parse(
+      fs.readFileSync(path.join(app.getPath('userData'), env.HIGHLIGHT_DATA_PATH), 'utf-8')
+    ) as Record<string, Highlight>
   } catch (error) {
     console.error('Failed to load fetched items: ', error)
     throw error
