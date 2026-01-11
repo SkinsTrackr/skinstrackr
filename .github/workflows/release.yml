@@ -11,6 +11,8 @@ concurrency:
 jobs:
   release:
     name: Release (${{ matrix.os }})
+    permissions:
+      contents: write
     strategy:
       fail-fast: false
       matrix:
