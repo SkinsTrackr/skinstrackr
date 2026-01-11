@@ -114,13 +114,20 @@
   * {
     @apply border-border outline-ring/50;
   }
-  html,
-  body,
-  #root {
-    @apply h-full overflow-hidden;
+  html {
+    height: 100vh;
+    overflow: hidden;
   }
   body {
     @apply bg-background text-foreground;
+    height: 100%;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+  }
+  #root {
+    height: 100%;
+    overflow: hidden;
   }
 }
 
