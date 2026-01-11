@@ -43,15 +43,15 @@ SkinsTrackr is a desktop application designed to help Counter-Strike 2 players m
 
 ### Inventory View
 
-![Inventory View](.github/media/inventory-view.webm)
+[Inventory View](.github/media/inventory-view.webm)
 
 ### Item Transfer
 
-![Item Transfer](.github/media/item-transfer.webm)
+[Item Transfer](.github/media/item-transfer.webm)
 
 ### Multi-Account Management and Caching
 
-![Multi-Account Management and Caching](.github/media/multi-accounts-cache.webm)
+[Multi-Account Management and Caching](.github/media/multi-accounts-cache.webm)
 
 ---
 
