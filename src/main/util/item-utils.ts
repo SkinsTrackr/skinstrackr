@@ -1,5 +1,4 @@
 import { env } from '@shared/env'
-import { existsSync, mkdirSync } from 'fs'
 import { writeFile } from 'fs/promises'
 import GlobalOffensive from 'globaloffensive'
 import * as fs from 'fs'
@@ -18,6 +17,8 @@ import {
   Sticker,
   Highlight
 } from '@shared/interfaces/inventory.types'
+import path from 'path'
+import { app } from 'electron'
 
 let qualities: Record<string, Quality> = {}
 let rarities: Record<string, Rarity> = {}
@@ -46,9 +47,10 @@ export const ATTRIBUTE_MODIFICATION_DATE = 271
 const ATTRIBUTE_FREE_REWARD_STATUS = 277 // Used to filter out non-tradable items
 
 export async function fetchItemData(): Promise<void> {
-  if (!existsSync(env.DATA_DIR)) {
-    console.info(`Creating data directory at ./${env.DATA_DIR}`)
-    mkdirSync(env.DATA_DIR)
+  const dataDir = path.join(app.getPath('userData'), env.DATA_DIR)
+  if (!fs.existsSync(dataDir)) {
+    console.info(`Creating data directory at ${dataDir}`)
+    fs.mkdirSync(dataDir, { recursive: true })
   }
 
   for (const fileName of env.ITEM_FILES) {
@@ -60,7 +62,7 @@ export async function fetchItemData(): Promise<void> {
       }
       const prices = await response.json()
 
-      await writeFile(env.DATA_DIR + '/' + fileName, JSON.stringify(prices, null, 2), 'utf-8')
+      await writeFile(path.join(dataDir, fileName), JSON.stringify(prices, null, 2), 'utf-8')
       console.log('Fetched items: ' + fileName)
     } catch (error) {
       console.error('Error fetching prices from SteamAPIs:', error)
