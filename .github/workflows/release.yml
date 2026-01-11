@@ -59,7 +59,7 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           EP_DRAFT: true
           EP_PRE_RELEASE: false
-        run: npm run build:linux -- --publish always
+        run: npm run build:linux -- --linux AppImage --publish always
 
       - name: Build and release (Windows)
         if: matrix.platform == 'windows'
