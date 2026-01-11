@@ -5,6 +5,9 @@ import { RawInventory, RawContainer } from '@shared/interfaces/inventory.types'
 import { ATTRIBUTE_MODIFICATION_DATE, readAttribute } from '../util/item-utils'
 import * as fs from 'fs'
 import { pack, unpack } from 'msgpackr'
+import { app } from 'electron'
+import path from 'path'
+import { env } from '@shared/env'
 
 export async function loadAllContainers(caskets: GlobalOffensive.InventoryItem[]): Promise<RawContainer[]> {
   console.log(
@@ -188,19 +191,21 @@ export async function syncInventoryCache(userId: string, onlyChangedContainers: 
 }
 
 export async function saveInventoryToFile(inventory: RawInventory, userId: string): Promise<void> {
-  const encoded = pack(inventory)
-  await fs.writeFileSync(`./data/${userId}_inventory.bin`, encoded)
+  const dataDir = path.join(app.getPath('userData'), env.DATA_DIR)
 
-  // Just for testing
-  //   await fs.writeFileSync(`./data/${userId}_inventory.json`, JSON.stringify(inventory, null, 2), 'utf-8')
+  const encoded = pack(inventory)
+  await fs.writeFileSync(path.join(dataDir, `${userId}_inventory.bin`), encoded)
 }
 
 export async function loadInventoryFromFile(userId: string): Promise<RawInventory> {
-  const loaded = await fs.readFileSync(`./data/${userId}_inventory.bin`)
+  const dataDir = path.join(app.getPath('userData'), env.DATA_DIR)
+
+  const loaded = await fs.readFileSync(path.join(dataDir, `${userId}_inventory.bin`))
   const decoded = unpack(loaded) as RawInventory
   return decoded
 }
 
 export async function inventoryFileExists(userId: string): Promise<boolean> {
-  return fs.existsSync(`./data/${userId}_inventory.bin`)
+  const dataDir = path.join(app.getPath('userData'), env.DATA_DIR)
+  return fs.existsSync(path.join(dataDir, `${userId}_inventory.bin`))
 }

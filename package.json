@@ -4,6 +4,7 @@
   "description": "Manage inventory and storage units for CS2",
   "main": "./out/main/index.js",
   "author": "jzimr (Oooodin)",
+  "license": "GPL-3.0",
   "homepage": "https://github.com/SkinsTrackr/skinstrackr/",
   "scripts": {
     "format": "prettier --write .",
@@ -14,11 +15,21 @@
     "start": "electron-vite preview",
     "dev": "electron-vite dev",
     "build": "npm run typecheck && electron-vite build",
-    "postinstall": "electron-builder install-app-deps || echo 'Warning: native module rebuild failed, using prebuilt binaries'",
     "build:unpack": "npm run build && electron-builder --dir",
-    "build:win": "npm run build && electron-builder --win",
-    "build:mac": "npm run build && electron-builder --mac",
-    "build:linux": "npm run build && electron-builder --linux"
+    "build:win": "npm run build && electron-builder --win --config",
+    "build:mac": "npm run build && electron-builder --mac --config",
+    "build:linux": "npm run build && electron-builder --linux --config",
+    "postinstall": "electron-builder install-app-deps"
+  },
+  "build": {
+    "appId": "com.skinstrackr.app",
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "SkinsTrackr",
+        "repo": "skinstrackr"
+      }
+    ]
   },
   "dependencies": {
     "@base-ui-components/react": "^1.0.0-beta.4",
@@ -39,7 +50,7 @@
     "clsx": "^2.1.1",
     "dotenv": "^17.2.3",
     "electron-store": "^11.0.2",
-    "electron-updater": "^6.3.9",
+    "electron-updater": "^6.7.3",
     "globaloffensive": "^3.2.0",
     "lucide": "^0.545.0",
     "lucide-react": "^0.545.0",

@@ -1,8 +1,10 @@
 appId: com.skinstrackr.app
-productName: skinstrackr
+productName: SkinsTrackr
 directories:
+  output: dist
   buildResources: build
 icon: resources/icon.png
+
 files:
   - '!**/.vscode/*'
   - '!src/*'
@@ -12,38 +14,31 @@ files:
   - '!{tsconfig.json,tsconfig.node.json,tsconfig.web.json}'
 asarUnpack:
   - resources/**
+
+# Auto-update metadata + publishing target
+publish:
+  provider: github
+  owner: SkinsTrackr
+  repo: skinstrackr
+
 win:
-  executableName: skinstrackr
-nsis:
-  artifactName: ${name}-${version}-setup.${ext}
-  shortcutName: ${productName}
-  uninstallDisplayName: ${productName}
-  createDesktopShortcut: always
-mac:
-  entitlementsInherit: build/entitlements.mac.plist
-  extendInfo:
-    - NSCameraUsageDescription: Application requests access to the device's camera.
-    - NSMicrophoneUsageDescription: Application requests access to the device's microphone.
-    - NSDocumentsFolderUsageDescription: Application requests access to the user's Documents folder.
-    - NSDownloadsFolderUsageDescription: Application requests access to the user's Downloads folder.
-  notarize: false
   target:
-    - target: dmg
-      arch:
-        - x64
-        - arm64
-dmg:
-  artifactName: ${name}-${version}.${ext}
+    - nsis # produces an .exe installer
+  artifactName: '${productName}-Setup-${version}.${ext}'
+nsis:
+  oneClick: false
+  perMachine: false
+  allowToChangeInstallationDirectory: true
+
+mac:
+  target:
+    - dmg
+    - zip # zip is used by auto-update on mac
+  hardenedRuntime: true
+  gatekeeperAssess: false
+
 linux:
   target:
     - AppImage
-    - snap
-    - deb
-  maintainer: github.com/SkinsTrackr
   category: Utility
-appImage:
-  artifactName: ${name}-${version}.${ext}
-npmRebuild: false
-publish:
-  provider: generic
-  url: https://example.com/auto-updates
+  maintainer: 'jzimr (Oooodin)'

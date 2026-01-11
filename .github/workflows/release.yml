@@ -1,0 +1,144 @@
+name: Release
+
+on:
+  push:
+    branches: [main]
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  release:
+    name: Release (${{ matrix.os }})
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            platform: linux
+          - os: windows-latest
+            platform: windows
+          - os: macos-latest
+            platform: mac
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      # Need python for gyp on macOS
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: npm ci
+
+      # Install fpm on Linux for packaging .deb and .rpm
+      #- name: Install fpm (Linux)
+      #  if: runner.os == 'Linux'
+      #  run: |
+      #    sudo apt-get update
+      #    sudo apt-get install -y ruby ruby-dev rubygems build-essential
+      #    sudo gem install --no-document fpm
+
+      - name: Build and release (Linux)
+        if: matrix.platform == 'linux'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          EP_DRAFT: true
+          EP_PRE_RELEASE: false
+        run: npm run build:linux -- --publish always
+
+      - name: Build and release (Windows)
+        if: matrix.platform == 'windows'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          EP_DRAFT: true
+          EP_PRE_RELEASE: false
+          # Optional: Add Windows code signing certificate
+          # CSC_LINK: ${{ secrets.WIN_CSC_LINK }}
+          # CSC_KEY_PASSWORD: ${{ secrets.WIN_CSC_KEY_PASSWORD }}
+        run: npm run build:win -- --publish always
+
+      - name: Build and release (macOS)
+        if: matrix.platform == 'mac'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          EP_DRAFT: true
+          EP_PRE_RELEASE: false
+          # Optional: Add macOS code signing certificate
+          # CSC_LINK: ${{ secrets.MAC_CSC_LINK }}
+          # CSC_KEY_PASSWORD: ${{ secrets.MAC_CSC_KEY_PASSWORD }}
+          # APPLE_ID: ${{ secrets.APPLE_ID }}
+          # APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
+          # APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+        run: npm run build:mac -- --publish always
+
+      - name: Upload build artifacts (backup)
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-${{ matrix.platform }}
+          path: |
+            dist/*.exe
+            dist/*.dmg
+            dist/*.zip
+            dist/*.AppImage
+          if-no-files-found: error
+          retention-days: 7
+
+  finalize-release:
+    name: Add Release Notes
+    needs: release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Get version from package.json
+        id: version
+        run: echo "version=$(node -p "require('./package.json').version")" >> $GITHUB_OUTPUT
+
+      - name: Extract changelog for current version
+        id: changelog
+        run: |
+          if [ -f CHANGELOG.md ]; then
+            # Extract changelog section for current version
+            VERSION="${{ steps.version.outputs.version }}"
+            awk -v ver="$VERSION" '
+              /^## \[?'$VERSION'\]?/ { found=1; next }
+              /^## / { if (found) exit }
+              found { print }
+            ' CHANGELOG.md > current_changelog.txt
+            
+            if [ -s current_changelog.txt ]; then
+              echo "HAS_CHANGELOG=true" >> $GITHUB_OUTPUT
+            else
+              echo "HAS_CHANGELOG=false" >> $GITHUB_OUTPUT
+            fi
+          else
+            echo "HAS_CHANGELOG=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Update release with notes
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.version.outputs.version }}
+          name: Release v${{ steps.version.outputs.version }}
+          draft: true
+          generate_release_notes: ${{ steps.changelog.outputs.HAS_CHANGELOG == 'false' }}
+          body_path: ${{ steps.changelog.outputs.HAS_CHANGELOG == 'true' && 'current_changelog.txt' || '' }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

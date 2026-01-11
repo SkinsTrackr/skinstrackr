@@ -16,6 +16,9 @@ export interface CustomAPI {
   transferItems: (transfer: TransferItems) => Promise<boolean>
   cancelTransfer: () => Promise<void>
   getRawItemData: (itemId: number) => Promise<GlobalOffensive.InventoryItem>
+  downloadUpdate: () => Promise<void>
+  installUpdate: () => Promise<void>
+  getAppVersion: () => Promise<string>
 
   /**
    * Main --->>> Renderer
@@ -23,6 +26,8 @@ export interface CustomAPI {
   onSteamSessionEvent: (callback: (value: SteamSessionEvent) => void) => () => void
   onGameSessionEvent: (callback: (value: GameSessionEvent) => void) => () => void
   onTransferProgress: (callback: (itemId: number, success: boolean) => void) => () => void
+  onUpdateAvailable: (callback: (version: string) => void) => () => void
+  onUpdateDownloaded: (callback: () => void) => () => void
 }
 
 declare global {

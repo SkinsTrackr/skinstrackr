@@ -1,5 +1,4 @@
 import { env } from '@shared/env'
-import { existsSync, mkdirSync } from 'fs'
 import { writeFile } from 'fs/promises'
 import GlobalOffensive from 'globaloffensive'
 import * as fs from 'fs'
@@ -18,6 +17,8 @@ import {
   Sticker,
   Highlight
 } from '@shared/interfaces/inventory.types'
+import path from 'path'
+import { app } from 'electron'
 
 let qualities: Record<string, Quality> = {}
 let rarities: Record<string, Rarity> = {}
@@ -46,9 +47,10 @@ export const ATTRIBUTE_MODIFICATION_DATE = 271
 const ATTRIBUTE_FREE_REWARD_STATUS = 277 // Used to filter out non-tradable items
 
 export async function fetchItemData(): Promise<void> {
-  if (!existsSync(env.DATA_DIR)) {
-    console.info(`Creating data directory at ./${env.DATA_DIR}`)
-    mkdirSync(env.DATA_DIR)
+  const dataDir = path.join(app.getPath('userData'), env.DATA_DIR)
+  if (!fs.existsSync(dataDir)) {
+    console.info(`Creating data directory at ${dataDir}`)
+    fs.mkdirSync(dataDir, { recursive: true })
   }
 
   for (const fileName of env.ITEM_FILES) {
@@ -60,7 +62,7 @@ export async function fetchItemData(): Promise<void> {
       }
       const prices = await response.json()
 
-      await writeFile(env.DATA_DIR + '/' + fileName, JSON.stringify(prices, null, 2), 'utf-8')
+      await writeFile(path.join(dataDir, fileName), JSON.stringify(prices, null, 2), 'utf-8')
       console.log('Fetched items: ' + fileName)
     } catch (error) {
       console.error('Error fetching prices from SteamAPIs:', error)
@@ -70,17 +72,40 @@ export async function fetchItemData(): Promise<void> {
 
   try {
     console.log('Loading item data from fetched items')
-    qualities = JSON.parse(fs.readFileSync(env.QUALITY_DATA_PATH, 'utf-8')) as Record<string, Quality>
-    rarities = JSON.parse(fs.readFileSync(env.RARITY_DATA_PATH, 'utf-8')) as Record<string, Rarity>
-    charms = JSON.parse(fs.readFileSync(env.CHARM_DATA_PATH, 'utf-8')) as Record<string, Charm>
-    commonItems = JSON.parse(fs.readFileSync(env.COMMON_ITEM_DATA_PATH, 'utf-8')) as Record<string, CommonItem>
-    graffitiTints = JSON.parse(fs.readFileSync(env.GRAFFITI_TINT_DATA_PATH, 'utf-8')) as Record<string, GraffitiPaint>
-    const pricesTemp = JSON.parse(fs.readFileSync(env.PRICE_DATA_PATH, 'utf-8')) as ItemPrice[]
+    qualities = JSON.parse(
+      fs.readFileSync(path.join(app.getPath('userData'), env.QUALITY_DATA_PATH), 'utf-8')
+    ) as Record<string, Quality>
+    rarities = JSON.parse(fs.readFileSync(path.join(app.getPath('userData'), env.RARITY_DATA_PATH), 'utf-8')) as Record<
+      string,
+      Rarity
+    >
+    charms = JSON.parse(fs.readFileSync(path.join(app.getPath('userData'), env.CHARM_DATA_PATH), 'utf-8')) as Record<
+      string,
+      Charm
+    >
+    commonItems = JSON.parse(
+      fs.readFileSync(path.join(app.getPath('userData'), env.COMMON_ITEM_DATA_PATH), 'utf-8')
+    ) as Record<string, CommonItem>
+    graffitiTints = JSON.parse(
+      fs.readFileSync(path.join(app.getPath('userData'), env.GRAFFITI_TINT_DATA_PATH), 'utf-8')
+    ) as Record<string, GraffitiPaint>
+    const pricesTemp = JSON.parse(
+      fs.readFileSync(path.join(app.getPath('userData'), env.PRICE_DATA_PATH), 'utf-8')
+    ) as ItemPrice[]
     prices = Object.fromEntries(pricesTemp.map((item) => [item.market_hash_name, item]))
-    musicKits = JSON.parse(fs.readFileSync(env.MUSIC_KIT_DATA_PATH, 'utf-8')) as Record<string, MusicKit>
-    paints = JSON.parse(fs.readFileSync(env.PAINT_DATA_PATH, 'utf-8')) as Record<string, Paint>
-    stickers = JSON.parse(fs.readFileSync(env.STICKER_DATA_PATH, 'utf-8')) as Record<string, Sticker>
-    highlights = JSON.parse(fs.readFileSync(env.HIGHLIGHT_DATA_PATH, 'utf-8')) as Record<string, Highlight>
+    musicKits = JSON.parse(
+      fs.readFileSync(path.join(app.getPath('userData'), env.MUSIC_KIT_DATA_PATH), 'utf-8')
+    ) as Record<string, MusicKit>
+    paints = JSON.parse(fs.readFileSync(path.join(app.getPath('userData'), env.PAINT_DATA_PATH), 'utf-8')) as Record<
+      string,
+      Paint
+    >
+    stickers = JSON.parse(
+      fs.readFileSync(path.join(app.getPath('userData'), env.STICKER_DATA_PATH), 'utf-8')
+    ) as Record<string, Sticker>
+    highlights = JSON.parse(
+      fs.readFileSync(path.join(app.getPath('userData'), env.HIGHLIGHT_DATA_PATH), 'utf-8')
+    ) as Record<string, Highlight>
   } catch (error) {
     console.error('Failed to load fetched items: ', error)
     throw error
