@@ -59,7 +59,6 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           EP_DRAFT: true
           EP_PRE_RELEASE: false
-          EP_FORCE_UPLOAD: true
         run: npm run build:linux -- --linux AppImage --publish always
 
       - name: Build and release (Windows)
@@ -68,7 +67,6 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           EP_DRAFT: true
           EP_PRE_RELEASE: false
-          EP_FORCE_UPLOAD: true
           # Optional: Add Windows code signing certificate
           # CSC_LINK: ${{ secrets.WIN_CSC_LINK }}
           # CSC_KEY_PASSWORD: ${{ secrets.WIN_CSC_KEY_PASSWORD }}
@@ -80,7 +78,6 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           EP_DRAFT: true
           EP_PRE_RELEASE: false
-          EP_FORCE_UPLOAD: true
           # Optional: Add macOS code signing certificate
           # CSC_LINK: ${{ secrets.MAC_CSC_LINK }}
           # CSC_KEY_PASSWORD: ${{ secrets.MAC_CSC_KEY_PASSWORD }}
