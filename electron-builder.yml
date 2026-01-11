@@ -42,3 +42,7 @@ linux:
     - AppImage
   category: Utility
   maintainer: 'jzimr (Oooodin)'
+
+# Explicitly disable publish to snap (Happens by default due to AppImage format)
+snap:
+  publish: null
