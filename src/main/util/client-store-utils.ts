@@ -18,7 +18,7 @@ const store = new StoreConstructor<ClientStore>({
       if (settings.devConsoleOnStart === undefined) {
         settings.devConsoleOnStart = false
       }
-      store.delete('schemaVersion')
+      store.delete('schemaVersion' as keyof ClientStore)
       store.set('settings', settings)
     }
   }
