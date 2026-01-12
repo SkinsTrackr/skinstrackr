@@ -2,7 +2,7 @@ import '@/styles/globals.css'
 
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import { BrowserRouter } from 'react-router'
+import { HashRouter } from 'react-router'
 import App from './App'
 import { ThemeProvider } from '@/components/theme-provider'
 import { Toaster } from 'sonner'
@@ -13,7 +13,7 @@ import { SessionProvider } from './contexts/SessionContext'
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-      <BrowserRouter>
+      <HashRouter>
         <ClientStoreProvider>
           <InventoryProvider>
             <SessionProvider>
@@ -21,7 +21,7 @@ createRoot(document.getElementById('root')!).render(
             </SessionProvider>
           </InventoryProvider>
         </ClientStoreProvider>
-      </BrowserRouter>
+      </HashRouter>
       <Toaster position="bottom-right" expand={true} richColors duration={8000} theme="dark" />
     </ThemeProvider>
   </StrictMode>
