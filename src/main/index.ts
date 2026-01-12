@@ -12,6 +12,7 @@ import { fetchItemData } from './util/item-utils'
 import 'dotenv/config'
 import { setupClientStoreIPC } from './ipc/client-store-ipc'
 import { initializeUpdater } from './updates'
+import { shouldShowDevTools } from './util/config-utils'
 
 let mainWindow: BrowserWindow | null = null
 
@@ -91,7 +92,11 @@ app.whenReady().then(async () => {
   // Initialize auto-updater after window is created
   if (mainWindow) {
     initializeUpdater(mainWindow)
-    mainWindow.webContents.openDevTools({ mode: 'detach' })
+
+    // Open DevTools if configured (non-GUI setting for power users)
+    if (shouldShowDevTools()) {
+      mainWindow.webContents.openDevTools({ mode: 'detach' })
+    }
   }
 
   app.on('activate', function () {
