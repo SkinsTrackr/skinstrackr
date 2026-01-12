@@ -6,9 +6,21 @@ import SteamUser from 'steam-user'
 const StoreConstructor = (Store as unknown as { default: typeof Store }).default || Store
 const store = new StoreConstructor<ClientStore>({
   defaults: {
-    schemaVersion: 1,
-    settings: {},
+    settings: {
+      devConsoleOnStart: false
+    },
     accounts: {}
+  },
+  migrations: {
+    '1.0.1': (store) => {
+      // Add devConsoleOnStart setting
+      const settings = store.get('settings') as Settings
+      if (settings.devConsoleOnStart === undefined) {
+        settings.devConsoleOnStart = false
+      }
+      store.delete('schemaVersion')
+      store.set('settings', settings)
+    }
   }
 })
 
