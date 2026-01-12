@@ -47,4 +47,4 @@ linux:
   target:
     - AppImage
   category: Utility
-  maintainer: 'jzimr (Oooodin)'
+  maintainer: 'jzimr/Oooodin'

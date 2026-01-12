@@ -4,7 +4,7 @@
   "description": "Manage inventory and storage units for CS2",
   "productName": "SkinsTrackr",
   "main": "./out/main/index.js",
-  "author": "jzimr (Oooodin)",
+  "author": "jzimr/Oooodin",
   "license": "GPL-3.0",
   "homepage": "https://github.com/SkinsTrackr/skinstrackr/",
   "scripts": {
