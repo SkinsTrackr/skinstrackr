@@ -31,11 +31,25 @@ Bug fixes
 
 Security updates
 
-## [1.0.0] - 2026-01-09
+## [1.0.1] - 2026-01-12
 
 ### Added
 
+- Make it easier to debug packaged releases
+
+### Fixed
+
+- Downgrade electron to support macOS11
+- x64 support for macOS
+- Windows issue where pages won't load
+- README to point to correct releases
+
+## [1.0.0] - 2026-01-09
+
+### Changed
+
 - Initial release of SkinsTrackr
 
-[unreleased]: https://github.com/SkinsTrackr/skinstrackr/compare/v1.0.0...HEAD
+[unreleased]: https://github.com/SkinsTrackr/skinstrackr/compare/v1.0.1...HEAD
+[1.0.1]: https://github.com/SkinsTrackr/skinstrackr/releases/tag/v1.0.1
 [1.0.0]: https://github.com/SkinsTrackr/skinstrackr/releases/tag/v1.0.0

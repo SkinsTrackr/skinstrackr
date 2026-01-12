@@ -18,11 +18,11 @@ SkinsTrackr is a desktop application designed to help Counter-Strike 2 players m
 
 ## Download latest
 
-| Platform | Download                                                               |
-| -------- | ---------------------------------------------------------------------- |
-| Windows  | [Download](https://github.com/SkinsTrackr/skinstrackr/releases/latest) |
-| macOS    | [Download](https://github.com/SkinsTrackr/skinstrackr/releases/latest) |
-| Linux    | [Download](https://github.com/SkinsTrackr/skinstrackr/releases/latest) |
+| Platform    | Download                                                                                                    |
+| ----------- | ----------------------------------------------------------------------------------------------------------- |
+| Windows     | [Download](https://github.com/SkinsTrackr/skinstrackr/releases/download/v1.0.1/SkinsTrackr-Setup-1.0.1.exe) |
+| macOS (ARM) | [Download](https://github.com/SkinsTrackr/skinstrackr/releases/download/v1.0.1/SkinsTrackr-1.0.1-arm64.dmg) |
+| Linux       | [Download](https://github.com/SkinsTrackr/skinstrackr/releases/download/v1.0.1/SkinsTrackr-1.0.1.AppImage)  |
 
 **Older versions:** See [Releases](https://github.com/SkinsTrackr/skinstrackr/releases) for version history and changelog.
 
@@ -45,16 +45,13 @@ SkinsTrackr is a desktop application designed to help Counter-Strike 2 players m
 
 [Inventory View](https://github.com/user-attachments/assets/b4919360-6464-4d77-9288-de031d26f579)
 
-
 ### Item Transfer
 
 [Item Transfer](https://github.com/user-attachments/assets/fa523a6f-1093-4318-b3b1-f4711b9acea8)
 
-
 ### Multi-Account Management and Caching
 
 [Multi-Account Management and Caching](https://github.com/user-attachments/assets/ab86efda-b637-4a84-a08a-bcab189614b1)
-
 
 ---
 
