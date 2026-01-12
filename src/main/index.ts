@@ -91,6 +91,7 @@ app.whenReady().then(async () => {
   // Initialize auto-updater after window is created
   if (mainWindow) {
     initializeUpdater(mainWindow)
+    mainWindow.webContents.openDevTools({ mode: 'detach' })
   }
 
   app.on('activate', function () {
