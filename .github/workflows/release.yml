@@ -96,7 +96,7 @@ jobs:
           echo "$CERTIFICATE" | base64 --decode > "My App.cer"
 
           security import "My App.p12" -k build.keychain -P "$PRIVATE_KEY_PASSWORD" -T /usr/bin/codesign
-          security import "My App.cer" -k build.keychain -T /usr/bin/codesign
+          # security import "My App.cer" -k build.keychain -T /usr/bin/codesign
 
           # Check certificates
           security find-identity -v -p codesigning build.keychain
