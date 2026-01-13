@@ -76,8 +76,8 @@ jobs:
         if: matrix.platform == 'mac'
         uses: apple-actions/import-codesign-certs@v3
         with:
-          p12-file-base64: ${{ secrets.CSC_LINK }}
-          p12-password: ${{ secrets.CSC_KEY_PASSWORD }}
+          p12-file-base64: ${{ secrets.MAC_CERTS_P12_BASE64 }}
+          p12-password: ${{ secrets.MAC_CERTS_P12_PASSWORD }}
 
       - name: MAC - Build (signed + notarized)
         if: matrix.platform == 'mac'
@@ -87,8 +87,8 @@ jobs:
           EP_PRE_RELEASE: false
 
           # electron-builder signing inputs
-          CSC_LINK: ${{ secrets.CSC_LINK }}
-          CSC_KEY_PASSWORD: ${{ secrets.CSC_KEY_PASSWORD }}
+          CSC_LINK: ${{ secrets.MAC_CERTS_P12_BASE64 }}
+          CSC_KEY_PASSWORD: ${{ secrets.MAC_CERTS_P12_PASSWORD }}
 
           DEBUG: electron-builder,electron-builder:*
 
