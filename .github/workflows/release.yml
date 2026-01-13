@@ -93,7 +93,7 @@ jobs:
           cd ~/certificates
 
           echo "$PRIVATE_KEY" | base64 --decode > "My App.p12"
-          echo "CERTIFICATE" | base64 --decode > "My App.cer"
+          echo "$CERTIFICATE" | base64 --decode > "My App.cer"
 
           security import "My App.p12" -k build.keychain -P "$PRIVATE_KEY_PASSWORD" -T /usr/bin/codesign
           security import "My App.cer" -k build.keychain -T /usr/bin/codesign
