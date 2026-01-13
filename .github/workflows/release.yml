@@ -73,28 +73,11 @@ jobs:
         run: npm run build:win -- --publish always
 
       - name: Import Code Signing Certificate
-        env:
-          CSC_LINK: ${{ secrets.CSC_LINK }}
-          CSC_KEY_PASSWORD: ${{ secrets.CSC_KEY_PASSWORD }}
-        run: |
-          echo "$CSC_LINK" | base64 --decode > certificate.p12
-
-          KEYCHAIN=build.keychain
-          security create-keychain -p "" "$KEYCHAIN"
-          security set-keychain-settings -lut 21600 "$KEYCHAIN"
-          security unlock-keychain -p "" "$KEYCHAIN"
-
-          # Import and allow codesign to access it
-          security import certificate.p12 -k "$KEYCHAIN" -P "$CSC_KEY_PASSWORD" -T /usr/bin/codesign -T /usr/bin/security
-
-          # Make this keychain the one macOS actually uses
-          security list-keychains -d user -s "$KEYCHAIN"
-          security default-keychain -s "$KEYCHAIN"
-
-          # This is the “stop hanging in CI” spell
-          security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k "" "$KEYCHAIN"
-
-          security find-identity -v -p codesigning
+        if: matrix.platform == 'mac'
+        uses: apple-actions/import-codesign-certs@v3
+        with:
+          p12-file-base64: ${{ secrets.CSC_LINK }}
+          p12-password: ${{ secrets.CSC_KEY_PASSWORD }}
 
       - name: MAC - Build (signed + notarized)
         if: matrix.platform == 'mac'
