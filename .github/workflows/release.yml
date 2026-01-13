@@ -78,6 +78,9 @@ jobs:
           PRIVATE_KEY_PASSWORD: ${{ secrets.CSC_KEY_PASSWORD }}
           CERTIFICATE: ${{ secrets.CSC_CERTIFICATE }}
         run: |
+          # Delete keychain if it exists
+          security delete-keychain build.keychain || true
+
           # Create a temporary keychain
           security create-keychain -p "" build.keychain
 
@@ -89,6 +92,8 @@ jobs:
           # Set it to lock in 1 hour (should be long enough, and probs longer than the macOS default that could be too short)
           security set-keychain-settings -t 3600 -l ~/Library/Keychains/build.keychain
 
+          # Clean up and recreate certificates directory
+          rm -rf ~/certificates
           mkdir -p ~/certificates
           cd ~/certificates
 
