@@ -112,6 +112,8 @@ jobs:
           CSC_KEY_PASSWORD: ${{ secrets.MAC_CERTS_P12_PASSWORD }}
           CSC_KEYCHAIN: build.keychain
 
+          DEBUG: electron-builder,electron-builder:*
+
           # notarization with afterSign
           APPLE_ID: ${{ secrets.APPLE_ID }}
           APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
