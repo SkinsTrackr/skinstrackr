@@ -20,11 +20,19 @@ SkinsTrackr is a desktop application designed to help Counter-Strike 2 players m
 
 | Platform    | Download                                                                                                    |
 | ----------- | ----------------------------------------------------------------------------------------------------------- |
-| Windows     | [Download](https://github.com/SkinsTrackr/skinstrackr/releases/download/v1.0.1/SkinsTrackr-Setup-1.0.1.exe) |
-| macOS (ARM) | [Download](https://github.com/SkinsTrackr/skinstrackr/releases/download/v1.0.1/SkinsTrackr-1.0.1-arm64.dmg) |
-| Linux       | [Download](https://github.com/SkinsTrackr/skinstrackr/releases/download/v1.0.1/SkinsTrackr-1.0.1.AppImage)  |
+| Windows     | [Download](https://github.com/SkinsTrackr/skinstrackr/releases/download/v1.0.2/SkinsTrackr-Setup-1.0.2.exe) |
+| macOS (ARM) | [Download](https://github.com/SkinsTrackr/skinstrackr/releases/download/v1.0.2/SkinsTrackr-1.0.2-arm64.dmg) |
+| macOS (x64) | [Download](https://github.com/SkinsTrackr/skinstrackr/releases/download/v1.0.2/SkinsTrackr-1.0.2.dmg)       |
+| Linux       | [Download](https://github.com/SkinsTrackr/skinstrackr/releases/download/v1.0.2/SkinsTrackr-1.0.2.AppImage)  |
 
 **Older versions:** See [Releases](https://github.com/SkinsTrackr/skinstrackr/releases) for version history and changelog.
+
+### How to run on linux
+
+The .AppImage is a direct executable and will not be installed on your computer. You need to give it correct executable permissions and probably run it through your shell:
+
+1. Make the file executable with e.g. `sudo chmod 755 <SkinsTrackr file>`
+2. Run with `./<SkinsTrackr file>`
 
 ---
 

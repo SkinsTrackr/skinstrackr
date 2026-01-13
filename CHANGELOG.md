@@ -31,6 +31,13 @@ Bug fixes
 
 Security updates
 
+## [1.0.2] - 2026-01-13
+
+### Changed
+
+- Signed mac executable
+- Small "How to install on linux" guide in README
+
 ## [1.0.1] - 2026-01-12
 
 ### Added
@@ -51,5 +58,6 @@ Security updates
 - Initial release of SkinsTrackr
 
 [unreleased]: https://github.com/SkinsTrackr/skinstrackr/compare/v1.0.1...HEAD
+[1.0.2]: https://github.com/SkinsTrackr/skinstrackr/releases/tag/v1.0.2
 [1.0.1]: https://github.com/SkinsTrackr/skinstrackr/releases/tag/v1.0.1
 [1.0.0]: https://github.com/SkinsTrackr/skinstrackr/releases/tag/v1.0.0
