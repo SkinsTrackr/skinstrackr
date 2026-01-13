@@ -80,13 +80,21 @@ jobs:
           echo "$CSC_LINK" | base64 --decode > certificate.p12
 
           KEYCHAIN=build.keychain
-          security create-keychain -p "" $KEYCHAIN
-          security set-keychain-settings -lut 21600 $KEYCHAIN
-          security unlock-keychain -p "" $KEYCHAIN
+          security create-keychain -p "" "$KEYCHAIN"
+          security set-keychain-settings -lut 21600 "$KEYCHAIN"
+          security unlock-keychain -p "" "$KEYCHAIN"
 
-          security import certificate.p12 -k $KEYCHAIN -P "$CSC_KEY_PASSWORD" -T /usr/bin/codesign -T /usr/bin/security
-          security list-keychains -d user -s $KEYCHAIN
-          security set-key-partition-list -S apple-tool:,apple: -s -k "" $KEYCHAIN
+          # Import and allow codesign to access it
+          security import certificate.p12 -k "$KEYCHAIN" -P "$CSC_KEY_PASSWORD" -T /usr/bin/codesign -T /usr/bin/security
+
+          # Make this keychain the one macOS actually uses
+          security list-keychains -d user -s "$KEYCHAIN"
+          security default-keychain -s "$KEYCHAIN"
+
+          # This is the “stop hanging in CI” spell
+          security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k "" "$KEYCHAIN"
+
+          security find-identity -v -p codesigning
 
       - name: MAC - Build (signed + notarized)
         if: matrix.platform == 'mac'
@@ -105,7 +113,12 @@ jobs:
           APPLE_ID: ${{ secrets.APPLE_ID }}
           APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
           APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
-        run: npm run build:mac -- --publish always
+        run: |
+          security find-identity -v -p codesigning
+          security list-keychains -d user
+          security default-keychain
+          security show-keychain-info build.keychain || true
+          npm run build:mac -- --publish always
 
       - name: MAC - Verify codesign
         if: matrix.platform == 'mac'
