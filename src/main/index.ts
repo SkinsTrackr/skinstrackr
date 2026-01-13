@@ -14,6 +14,15 @@ import { setupClientStoreIPC } from './ipc/client-store-ipc'
 import { initializeUpdater } from './updates'
 import { settings } from './util/client-store-utils'
 
+// Disable console output in production builds (unless error)
+if (!is.dev) {
+  console.log = () => {}
+  console.info = () => {}
+  console.warn = () => {}
+  console.debug = () => {}
+  // console.error = () => {}
+}
+
 let mainWindow: BrowserWindow | null = null
 
 export function getMainWindow(): BrowserWindow | null {
