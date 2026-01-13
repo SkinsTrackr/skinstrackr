@@ -79,8 +79,16 @@ jobs:
           p12-file-base64: ${{ secrets.CSC_LINK }}
           p12-password: ${{ secrets.CSC_KEY_PASSWORD }}
 
+      - name: MAC - Verify Certificate
+        if: matrix.platform == 'mac'
+        run: |
+          # List available signing identities for debugging
+          echo "Available signing identities:"
+          security find-identity -v -p codesigning
+
       - name: MAC - Build (signed + notarized)
         if: matrix.platform == 'mac'
+        timeout-minutes: 30
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           EP_DRAFT: true
@@ -90,7 +98,15 @@ jobs:
           CSC_LINK: ${{ secrets.CSC_LINK }}
           CSC_KEY_PASSWORD: ${{ secrets.CSC_KEY_PASSWORD }}
 
-          DEBUG: electron-builder,electron-builder:*
+          # Additional signing configuration
+          CSC_IDENTITY_AUTO_DISCOVERY: true
+
+          # Enable more verbose debugging
+          DEBUG: electron-builder,electron-builder:*,electron-notarize
+
+          # TEMPORARY: Skip notarization to test if that's causing the hang
+          # Remove this line once we confirm notarization works
+          SKIP_NOTARIZATION: true
 
           # notarization with afterSign
           APPLE_ID: ${{ secrets.APPLE_ID }}

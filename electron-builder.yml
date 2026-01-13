@@ -44,6 +44,8 @@ mac:
   gatekeeperAssess: false
   entitlements: 'build/entitlements.mac.plist'
   entitlementsInherit: 'build/entitlements.mac.plist'
+  afterSign: 'build/notarize.js'
+  notarize: false
 
 linux:
   target:
