@@ -74,41 +74,27 @@ jobs:
 
       - name: Import Code Signing Certificate
         env:
-          PRIVATE_KEY: ${{ secrets.CSC_LINK }}
-          PRIVATE_KEY_PASSWORD: ${{ secrets.CSC_KEY_PASSWORD }}
-          CERTIFICATE: ${{ secrets.CSC_CERTIFICATE }}
+          CSC_LINK: ${{ secrets.CSC_LINK }}
+          CSC_KEY_PASSWORD: ${{ secrets.CSC_KEY_PASSWORD }}
         run: |
-          # Delete keychain if it exists
-          security delete-keychain build.keychain || true
+          echo "$CSC_LINK" | base64 --decode > certificate.p12
 
-          # Create a temporary keychain
-          security create-keychain -p "" build.keychain
+          KEYCHAIN=build.keychain
+          security create-keychain -p "" "$KEYCHAIN"
+          security set-keychain-settings -lut 21600 "$KEYCHAIN"
+          security unlock-keychain -p "" "$KEYCHAIN"
 
-          # Set it as default for the user session
-          security default-keychain -s build.keychain
+          # Import and allow codesign to access it
+          security import certificate.p12 -k "$KEYCHAIN" -P "$CSC_KEY_PASSWORD" -T /usr/bin/codesign -T /usr/bin/security
 
-          security unlock-keychain -p "" build.keychain
+          # Make this keychain the one macOS actually uses
+          security list-keychains -d user -s "$KEYCHAIN"
+          security default-keychain -s "$KEYCHAIN"
 
-          # Set it to lock in 1 hour (should be long enough, and probs longer than the macOS default that could be too short)
-          security set-keychain-settings -t 3600 -l ~/Library/Keychains/build.keychain
+          # This is the “stop hanging in CI” spell
+          security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k "" "$KEYCHAIN"
 
-          # Clean up and recreate certificates directory
-          rm -rf ~/certificates
-          mkdir -p ~/certificates
-          cd ~/certificates
-
-          echo "$PRIVATE_KEY" | base64 --decode > "My App.p12"
-          echo "$CERTIFICATE" | base64 --decode > "My App.cer"
-
-          security import "My App.p12" -k build.keychain -P "$PRIVATE_KEY_PASSWORD" -T /usr/bin/codesign -A
-          security import "My App.cer" -k build.keychain -T /usr/bin/codesign -A
-
-          # Check certificates
-          security find-identity -v -p codesigning build.keychain
-
-          # Add keychain to search list
-          security list-keychains -d user -s build.keychain
-          security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k "" build.keychain
+          security find-identity -v -p codesigning
 
       - name: MAC - Build (signed + notarized)
         if: matrix.platform == 'mac'
