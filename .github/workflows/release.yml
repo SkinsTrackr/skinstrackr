@@ -74,31 +74,10 @@ jobs:
 
       - name: MAC - Import Developer ID Certificate
         if: matrix.platform == 'mac'
-        env:
-          MAC_CERTS_P12_BASE64: ${{ secrets.MAC_CERTS_P12_BASE64 }}
-          MAC_CERTS_P12_PASSWORD: ${{ secrets.MAC_CERTS_P12_PASSWORD }}
-        run: |
-          echo "$MAC_CERTS_P12_BASE64" | base64 --decode > certificate.p12
-
-          security create-keychain -p "actions" build.keychain
-          security set-keychain-settings -lut 21600 build.keychain
-          security unlock-keychain -p "actions" build.keychain
-
-          # add to search list
-          security list-keychains -d user -s build.keychain
-          security default-keychain -s build.keychain
-
-          # Import and explicitly allow tools that will touch the key
-          security import certificate.p12 -k build.keychain -P "$MAC_CERTS_P12_PASSWORD" \
-            -T /usr/bin/codesign \
-            -T /usr/bin/security \
-            -T /usr/bin/productbuild \
-            -T /usr/bin/pkgbuild
-
-          # This prevents “waiting for permission prompt” in CI
-          security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k "actions" build.keychain
-
-          security find-identity -v -p codesigning build.keychain
+        uses: apple-actions/import-codesign-certs@v3
+        with:
+          p12-file-base64: ${{ secrets.CSC_LINK }}
+          p12-password: ${{ secrets.CSC_KEY_PASSWORD }}
 
       - name: MAC - Build (signed + notarized)
         if: matrix.platform == 'mac'
@@ -108,9 +87,8 @@ jobs:
           EP_PRE_RELEASE: false
 
           # electron-builder signing inputs
-          CSC_LINK: certificate.p12
-          CSC_KEY_PASSWORD: ${{ secrets.MAC_CERTS_P12_PASSWORD }}
-          CSC_KEYCHAIN: build.keychain
+          CSC_LINK: ${{ secrets.CSC_LINK }}
+          CSC_KEY_PASSWORD: ${{ secrets.CSC_KEY_PASSWORD }}
 
           DEBUG: electron-builder,electron-builder:*
 
