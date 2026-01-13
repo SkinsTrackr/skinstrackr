@@ -4,6 +4,12 @@ const { notarize } = require('@electron/notarize')
 exports.default = async (context) => {
   if (context.electronPlatformName !== 'darwin') return
 
+  // Skip notarization for PR/dev builds
+  if (process.env.SKIP_NOTARIZE === 'true') {
+    console.log('Skipping notarization (SKIP_NOTARIZE=true)')
+    return
+  }
+
   const appName = context.packager.appInfo.productFilename
   const appPath = `${context.appOutDir}/${appName}.app`
 
