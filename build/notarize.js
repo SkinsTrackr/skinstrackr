@@ -1,32 +1,30 @@
 /* eslint-disable @typescript-eslint/no-require-imports */
+// build/notarize.js
 const { notarize } = require('@electron/notarize')
-const { build } = require('../../electron-builder.yml')
 
-exports.default = async function notarizeMacos(context) {
+exports.default = async function notarizing(context) {
   const { electronPlatformName, appOutDir } = context
-  if (electronPlatformName !== 'darwin') {
-    return
-  }
 
-  // Skip notarization for PR/dev builds
-  if (process.env.SKIP_NOTARIZE === 'true') {
-    console.log('Skipping notarization (SKIP_NOTARIZE=true)')
-    return
-  }
-
-  if (!('APPLE_ID' in process.env && 'APPLE_ID_PASS' in process.env && 'APPLE_TEAM_ID' in process.env)) {
-    console.warn('Skipping notarizing step. APPLE_ID, APPLE_ID_PASS, and APPLE_TEAM_ID env variables must be set')
-    return
-  }
+  if (electronPlatformName !== 'darwin') return
 
   const appName = context.packager.appInfo.productFilename
 
-  await notarize({
-    tool: 'notarytool',
-    appBundleId: build.appId,
-    appPath: `${appOutDir}/${appName}.app`,
-    appleId: process.env.APPLE_ID,
-    appleIdPassword: process.env.APPLE_ID_PASS,
-    teamId: process.env.APPLE_TEAM_ID
-  })
+  // Prefer App Store Connect API key env vars if set
+  const { APPLE_ID, APPLE_APP_SPECIFIC_PASSWORD, APPLE_TEAM_ID } = process.env
+
+  const common = {
+    appBundleId: 'com.skinstrackr.app',
+    appPath: `${appOutDir}/${appName}.app`
+  }
+
+  if (APPLE_ID && APPLE_APP_SPECIFIC_PASSWORD && APPLE_TEAM_ID) {
+    return notarize({
+      ...common,
+      appleId: APPLE_ID,
+      appleIdPassword: APPLE_APP_SPECIFIC_PASSWORD,
+      teamId: APPLE_TEAM_ID
+    })
+  }
+
+  throw new Error('Missing notarization credentials (API key or Apple ID flow).')
 }
