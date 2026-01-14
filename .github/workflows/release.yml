@@ -85,8 +85,8 @@ jobs:
         # in case the code signing fails due to network errors.
         uses: nick-fields/retry@v2
         with:
-          timeout-minutes: 60
-          retries: 24
+          timeout_minutes: 60
+          max_attempts: 24
           command: npm run build:mac -- --publish always
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
