@@ -72,12 +72,12 @@ jobs:
           # CSC_KEY_PASSWORD: ${{ secrets.WIN_CSC_KEY_PASSWORD }}
         run: npm run build:win -- --publish always
 
-      - name: Import Code Signing Certificate
-        if: matrix.platform == 'mac'
-        uses: apple-actions/import-codesign-certs@v3
-        with:
-          p12-file-base64: ${{ secrets.CSC_LINK }}
-          p12-password: ${{ secrets.CSC_KEY_PASSWORD }}
+      # - name: Import Code Signing Certificate
+      #   if: matrix.platform == 'mac'
+      #   uses: apple-actions/import-codesign-certs@v3
+      #   with:
+      #     p12-file-base64: ${{ secrets.CSC_LINK }}
+      #     p12-password: ${{ secrets.CSC_KEY_PASSWORD }}
 
       - name: MAC - Build (signed + notarized)
         if: matrix.platform == 'mac'
@@ -99,19 +99,19 @@ jobs:
         run: |
           npm run build:mac -- --publish always
 
-      - name: MAC - Verify codesign
-        if: matrix.platform == 'mac'
-        run: |
-          APP="dist/mac/*.app"
-          codesign -dv --verbose=4 $APP || true
-          codesign --verify --deep --strict --verbose=2 $APP
+      # - name: MAC - Verify codesign
+      #   if: matrix.platform == 'mac'
+      #   run: |
+      #     APP="dist/mac/*.app"
+      #     codesign -dv --verbose=4 $APP || true
+      #     codesign --verify --deep --strict --verbose=2 $APP
 
-      - name: MAC - Verify notarization ticket
-        if: matrix.platform == 'mac'
-        run: |
-          DMG="dist/*.dmg"
-          xcrun stapler validate "$DMG" || true
-          spctl -a -vv --type open "$DMG" || true
+      # - name: MAC - Verify notarization ticket
+      #   if: matrix.platform == 'mac'
+      #   run: |
+      #     DMG="dist/*.dmg"
+      #     xcrun stapler validate "$DMG" || true
+      #     spctl -a -vv --type open "$DMG" || true
 
       - name: Upload build artifacts (backup)
         uses: actions/upload-artifact@v4

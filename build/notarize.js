@@ -6,6 +6,10 @@ exports.default = async function notarizing(context) {
   const { electronPlatformName, appOutDir } = context
 
   if (electronPlatformName !== 'darwin') return
+  if (process.env.SKIP_NOTARIZE === 'true') {
+    console.log('Skipping notarization as per SKIP_NOTARIZE env var.')
+    return
+  }
 
   const appName = context.packager.appInfo.productFilename
 
