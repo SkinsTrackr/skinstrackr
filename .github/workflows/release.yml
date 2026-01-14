@@ -78,9 +78,16 @@ jobs:
       #   with:
       #     p12-file-base64: ${{ secrets.CSC_LINK }}
       #     p12-password: ${{ secrets.CSC_KEY_PASSWORD }}
-
+      #
       - name: MAC - Build (signed + notarized)
         if: matrix.platform == 'mac'
+        # Use the `nick-fields/retry` (https://github.com/nick-fields/retry) to retry the command
+        # in case the code signing fails due to network errors.
+      - uses: nick-fields/retry@v2
+        with:
+          timeout-minutes: 60
+          retries: 24
+          command: npm run build:mac -- --publish always
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           EP_DRAFT: true
@@ -96,8 +103,8 @@ jobs:
           APPLE_ID: ${{ secrets.APPLE_ID }}
           APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
           APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
-        run: |
-          npm run build:mac -- --publish always
+        # run: |
+        #   npm run build:mac -- --publish always
 
       # - name: MAC - Verify codesign
       #   if: matrix.platform == 'mac'
