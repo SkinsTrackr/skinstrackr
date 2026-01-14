@@ -83,7 +83,7 @@ jobs:
         if: matrix.platform == 'mac'
         # Use the `nick-fields/retry` (https://github.com/nick-fields/retry) to retry the command
         # in case the code signing fails due to network errors.
-      - uses: nick-fields/retry@v2
+        uses: nick-fields/retry@v2
         with:
           timeout-minutes: 60
           retries: 24
