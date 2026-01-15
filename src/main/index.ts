@@ -75,6 +75,17 @@ app.whenReady().then(async () => {
     optimizer.watchWindowShortcuts(window)
   })
 
+  createWindow()
+
+  // Initialize auto-updater after window is created
+  if (mainWindow) {
+    initializeUpdater(mainWindow)
+
+    if (settings.getSettings().devConsoleOnStart === true) {
+      mainWindow.webContents.openDevTools({ mode: 'detach' })
+    }
+  }
+
   /////////////////////////////////////////////////////
   // Initialize Steam session and listeners/IPCs
   /////////////////////////////////////////////////////
@@ -89,21 +100,15 @@ app.whenReady().then(async () => {
   setupInventoryIPC()
   setupClientStoreIPC()
 
+  // Fetch item data in background and notify renderer when complete
   try {
     await fetchItemData()
     console.log('Items fetched successfully')
   } catch (error) {
     console.error('Failed to fetch items during app initialization:', error)
-  }
-
-  createWindow()
-
-  // Initialize auto-updater after window is created
-  if (mainWindow) {
-    initializeUpdater(mainWindow)
-
-    if (settings.getSettings().devConsoleOnStart === true) {
-      mainWindow.webContents.openDevTools({ mode: 'detach' })
+  } finally {
+    if (mainWindow && !mainWindow.isDestroyed()) {
+      mainWindow.webContents.send('renderer:app-initialized')
     }
   }
 

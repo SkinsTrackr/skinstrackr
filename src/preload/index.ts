@@ -77,6 +77,11 @@ const api = {
     const listener = (): void => callback()
     ipcRenderer.on('renderer:update-downloaded', listener)
     return () => ipcRenderer.removeListener('renderer:update-downloaded', listener)
+  },
+  onAppInitialized: (callback: () => void) => {
+    const listener = (): void => callback()
+    ipcRenderer.on('renderer:app-initialized', listener)
+    return () => ipcRenderer.removeListener('renderer:app-initialized', listener)
   }
 }
 

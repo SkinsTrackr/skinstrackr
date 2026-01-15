@@ -52,11 +52,12 @@ export function ClientStoreProvider({ children }: { children: ReactNode }): JSX.
     }
   }, [])
 
-  // Load accounts on mount so they're always available
+  // Load accounts on mount so they're always available.
+  // This also avoids race conditions
   useEffect(() => {
-    console.log('ClientStoreProvider mounted, loading accounts...')
     loadAccounts().catch(console.error)
-  }, [loadAccounts])
+    loadSettings().catch(console.error)
+  }, [loadAccounts, loadSettings])
 
   return (
     <ClientStoreContext.Provider
