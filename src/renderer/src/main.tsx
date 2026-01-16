@@ -22,7 +22,15 @@ createRoot(document.getElementById('root')!).render(
           </InventoryProvider>
         </ClientStoreProvider>
       </HashRouter>
-      <Toaster position="bottom-right" expand={true} richColors duration={8000} theme="dark" />
+      <Toaster
+        position="bottom-right"
+        expand={true}
+        richColors
+        duration={8000}
+        theme="dark"
+        closeButton
+        offset={{ bottom: '55px' }}
+      />
     </ThemeProvider>
   </StrictMode>
 )

@@ -15,6 +15,7 @@ import { UserSessionType } from '@shared/enums/session-type'
 import { IconWrapper } from '@/styles/icon-wrapper'
 import { showToast } from './toast'
 import log from 'electron-log/renderer'
+import { getCleanErrorMessage } from '@/lib/error-utils'
 
 export default function BottomNavbar(): JSX.Element {
   const { totalItems, totalValue, loadInventory, isLoading } = useInventory()
@@ -74,7 +75,6 @@ export default function BottomNavbar(): JSX.Element {
   }
 
   const handleAccountSwitch = async (steamId: string): Promise<void> => {
-    // TODO: Implement account switching logic
     log.info('Switch to account:', steamId)
     setPopoverOpen(false)
     await loginCache(steamId)
@@ -89,6 +89,7 @@ export default function BottomNavbar(): JSX.Element {
       setPopoverOpen(false)
     } catch (err) {
       log.error('Login error:', err)
+      showToast('Failed to login: ' + getCleanErrorMessage(err), 'error')
     } finally {
       setToken('')
     }
@@ -98,6 +99,7 @@ export default function BottomNavbar(): JSX.Element {
     e.stopPropagation()
     if (!isLoading && userSession === UserSessionType.LOGGED_IN_ONLINE) {
       await loadInventory(false, true)
+      showToast('Inventory reloaded', 'success')
     } else {
       showToast('Cannot force reload. Inventory is currently loading or user is not online', 'error')
     }

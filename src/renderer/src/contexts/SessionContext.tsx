@@ -30,8 +30,8 @@ export function SessionProvider({ children }: { children: ReactNode }): JSX.Elem
       setActiveSteamId(returnedSteamId)
       // Inventory will be loaded when we receive CONNECTED game session event
     } catch (error) {
-      log.error('Failed to login to Steam:', error)
-      showToast(getCleanErrorMessage(error), 'error')
+      log.error('Failed to login to Steam: ', error)
+      showToast('Failed to login to Steam: ' + getCleanErrorMessage(error), 'error')
       throw error
     }
   }, [])
@@ -47,12 +47,12 @@ export function SessionProvider({ children }: { children: ReactNode }): JSX.Elem
 
         const returnedSteamId = await window.api.loginCache(steamId)
         setActiveSteamId(returnedSteamId)
-        showToast('Loaded ' + account.username + ' from cache', 'info')
         setUserSession(UserSessionType.CACHE)
         await loadInventory(true, false)
+        showToast('Loaded ' + account.username + ' from cache', 'info')
       } catch (error) {
-        log.error('Failed to login to cache:', error)
-        showToast(getCleanErrorMessage(error), 'error')
+        log.error('Failed to load cache:', error)
+        showToast('Failed to load cache: ' + getCleanErrorMessage(error), 'error')
         throw error
       }
     },

@@ -1,6 +1,8 @@
 import { createContext, useContext, useState, ReactNode, JSX, useCallback, useEffect } from 'react'
 import { Account, Settings } from '@shared/interfaces/store.types'
 import log from 'electron-log/renderer'
+import { showToast } from '@/components/toast'
+import { getCleanErrorMessage } from '@/lib/error-utils'
 
 interface ClientStoreContextType {
   settings: Settings
@@ -25,6 +27,7 @@ export function ClientStoreProvider({ children }: { children: ReactNode }): JSX.
       return result
     } catch (error) {
       log.error('Failed to load settings:', error)
+      showToast('Failed to load settings: ' + getCleanErrorMessage(error), 'error')
       throw error
     }
   }, [])
@@ -35,6 +38,7 @@ export function ClientStoreProvider({ children }: { children: ReactNode }): JSX.
       setSettings(newSettings)
     } catch (error) {
       log.error('Failed to save settings:', error)
+      showToast('Failed to save settings: ' + getCleanErrorMessage(error), 'error')
       throw error
     }
   }, [])
@@ -47,6 +51,7 @@ export function ClientStoreProvider({ children }: { children: ReactNode }): JSX.
       return result
     } catch (error) {
       log.error('Failed to load accounts:', error)
+      showToast('Failed to load accounts: ' + getCleanErrorMessage(error), 'error')
       throw error
     } finally {
       setAccountsLoaded(true)

@@ -8,6 +8,7 @@ import { useSession } from './contexts/SessionContext'
 import SettingsPage from './pages/settings'
 import LoadingScreen from './components/loading-screen'
 import log from 'electron-log/renderer'
+import { showToast } from './components/toast'
 
 function App(): React.JSX.Element {
   const { settings } = useClientStore()
@@ -24,6 +25,7 @@ function App(): React.JSX.Element {
           await loginCache(settings.defaultAccountID)
         } else {
           log.error('No default account configured. This should not happen.')
+          showToast('No default account configured. Please set a default account in settings.', 'error')
         }
       } catch (error) {
         log.error('Failed to check default account:', error)

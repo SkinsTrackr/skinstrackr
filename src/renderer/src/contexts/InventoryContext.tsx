@@ -47,6 +47,7 @@ export function InventoryProvider({ children }: { children: ReactNode }): JSX.El
       return rawItem
     } catch (error) {
       log.error('Failed to get raw item data:', error)
+      showToast('Failed to get raw item data: ' + getCleanErrorMessage(error), 'error')
       return
     }
   }, [])
@@ -60,11 +61,10 @@ export function InventoryProvider({ children }: { children: ReactNode }): JSX.El
       setTotalValue(calculateTotalValue(result))
       setLastRefresh(timeAgo(result.lastRefresh))
     } catch (error) {
-      const cleanMessage = getCleanErrorMessage(error)
       log.error('Failed to load inventory:', error)
       setInventory(defaultInventory)
 
-      showToast(cleanMessage, 'error')
+      showToast('Failed to load inventory: ' + getCleanErrorMessage(error), 'error')
     } finally {
       setIsLoading(false)
     }

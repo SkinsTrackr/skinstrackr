@@ -62,9 +62,10 @@ export const ItemTransferArea: FC<ItemTransferAreaProps> = ({ transfer, containe
     try {
       await window.api.transferItems(transfer)
       await inventory.loadInventory(false, true)
+      showToast('Transfer completed and inventory reloaded', 'success')
     } catch (error) {
-      log.error(error)
-      showToast(getCleanErrorMessage(error), 'error')
+      log.error(`Failed to transfer items: ${error}`)
+      showToast('Failed to transfer items: ' + getCleanErrorMessage(error), 'error')
     } finally {
       // Reset selected items after successful transfer
       setTransfer((prev) => ({
