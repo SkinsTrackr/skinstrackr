@@ -28,8 +28,8 @@ createRoot(document.getElementById('root')!).render(
         richColors
         duration={8000}
         theme="dark"
-        closeButton
         offset={{ bottom: '55px' }}
+        gap={5}
       />
     </ThemeProvider>
   </StrictMode>

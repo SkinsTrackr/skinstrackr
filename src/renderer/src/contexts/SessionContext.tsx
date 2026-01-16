@@ -106,7 +106,7 @@ function useGlobalEvents(
         case SteamSessionEventType.LOGIN_FAILURE_OTHER_SESSION_ACTIVE:
           setUserSession(UserSessionType.NONE)
           // TODO give option to force logout other session?
-          showToast('Login failed: Another session is active', 'error')
+          showToast('Login failed: Another session is active. Log out there first, then reconnect', 'error')
           if (steamId) loginCache(steamId)
           break
         case SteamSessionEventType.DISCONNECTED_LOGOUT:
@@ -134,7 +134,6 @@ function useGlobalEvents(
           showToast('Connected to CS2', 'success')
           setUserSession(UserSessionType.LOGGED_IN_ONLINE)
           // We load inventory every time the user logs in, but only changed containers.
-          // TODO: Could probably optimize a bit, but is it worth it?
           loadInventory(false, true)
           break
         case GameSessionEventType.DISCONNECTED:

@@ -60,6 +60,10 @@ export function InventoryProvider({ children }: { children: ReactNode }): JSX.El
       setTotalItems(result.inventory.items.length + result.containers.flatMap((c) => c.items).length)
       setTotalValue(calculateTotalValue(result))
       setLastRefresh(timeAgo(result.lastRefresh))
+
+      if (fromCache === false) {
+        showToast('Inventory up to date.', 'success')
+      }
     } catch (error) {
       log.error('Failed to load inventory:', error)
       setInventory(defaultInventory)

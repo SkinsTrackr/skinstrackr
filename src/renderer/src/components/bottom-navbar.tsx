@@ -99,7 +99,6 @@ export default function BottomNavbar(): JSX.Element {
     e.stopPropagation()
     if (!isLoading && userSession === UserSessionType.LOGGED_IN_ONLINE) {
       await loadInventory(false, true)
-      showToast('Inventory reloaded', 'success')
     } else {
       showToast('Cannot force reload. Inventory is currently loading or user is not online', 'error')
     }
