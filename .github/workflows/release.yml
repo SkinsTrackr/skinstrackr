@@ -3,6 +3,9 @@ name: Release
 on:
   push:
     branches: [main]
+    paths-ignore:
+      - 'README.md'
+      - 'CHANGELOG.md'
 
 concurrency:
   group: release-${{ github.ref }}
@@ -72,21 +75,13 @@ jobs:
           # CSC_KEY_PASSWORD: ${{ secrets.WIN_CSC_KEY_PASSWORD }}
         run: npm run build:win -- --publish always
 
-      # - name: Import Code Signing Certificate
-      #   if: matrix.platform == 'mac'
-      #   uses: apple-actions/import-codesign-certs@v3
-      #   with:
-      #     p12-file-base64: ${{ secrets.CSC_LINK }}
-      #     p12-password: ${{ secrets.CSC_KEY_PASSWORD }}
-      ##
       - name: MAC - Build (signed + notarized)
         if: matrix.platform == 'mac'
-        # Use the `nick-fields/retry` (https://github.com/nick-fields/retry) to retry the command
-        # in case the code signing fails due to network errors.
+        # Use the `nick-fields/retry` to retry the command in case the code signing fails
         uses: nick-fields/retry@v2
         with:
-          timeout_minutes: 60
-          max_attempts: 24
+          timeout_minutes: 180 # 3 Hours max per try
+          max_attempts: 3
           command: npm run build:mac -- --publish always
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -96,29 +91,9 @@ jobs:
           # electron-builder signing inputs
           CSC_LINK: ${{ secrets.CSC_LINK }}
           CSC_KEY_PASSWORD: ${{ secrets.CSC_KEY_PASSWORD }}
-
-          DEBUG: electron-builder,electron-builder:*
-
-          # notarization with afterSign
           APPLE_ID: ${{ secrets.APPLE_ID }}
           APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
           APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
-        # run: |
-        #   npm run build:mac -- --publish always
-
-      # - name: MAC - Verify codesign
-      #   if: matrix.platform == 'mac'
-      #   run: |
-      #     APP="dist/mac/*.app"
-      #     codesign -dv --verbose=4 $APP || true
-      #     codesign --verify --deep --strict --verbose=2 $APP
-
-      # - name: MAC - Verify notarization ticket
-      #   if: matrix.platform == 'mac'
-      #   run: |
-      #     DMG="dist/*.dmg"
-      #     xcrun stapler validate "$DMG" || true
-      #     spctl -a -vv --type open "$DMG" || true
 
       - name: Upload build artifacts (backup)
         uses: actions/upload-artifact@v4
