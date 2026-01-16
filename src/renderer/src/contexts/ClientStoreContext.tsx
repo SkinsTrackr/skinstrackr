@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, ReactNode, JSX, useCallback, useEffect } from 'react'
 import { Account, Settings } from '@shared/interfaces/store.types'
+import log from 'electron-log/renderer'
 
 interface ClientStoreContextType {
   settings: Settings
@@ -23,7 +24,7 @@ export function ClientStoreProvider({ children }: { children: ReactNode }): JSX.
       setSettings(result)
       return result
     } catch (error) {
-      console.error('Failed to load settings:', error)
+      log.error('Failed to load settings:', error)
       throw error
     }
   }, [])
@@ -33,7 +34,7 @@ export function ClientStoreProvider({ children }: { children: ReactNode }): JSX.
       await window.api.saveSettings(newSettings)
       setSettings(newSettings)
     } catch (error) {
-      console.error('Failed to save settings:', error)
+      log.error('Failed to save settings:', error)
       throw error
     }
   }, [])
@@ -45,7 +46,7 @@ export function ClientStoreProvider({ children }: { children: ReactNode }): JSX.
       setAccounts(result)
       return result
     } catch (error) {
-      console.error('Failed to load accounts:', error)
+      log.error('Failed to load accounts:', error)
       throw error
     } finally {
       setAccountsLoaded(true)
@@ -55,8 +56,8 @@ export function ClientStoreProvider({ children }: { children: ReactNode }): JSX.
   // Load accounts on mount so they're always available.
   // This also avoids race conditions
   useEffect(() => {
-    loadAccounts().catch(console.error)
-    loadSettings().catch(console.error)
+    loadAccounts().catch(log.error)
+    loadSettings().catch(log.error)
   }, [loadAccounts, loadSettings])
 
   return (

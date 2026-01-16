@@ -6,6 +6,7 @@ import { Button } from './ui/button'
 import { cn } from '@/lib/utils'
 import { useInventory } from '@/contexts/InventoryContext'
 import { showToast } from './toast'
+import log from 'electron-log/renderer'
 
 interface ItemCardProps {
   items: ConvertedItem[]
@@ -224,7 +225,7 @@ export const ItemCard: FC<ItemCardProps> = ({ items, name, rarity, transfer, set
     try {
       const itemId = items[0].id
       if (itemId === undefined) {
-        console.error('Item ID is undefined')
+        log.error('Item ID is undefined')
         return
       }
 
@@ -233,11 +234,11 @@ export const ItemCard: FC<ItemCardProps> = ({ items, name, rarity, transfer, set
         await navigator.clipboard.writeText(JSON.stringify(rawItem, null, 2))
         showToast('Item data copied to clipboard', 'success')
       } else {
-        console.error('Failed to get raw item data')
+        log.error('Failed to get raw item data')
         showToast('Failed to get raw item data', 'error')
       }
     } catch (error) {
-      console.error('Failed to copy item data:', error)
+      log.error('Failed to copy item data:', error)
       showToast('Failed to get raw item data', 'error')
     }
   }

@@ -7,6 +7,7 @@ import { useInventory } from '@/contexts/InventoryContext'
 import { showToast } from './toast'
 import { cn } from '@/lib/utils'
 import { getCleanErrorMessage } from '@/lib/error-utils'
+import log from 'electron-log/renderer'
 
 const getTransferAreaStyle = (): {
   className: string
@@ -36,7 +37,7 @@ export const ItemTransferArea: FC<ItemTransferAreaProps> = ({ transfer, containe
 
   useEffect(() => {
     const unsubscribe = window.api.onTransferProgress((itemId, success) => {
-      console.log(`Transfer progress for item ${itemId}: ${success ? 'Success' : 'Failure'}`)
+      log.info(`Transfer progress for item ${itemId}: ${success ? 'Success' : 'Failure'}`)
 
       if (success) {
         setTransferredCount((prev) => prev + 1)
@@ -53,7 +54,7 @@ export const ItemTransferArea: FC<ItemTransferAreaProps> = ({ transfer, containe
       return
     }
 
-    console.log('Initiating transfer for items:', allSelectedItems)
+    log.info('Initiating transfer for items:', allSelectedItems)
     setIsTransferring(true)
     setTransferredCount(0)
     setFailedCount(0)
@@ -62,7 +63,7 @@ export const ItemTransferArea: FC<ItemTransferAreaProps> = ({ transfer, containe
       await window.api.transferItems(transfer)
       await inventory.loadInventory(false, true)
     } catch (error) {
-      console.log(error)
+      log.error(error)
       showToast(getCleanErrorMessage(error), 'error')
     } finally {
       // Reset selected items after successful transfer
@@ -83,7 +84,7 @@ export const ItemTransferArea: FC<ItemTransferAreaProps> = ({ transfer, containe
       setIsCancelling(true)
       await window.api.cancelTransfer()
     } catch (error) {
-      console.log(error)
+      log.error(error)
       showToast(String(error), 'error')
     }
   }

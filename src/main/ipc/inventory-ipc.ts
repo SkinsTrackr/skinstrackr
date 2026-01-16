@@ -6,6 +6,7 @@ import { convertContainer, getQualities, getRarities } from '../util/item-utils'
 import { inventoryFileExists, loadInventoryFromFile, syncInventoryCache } from '../util/inventory-utils'
 import Semaphore from '../util/semaphore'
 import { accounts } from '../util/client-store-utils'
+import log from 'electron-log/main'
 
 // Global transfer state
 let isTransferCancelled = false
@@ -35,7 +36,7 @@ export function setupInventoryIPC(): void {
   })
 
   ipcMain.handle('main:cancel-transfer', async (): Promise<void> => {
-    console.log('Cancel transfer requested')
+    log.info('Cancel transfer requested')
     isTransferCancelled = true
   })
 
@@ -68,7 +69,7 @@ export function setupInventoryIPC(): void {
         pendingTransfers.delete(Number(item.id!))
         threads.release()
       } else {
-        console.warn(`No pending transfer found for item ${item.id!}`)
+        log.warn(`No pending transfer found for item ${item.id!}`)
       }
     }
     csgo.on('itemAcquired', itemAcquiredListener)
@@ -77,19 +78,19 @@ export function setupInventoryIPC(): void {
       for (const containerId of Object.keys(transfer.selectedItems)) {
         // Check if cancelled before processing next container
         if (isTransferCancelled) {
-          console.warn('Transfer cancelled by user')
+          log.warn('Transfer cancelled by user')
           break
         }
 
         for (const itemId of transfer.selectedItems[containerId]) {
           // Check if cancelled before each item
           if (isTransferCancelled) {
-            console.warn('Transfer cancelled by user')
+            log.warn('Transfer cancelled by user')
             break
           }
 
           await threads.acquire()
-          console.log('Acquired', itemId)
+          log.debug('Acquired', itemId)
 
           // Set a timeout for this specific transfer
           const transferPromise = new Promise<void>((resolve, reject) => {
@@ -107,10 +108,10 @@ export function setupInventoryIPC(): void {
           transferPromises.push(transferPromise)
 
           if (transfer.mode === 'toContainer') {
-            console.log(`Transferring item ${itemId} into container ${transfer.toContainerId}`)
+            log.info(`Transferring item ${itemId} into container ${transfer.toContainerId}`)
             csgo.addToCasket(transfer.toContainerId.toString(), itemId)
           } else if (transfer.mode === 'toInventory') {
-            console.log(`Transferring item ${itemId} out of container ${containerId}`)
+            log.info(`Transferring item ${itemId} out of container ${containerId}`)
             csgo.removeFromCasket(containerId, itemId)
           }
         }
@@ -119,7 +120,7 @@ export function setupInventoryIPC(): void {
       // Wait for all transfers to complete before returning
       await Promise.all(transferPromises)
     } catch (error) {
-      console.error('Transfer error:', error)
+      log.error('Transfer error:', error)
     } finally {
       isTransferCancelled = false
       csgo.off('itemAcquired', itemAcquiredListener)
@@ -158,7 +159,7 @@ export function setupInventoryIPC(): void {
         throw new Error('No account found for SteamID: ' + steamId)
       }
 
-      console.log(
+      log.info(
         `Syncing inventory cache for user ${steamId}, fromCache=${fromCache}, onlyChangedContainers=${onlyChangedContainers}`
       )
 
@@ -169,7 +170,7 @@ export function setupInventoryIPC(): void {
           throw new Error(`Need to login as user ${steamId} first to use cached inventory`)
         }
 
-        console.log(`Loading cached inventory for user ${account.username}`)
+        log.info(`Loading cached inventory for user ${account.username}`)
         rawInventory = await loadInventoryFromFile(steamId)
       } else {
         rawInventory = await syncInventoryCache(steamId, onlyChangedContainers)
@@ -179,7 +180,7 @@ export function setupInventoryIPC(): void {
         throw new Error('Failed to load inventory for ' + account.username)
       }
 
-      console.log(`Loaded inventory with ${rawInventory.containers.length} containers`)
+      log.info(`Loaded inventory with ${rawInventory.containers.length} containers`)
       const convertedInventory: ConvertedContainer = convertContainer(rawInventory.inventory)
       const convertedContainers: ConvertedContainer[] = rawInventory.containers.map((container) =>
         convertContainer(container)

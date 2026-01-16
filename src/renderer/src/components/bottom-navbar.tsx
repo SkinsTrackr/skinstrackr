@@ -14,6 +14,7 @@ import { SteamLoginRequest } from '@shared/interfaces/session.types'
 import { UserSessionType } from '@shared/enums/session-type'
 import { IconWrapper } from '@/styles/icon-wrapper'
 import { showToast } from './toast'
+import log from 'electron-log/renderer'
 
 export default function BottomNavbar(): JSX.Element {
   const { totalItems, totalValue, loadInventory, isLoading } = useInventory()
@@ -56,7 +57,7 @@ export default function BottomNavbar(): JSX.Element {
       showToast('Downloading update...', 'info')
       await window.api.downloadUpdate()
     } catch (error) {
-      console.error('Failed to download update:', error)
+      log.error('Failed to download update:', error)
       showToast('Failed to download update', 'error')
     } finally {
       setDownloading(false)
@@ -67,14 +68,14 @@ export default function BottomNavbar(): JSX.Element {
     try {
       await window.api.installUpdate()
     } catch (error) {
-      console.error('Failed to install update:', error)
+      log.error('Failed to install update:', error)
       showToast('Failed to install update', 'error')
     }
   }
 
   const handleAccountSwitch = async (steamId: string): Promise<void> => {
     // TODO: Implement account switching logic
-    console.log('Switch to account:', steamId)
+    log.info('Switch to account:', steamId)
     setPopoverOpen(false)
     await loginCache(steamId)
   }
@@ -87,7 +88,7 @@ export default function BottomNavbar(): JSX.Element {
       await loginSteam(tokenDetails)
       setPopoverOpen(false)
     } catch (err) {
-      console.error('Login error:', err)
+      log.error('Login error:', err)
     } finally {
       setToken('')
     }

@@ -7,6 +7,7 @@ import { useClientStore } from './contexts/ClientStoreContext'
 import { useSession } from './contexts/SessionContext'
 import SettingsPage from './pages/settings'
 import LoadingScreen from './components/loading-screen'
+import log from 'electron-log/renderer'
 
 function App(): React.JSX.Element {
   const { settings } = useClientStore()
@@ -19,13 +20,13 @@ function App(): React.JSX.Element {
     const unsubscribe = window.api.onAppInitialized(async () => {
       try {
         if (settings.defaultAccountID) {
-          console.log('Attempting to login with default account:', settings.defaultAccountID)
+          log.info('Attempting to login with default account:', settings.defaultAccountID)
           await loginCache(settings.defaultAccountID)
         } else {
-          console.log('No default account configured')
+          log.error('No default account configured. This should not happen.')
         }
       } catch (error) {
-        console.error('Failed to check default account:', error)
+        log.error('Failed to check default account:', error)
       }
       setAppInitialized(true)
     })

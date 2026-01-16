@@ -13,14 +13,11 @@ import 'dotenv/config'
 import { setupClientStoreIPC } from './ipc/client-store-ipc'
 import { initializeUpdater } from './updates'
 import { settings } from './util/client-store-utils'
+import log from 'electron-log'
 
 // Disable console output in production builds (unless error)
 if (!is.dev) {
-  console.log = () => {}
-  console.info = () => {}
-  console.warn = () => {}
-  console.debug = () => {}
-  // console.error = () => {}
+  log.transports.console.level = false
 }
 
 let mainWindow: BrowserWindow | null = null
@@ -103,9 +100,9 @@ app.whenReady().then(async () => {
   // Fetch item data in background and notify renderer when complete
   try {
     await fetchItemData()
-    console.log('Items fetched successfully')
+    log.info('Items fetched successfully')
   } catch (error) {
-    console.error('Failed to fetch items during app initialization:', error)
+    log.error('Failed to fetch items during app initialization:', error)
   } finally {
     if (mainWindow && !mainWindow.isDestroyed()) {
       mainWindow.webContents.send('renderer:app-initialized')
@@ -130,6 +127,6 @@ app.on('window-all-closed', () => {
 
 // Clean up when app is about to quit
 app.on('before-quit', () => {
-  console.log('App is quitting, cleaning up Steam session...')
+  log.debug('App is quitting, cleaning up Steam session...')
   SteamSession.destroy()
 })

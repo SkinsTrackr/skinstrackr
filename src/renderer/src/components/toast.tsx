@@ -1,6 +1,7 @@
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 import { JSX } from 'react'
+import log from 'electron-log/renderer'
 
 export function showToast(msg: string, severity: 'success' | 'error' | 'info'): JSX.Element {
   switch (severity) {
@@ -23,7 +24,7 @@ export function showToast(msg: string, severity: 'success' | 'error' | 'info'): 
           description: 'Sunday, December 03, 2023 at 9:00 AM',
           action: {
             label: 'Undo',
-            onClick: () => console.log('Undo')
+            onClick: () => log.info('Undo')
           }
         })
       }
