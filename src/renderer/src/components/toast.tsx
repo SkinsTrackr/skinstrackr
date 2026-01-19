@@ -1,7 +1,5 @@
 import { toast } from 'sonner'
-import { Button } from '@/components/ui/button'
 import { JSX } from 'react'
-import log from 'electron-log/renderer'
 
 export function showToast(msg: string, severity: 'success' | 'error' | 'info'): JSX.Element {
   switch (severity) {

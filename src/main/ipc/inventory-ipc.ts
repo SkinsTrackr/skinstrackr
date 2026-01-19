@@ -56,7 +56,7 @@ export function setupInventoryIPC(): void {
       { resolve: () => void; reject: (err: Error) => void; timeoutId: NodeJS.Timeout }
     >()
 
-    const sleep = (ms: number) => new Promise<void>((resolve) => setTimeout(resolve, ms))
+    const sleep = (ms: number): Promise<void> => new Promise<void>((resolve) => setTimeout(resolve, ms))
 
     const releasePendingTransfer = async (itemId: number, success: boolean): Promise<void> => {
       const pendingTransfer = pendingTransfers.get(itemId)

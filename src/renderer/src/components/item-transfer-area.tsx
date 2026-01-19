@@ -1,4 +1,4 @@
-import { FC, useEffect, useState, useRef } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { Card, CardContent } from './ui/card'
 import { Button } from './ui/button'
 import { ConvertedContainer, TransferItems } from '@shared/interfaces/inventory.types'
@@ -33,7 +33,6 @@ export const ItemTransferArea: FC<ItemTransferAreaProps> = ({ transfer, containe
   const [transferredCount, setTransferredCount] = useState(0)
   const [failedCount, setFailedCount] = useState(0)
   const [isTransferring, setIsTransferring] = useState(false)
-  const [isCancelling, setIsCancelling] = useState(false)
 
   useEffect(() => {
     const unsubscribe = window.api.onTransferProgress((itemId, success) => {
@@ -77,7 +76,6 @@ export const ItemTransferArea: FC<ItemTransferAreaProps> = ({ transfer, containe
 
   const handleCancel = async (): Promise<void> => {
     try {
-      setIsCancelling(true)
       await window.api.cancelTransfer()
     } catch (error) {
       log.error(error)
