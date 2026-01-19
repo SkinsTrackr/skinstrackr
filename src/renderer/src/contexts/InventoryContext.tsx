@@ -62,7 +62,7 @@ export function InventoryProvider({ children }: { children: ReactNode }): JSX.El
       setLastRefresh(timeAgo(result.lastRefresh))
 
       if (fromCache === false) {
-        showToast('Inventory up to date.', 'success')
+        showToast('Inventory up to date', 'success')
       }
     } catch (error) {
       log.error('Failed to load inventory:', error)

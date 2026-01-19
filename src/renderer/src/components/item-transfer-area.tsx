@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react'
+import { FC, useEffect, useState, useRef } from 'react'
 import { Card, CardContent } from './ui/card'
 import { Button } from './ui/button'
 import { ConvertedContainer, TransferItems } from '@shared/interfaces/inventory.types'
@@ -37,8 +37,6 @@ export const ItemTransferArea: FC<ItemTransferAreaProps> = ({ transfer, containe
 
   useEffect(() => {
     const unsubscribe = window.api.onTransferProgress((itemId, success) => {
-      log.info(`Transfer progress for item ${itemId}: ${success ? 'Success' : 'Failure'}`)
-
       if (success) {
         setTransferredCount((prev) => prev + 1)
       } else {
@@ -61,22 +59,19 @@ export const ItemTransferArea: FC<ItemTransferAreaProps> = ({ transfer, containe
 
     try {
       await window.api.transferItems(transfer)
-      await inventory.loadInventory(false, true)
-      showToast('Transfer completed and inventory reloaded', 'success')
     } catch (error) {
       log.error(`Failed to transfer items: ${error}`)
       showToast('Failed to transfer items: ' + getCleanErrorMessage(error), 'error')
     } finally {
+      // reload inventory after transfer completes
+      await inventory.loadInventory(false, true)
       // Reset selected items after successful transfer
       setTransfer((prev) => ({
         ...prev,
         selectedItems: {}
       }))
       setIsTransferring(false)
-      if (isCancelling) {
-        setIsCancelling(false)
-        showToast('Transfer cancelled', 'info')
-      }
+      log.info('Transfer process completed')
     }
   }
 

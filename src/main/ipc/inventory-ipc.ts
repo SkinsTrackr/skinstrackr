@@ -4,7 +4,6 @@ import GlobalOffensive from 'globaloffensive'
 import { ConvertedInventory, RawInventory, ConvertedContainer, TransferItems } from '@shared/interfaces/inventory.types'
 import { convertContainer, getQualities, getRarities } from '../util/item-utils'
 import { inventoryFileExists, loadInventoryFromFile, syncInventoryCache } from '../util/inventory-utils'
-import Semaphore from '../util/semaphore'
 import { accounts } from '../util/client-store-utils'
 import log from 'electron-log/main'
 
@@ -49,39 +48,52 @@ export function setupInventoryIPC(): void {
     isTransferCancelled = false
 
     const csgo = SteamSession.getInstance().getCsgo()!
-    // const rawInventory = await loadInventoryFromFile(SteamSession.getInstance().getSteamId()!)
 
-    const threads = new Semaphore(3) // Max transfers in progress at a time
+    // const threads = new Semaphore(15) // Max transfers in progress at a time
     const transferPromises: Promise<void>[] = []
     const pendingTransfers = new Map<
       number,
       { resolve: () => void; reject: (err: Error) => void; timeoutId: NodeJS.Timeout }
     >()
 
-    // Item removed from one container to another (including from/to inventory)
-    const itemAcquiredListener = (item: GlobalOffensive.InventoryItem): void => {
-      event.sender.send('renderer:transfer-progress', item.id!, true)
+    const sleep = (ms: number) => new Promise<void>((resolve) => setTimeout(resolve, ms))
 
-      const pending = pendingTransfers.get(Number(item.id!))
-      if (pending) {
-        clearTimeout(pending.timeoutId)
-        pending.resolve()
-        pendingTransfers.delete(Number(item.id!))
-        threads.release()
+    const releasePendingTransfer = async (itemId: number, success: boolean): Promise<void> => {
+      const pendingTransfer = pendingTransfers.get(itemId)
+      if (pendingTransfer) {
+        if (success) {
+          log.info(`Item ${itemId} transfer completed successfully`)
+        } else {
+          log.error(`Item ${itemId} transfer failed or timed out`)
+        }
+        clearTimeout(pendingTransfer.timeoutId)
+        event.sender.send('renderer:transfer-progress', itemId, success)
+        pendingTransfer.resolve()
+        pendingTransfers.delete(itemId)
+        // await sleep(200) // Small delay before releasing permit
+        // threads.release()
       } else {
-        log.warn(`No pending transfer found for item ${item.id!}`)
+        log.warn(`No pending transfer found for item ${itemId}`)
       }
     }
-    csgo.on('itemAcquired', itemAcquiredListener)
+
+    const itemRemovedListener = (item: GlobalOffensive.InventoryItem): void => {
+      console.log('Item removed:', item.id)
+      releasePendingTransfer(Number(item.id!), true)
+    }
+    const itemAcquiredListener = (item: GlobalOffensive.InventoryItem): void => {
+      console.log('Item acquired:', item.id)
+      releasePendingTransfer(Number(item.id!), true)
+    }
+
+    if (transfer.mode === 'toContainer') {
+      csgo.on('itemRemoved', itemRemovedListener)
+    } else if (transfer.mode === 'toInventory') {
+      csgo.on('itemAcquired', itemAcquiredListener)
+    }
 
     try {
       for (const containerId of Object.keys(transfer.selectedItems)) {
-        // Check if cancelled before processing next container
-        if (isTransferCancelled) {
-          log.warn('Transfer cancelled by user')
-          break
-        }
-
         for (const itemId of transfer.selectedItems[containerId]) {
           // Check if cancelled before each item
           if (isTransferCancelled) {
@@ -89,19 +101,15 @@ export function setupInventoryIPC(): void {
             break
           }
 
-          await threads.acquire()
-          log.debug('Acquired', itemId)
+          //   console.log(threads.getAvailablePermits())
+          //   await threads.acquire()
+          await sleep(100) // Small delay to avoid overwhelming the Steam servers
 
           // Set a timeout for this specific transfer
           const transferPromise = new Promise<void>((resolve, reject) => {
             const timeoutId = setTimeout(() => {
-              if (pendingTransfers.has(itemId)) {
-                pendingTransfers.delete(itemId)
-                event.sender.send('renderer:transfer-progress', itemId, false)
-                reject(new Error(`Transfer timeout for item ${itemId}`))
-                threads.release()
-              }
-            }, 5000)
+              releasePendingTransfer(itemId, false)
+            }, 1000)
             pendingTransfers.set(itemId, { resolve, reject, timeoutId })
           })
 
@@ -124,6 +132,7 @@ export function setupInventoryIPC(): void {
     } finally {
       isTransferCancelled = false
       csgo.off('itemAcquired', itemAcquiredListener)
+      csgo.off('itemRemoved', itemRemovedListener)
     }
   })
 
