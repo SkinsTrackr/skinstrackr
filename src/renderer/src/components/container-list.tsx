@@ -135,7 +135,9 @@ export const StorageUnitsList: FC<StorageUnitsListProps> = ({ inventory, transfe
           {transfer.mode !== null && (
             <div className="flex items-center gap-2 my-1">
               <div className="flex-1 h-px bg-gradient-to-r from-transparent via-yellow-500/30 to-transparent" />
-              <ChevronsUp className="h-4 w-4 text-yellow-500 flex-shrink-0" strokeWidth={2.5} />
+              <ChevronsUp className="h-6 w-6 text-yellow-500 flex-shrink-0" strokeWidth={2} />
+              <ChevronsUp className="h-6 w-6 text-yellow-500 flex-shrink-0" strokeWidth={2} />
+              <ChevronsUp className="h-6 w-6 text-yellow-500 flex-shrink-0" strokeWidth={2} />
               <div className="flex-1 h-px bg-gradient-to-r from-transparent via-yellow-500/30 to-transparent" />
             </div>
           )}

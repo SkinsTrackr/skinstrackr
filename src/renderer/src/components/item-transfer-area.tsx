@@ -35,7 +35,7 @@ export const ItemTransferArea: FC<ItemTransferAreaProps> = ({ transfer, containe
   const [isTransferring, setIsTransferring] = useState(false)
 
   useEffect(() => {
-    const unsubscribe = window.api.onTransferProgress((itemId, success) => {
+    const unsubscribe = window.api.onTransferProgress((_itemId, success) => {
       if (success) {
         setTransferredCount((prev) => prev + 1)
       } else {
