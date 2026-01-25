@@ -12,6 +12,8 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  # Release builds for all platforms
+  # Signing for macOS
   release:
     name: Release (${{ matrix.os }})
     permissions:
@@ -64,16 +66,13 @@ jobs:
           EP_PRE_RELEASE: false
         run: npm run build:linux -- --linux AppImage --publish always
 
-      - name: WINDOWS - Build and release
+      - name: WINDOWS - Build
         if: matrix.platform == 'windows'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           EP_DRAFT: true
           EP_PRE_RELEASE: false
-          # Optional: Add Windows code signing certificate
-          # CSC_LINK: ${{ secrets.WIN_CSC_LINK }}
-          # CSC_KEY_PASSWORD: ${{ secrets.WIN_CSC_KEY_PASSWORD }}
-        run: npm run build:win -- --publish always
+        run: npm run build:win -- --publish never
 
       - name: MAC - Build (signed + notarized)
         if: matrix.platform == 'mac'
@@ -100,16 +99,68 @@ jobs:
         with:
           name: release-${{ matrix.platform }}
           path: |
-            dist/*.exe
             dist/*.dmg
             dist/*.zip
             dist/*.AppImage
           if-no-files-found: error
-          retention-days: 7
+
+      - name: Upload unsigned Windows artifacts
+        if: matrix.platform == 'windows'
+        uses: actions/upload-artifact@v4
+        with:
+          name: unsigned-windows
+          path: dist/*.exe
+          if-no-files-found: error
+          retention-days: 1
+
+  # Self-hosted Linux runner: Sign Windows
+  sign-windows:
+    name: Sign Windows on Linux
+    needs: release
+    runs-on: [self-hosted, Linux, windows-codesign]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Download unsigned Windows artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: unsigned-windows
+          path: unsigned
+
+      - name: Sign Windows artifacts with token
+        env:
+          PKCS11_MODULE_PATH: ${{ secrets.PKCS11_MODULE_PATH }}
+          CERT_PATH: ${{ secrets.CERT_PATH }}
+          CERT_KEY: ${{ secrets.CERT_KEY }}
+          CERT_TOKEN_PIN: ${{ secrets.CERT_TOKEN_PIN }}
+          CERT_TIME_SERVER: ${{ secrets.CERT_TIME_SERVER }}
+        run: |
+          mkdir -p signed
+          for f in unsigned/*.exe; do
+            base=$(basename "$f")
+            osslsigncode sign \
+              -pkcs11module "$PKCS11_MODULE_PATH" \
+              -certs "$CERT_PATH" \
+              -key "$CERT_KEY" \
+              -pass "$CERT_TOKEN_PIN" \
+              -h sha256 \
+              -n "SkinsTrackr" \
+              -i "https://github.com/SkinsTrackr/skinstrackr" \
+              -t "$CERT_TIME_SERVER" \
+              -in "$f" \
+              -out "signed/$base"
+          done
+
+      - name: Upload signed Windows artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: signed-windows
+          path: signed/*.exe
 
   finalize-release:
     name: Add Release Notes
-    needs: release
+    needs: [release, sign-windows]
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -142,6 +193,12 @@ jobs:
           else
             echo "HAS_CHANGELOG=false" >> $GITHUB_OUTPUT
           fi
+
+      - name: Download signed Windows artifacts for release
+        uses: actions/download-artifact@v4
+        with:
+          name: signed-windows
+          path: dist
 
       - name: Update release with notes
         uses: softprops/action-gh-release@v2
