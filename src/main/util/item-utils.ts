@@ -282,6 +282,7 @@ export function convertInventoryItem(item: GlobalOffensive.InventoryItem): Conve
     id: Number(item.id),
     hashName: hashName,
     customName: item.custom_name ? item.custom_name : undefined,
+    type: commonItem?.type || undefined,
     rarity: rarities[item.rarity?.toString() || ''].index,
     quality: qualities[item.quality?.toString() || ''].index,
     imagePath: imagePath,

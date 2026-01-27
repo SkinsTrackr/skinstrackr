@@ -1,4 +1,4 @@
-import { ConvertedContainer, ConvertedItem, Rarity, TransferItems } from '@shared/interfaces/inventory.types'
+import { ConvertedContainer, ConvertedItem, Quality, Rarity, TransferItems } from '@shared/interfaces/inventory.types'
 import { FC, useRef, useState, useEffect, useCallback, useMemo } from 'react'
 import { Card, CardContent } from './ui/card'
 import { Input } from './ui/input'
@@ -11,20 +11,41 @@ import log from 'electron-log/renderer'
 interface ItemCardProps {
   items: ConvertedItem[]
   name: string
+  quality?: Quality
   rarity?: Rarity
   transfer: TransferItems
   setTransfer: React.Dispatch<React.SetStateAction<TransferItems>>
   containers: ConvertedContainer[]
 }
 
-export const ItemCard: FC<ItemCardProps> = ({ items, name, rarity, transfer, setTransfer, containers }) => {
+export const ItemCard: FC<ItemCardProps> = ({ items, name, quality, rarity, transfer, setTransfer, containers }) => {
   const [localInputValue, setLocalInputValue] = useState<string>('')
   const [isInputFocused, setIsInputFocused] = useState<boolean>(false)
   const inputRef = useRef<HTMLInputElement>(null)
   const updateTimeoutRef = useRef<NodeJS.Timeout | null>(null)
   const { getRawItem } = useInventory()
-  const nameWithoutWear = name.replace(/ \(.+\)$/, '')
-  const wear = name.match(/\(([^)]+)\)$/)?.[1] || ''
+
+  // Split up hashName for better display
+  const sanitizedName = name
+    .replace(/^((?:Souvenir|Sticker|Agent|Patch|Sealed Graffiti|Graffiti|Charm)(?:\s+)?)+/i, '')
+    .replace(/Music Kit/gi, '')
+    .replace(/StatTrak™/gi, '')
+    .replace(/\(Battle-Scarred\)/gi, '')
+    .replace(/\(Well-Worn\)/gi, '')
+    .replace(/\(Field-Tested\)/gi, '')
+    .replace(/\(Minimal Wear\)/gi, '')
+    .replace(/\(Factory New\)/gi, '')
+    .replace(/^\s*\|\s*/, '') // Remove leading "| " if present
+    .replace(/\s{2,}/g, ' ')
+    .trim()
+  // Show wear condition if present, else show item type
+  const wearMatch = name.match(/\b(Factory New|Minimal Wear|Field-Tested|Well-Worn|Battle-Scarred)\b/i)
+  let secondaryInfo = wearMatch !== null ? wearMatch[0] : items[0].type || ''
+
+  // Special case for Sealed Graffiti items
+  if (name.startsWith('Sealed Graffiti')) {
+    secondaryInfo = 'Sealed ' + secondaryInfo
+  }
 
   const allSelectedItems = useMemo(() => Object.values(transfer.selectedItems || {}).flat(), [transfer.selectedItems])
 
@@ -336,14 +357,29 @@ export const ItemCard: FC<ItemCardProps> = ({ items, name, rarity, transfer, set
         <div className="flex flex-col h-full flex-1 min-w-0 justify-between">
           {/* Item Name - Fixed height for alignment */}
           <div className="w-full h-[36px]">
-            <span
-              className="text-sm font-medium leading-tight block truncate"
-              title={nameWithoutWear || 'Unknown Item'}
-            >
-              {nameWithoutWear || 'Unknown Item'}
+            <span className="text-sm font-medium leading-tight block truncate" title={sanitizedName || 'Unknown Item'}>
+              {sanitizedName || 'Unknown Item'}
             </span>
-            <span className="text-xs font-medium leading-tight block truncate text-muted-foreground" title={wear}>
-              {wear || '\u00A0'}
+            <span
+              className="text-xs font-medium leading-tight block truncate text-muted-foreground"
+              title={secondaryInfo}
+            >
+              {/* Quality prefix if present */}
+              {(name.includes('StatTrak™') || name.includes('Souvenir')) && (
+                <span
+                  className={
+                    'mr-1 ' +
+                    (name.includes('StatTrak™')
+                      ? 'text-orange-500'
+                      : name.includes('Souvenir')
+                        ? 'text-yellow-400'
+                        : '')
+                  }
+                >
+                  {name.includes('StatTrak™') ? 'StatTrak™' : name.includes('Souvenir') ? 'Souvenir' : ''}
+                </span>
+              )}
+              {secondaryInfo || '\u00A0'}
             </span>
           </div>
 
@@ -408,7 +444,10 @@ export const ItemCard: FC<ItemCardProps> = ({ items, name, rarity, transfer, set
                     }}
                   />
                 </div>
-                <span className="text-xs font-medium text-muted-foreground tabular-nums min-w-[52px] text-right">
+                <span
+                  className="text-xs font-medium text-muted-foreground tabular-nums min-w-[52px] text-right"
+                  title={items[0].float.toString()}
+                >
                   {items[0].float.toFixed(4)}
                 </span>
               </div>
