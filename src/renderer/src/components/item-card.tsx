@@ -1,4 +1,4 @@
-import { ConvertedContainer, ConvertedItem, Quality, Rarity, TransferItems } from '@shared/interfaces/inventory.types'
+import { ConvertedContainer, ConvertedItem, Rarity, TransferItems } from '@shared/interfaces/inventory.types'
 import { FC, useRef, useState, useEffect, useCallback, useMemo } from 'react'
 import { Card, CardContent } from './ui/card'
 import { Input } from './ui/input'
@@ -11,14 +11,13 @@ import log from 'electron-log/renderer'
 interface ItemCardProps {
   items: ConvertedItem[]
   name: string
-  quality?: Quality
   rarity?: Rarity
   transfer: TransferItems
   setTransfer: React.Dispatch<React.SetStateAction<TransferItems>>
   containers: ConvertedContainer[]
 }
 
-export const ItemCard: FC<ItemCardProps> = ({ items, name, quality, rarity, transfer, setTransfer, containers }) => {
+export const ItemCard: FC<ItemCardProps> = ({ items, name, rarity, transfer, setTransfer, containers }) => {
   const [localInputValue, setLocalInputValue] = useState<string>('')
   const [isInputFocused, setIsInputFocused] = useState<boolean>(false)
   const inputRef = useRef<HTMLInputElement>(null)

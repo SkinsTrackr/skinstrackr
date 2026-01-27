@@ -204,7 +204,6 @@ export const ItemList: FC<ItemListProps> = ({ inventory, transfer, setTransfer }
                       key={`${item.name}-${groupIndex}`}
                       items={item.items}
                       name={item.name}
-                      quality={inventory.qualities[item.items[0]?.quality || '']}
                       rarity={inventory.rarities[item.items[0]?.rarity || '']}
                       transfer={transfer}
                       setTransfer={setTransfer}
