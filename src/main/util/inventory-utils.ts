@@ -8,9 +8,10 @@ import { pack, unpack } from 'msgpackr'
 import { app } from 'electron'
 import path from 'path'
 import { env } from '@shared/env'
+import log from 'electron-log/main'
 
 export async function loadAllContainers(caskets: GlobalOffensive.InventoryItem[]): Promise<RawContainer[]> {
-  console.log(
+  log.info(
     'Loading inventory with casket IDs:',
     caskets.map((casket) => casket.id)
   )
@@ -19,15 +20,15 @@ export async function loadAllContainers(caskets: GlobalOffensive.InventoryItem[]
 
   await Promise.all(
     caskets.map(async (casket) => {
-      console.log(`Want to load container: ${casket.id}`)
+      log.debug(`Want to load container: ${casket.id}`)
       await threads.acquire() // Wait for a permit before proceeding
-      console.log('Acquired', casket.id)
+      log.debug('Acquired', casket.id)
       try {
         const loadedCasket = await loadContainer(casket)
         containers.push(loadedCasket)
-        console.log(`Loaded container: ${casket.id} with ${loadedCasket.items.length} items`)
+        log.info(`Loaded container: ${casket.id} with ${loadedCasket.items.length} items`)
       } finally {
-        console.log('Released', casket.id)
+        log.debug('Released', casket.id)
         threads.release() // Release the permit after processing
       }
     })
@@ -42,7 +43,7 @@ async function loadContainer(casket: GlobalOffensive.InventoryItem): Promise<Raw
   return new Promise((resolve, reject) => {
     csgo.getCasketContents(casket.id!, (err, items) => {
       if (err) {
-        console.error(`Failed to load container ${casket.id}:`, err)
+        log.error(`Failed to load container ${casket.id}:`, err)
         reject(err)
       } else {
         items = items.filter((item) => item.def_index !== null && item.def_index !== undefined && item.def_index !== 0)
@@ -137,7 +138,7 @@ export async function syncInventoryCache(userId: string, onlyChangedContainers: 
     rawInventory = await loadInventoryFromFile(userId)
 
     // We update inventory
-    console.log('Syncing root inventory items')
+    log.info('Syncing root inventory items')
     rawInventory.inventory = {
       id: 0,
       container: { position: 0, custom_name: 'Inventory', id: '0' }, // Dummy container item
@@ -148,7 +149,7 @@ export async function syncInventoryCache(userId: string, onlyChangedContainers: 
     rawInventory.lastRefresh = Date.now()
 
     const outOfSyncContainerIds = await getContainersOutOfSync()
-    console.log('Out of sync container IDs:', outOfSyncContainerIds)
+    log.info('Out of sync container IDs:', outOfSyncContainerIds)
 
     for (const containerId of outOfSyncContainerIds) {
       const cachedContainer = rawInventory.containers.find((c) => c.id === containerId)
@@ -156,14 +157,14 @@ export async function syncInventoryCache(userId: string, onlyChangedContainers: 
 
       // Container does not exist in cache anymore, remove from cache
       if (cachedContainer && !containerItem) {
-        console.warn(`Container item with ID ${containerId} not found in root items. We delete from cache.`)
+        log.warn(`Container item with ID ${containerId} not found in root items. We delete from cache.`)
         rawInventory.containers = rawInventory.containers.filter((c) => c.id !== containerId)
         continue
       }
 
       // Container does not exist in live inventory anymore, add to cache
       if (!cachedContainer && containerItem) {
-        console.warn(`Container item with ID ${containerId} not found in cache. We add to cache.`)
+        log.warn(`Container item with ID ${containerId} not found in cache. We add to cache.`)
         const updatedContainer = await loadContainer(containerItem)
         rawInventory.containers.push(updatedContainer)
         continue
@@ -171,14 +172,14 @@ export async function syncInventoryCache(userId: string, onlyChangedContainers: 
 
       // Container does not exist in cache or live inventory, skip
       if (!containerItem && !cachedContainer) {
-        console.warn(`Container item with ID ${containerId} not found in root items nor in cache. Skipping.`)
+        log.warn(`Container item with ID ${containerId} not found in root items nor in cache. Skipping.`)
         continue
       }
 
       // Cache and live containers exist, so refresh container items in cache
       const lastModification = (readAttribute(containerItem!, ATTRIBUTE_MODIFICATION_DATE) ?? 0) * 1000
       if (cachedContainer!.lastRefresh < lastModification) {
-        console.log(`Syncing container ${containerId}`)
+        log.info(`Syncing container ${containerId}`)
         const index = rawInventory.containers.findIndex((c) => c.id === containerId)
         const updatedContainer = await loadContainer(containerItem!)
         rawInventory.containers[index] = updatedContainer

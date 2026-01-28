@@ -6,6 +6,7 @@ import { useInventory } from './InventoryContext'
 import { useClientStore } from './ClientStoreContext'
 import { Account, Settings } from '@shared/interfaces/store.types'
 import { getCleanErrorMessage } from '@/lib/error-utils'
+import log from 'electron-log/renderer'
 
 interface SessionContextType {
   loginSteam: (tokenDetails: SteamLoginRequest) => Promise<void>
@@ -29,8 +30,8 @@ export function SessionProvider({ children }: { children: ReactNode }): JSX.Elem
       setActiveSteamId(returnedSteamId)
       // Inventory will be loaded when we receive CONNECTED game session event
     } catch (error) {
-      console.error('Failed to login to Steam:', error)
-      showToast(getCleanErrorMessage(error), 'error')
+      log.error('Failed to login to Steam: ', error)
+      showToast('Failed to login to Steam: ' + getCleanErrorMessage(error), 'error')
       throw error
     }
   }, [])
@@ -46,12 +47,12 @@ export function SessionProvider({ children }: { children: ReactNode }): JSX.Elem
 
         const returnedSteamId = await window.api.loginCache(steamId)
         setActiveSteamId(returnedSteamId)
-        showToast('Loaded ' + account.username + ' from cache', 'info')
         setUserSession(UserSessionType.CACHE)
         await loadInventory(true, false)
+        showToast('Loaded ' + account.username + ' from cache', 'info')
       } catch (error) {
-        console.error('Failed to login to cache:', error)
-        showToast(getCleanErrorMessage(error), 'error')
+        log.error('Failed to load cache:', error)
+        showToast('Failed to load cache: ' + getCleanErrorMessage(error), 'error')
         throw error
       }
     },
@@ -84,10 +85,10 @@ function useGlobalEvents(
   activeSteamId: string | undefined
 ): void {
   useEffect(() => {
-    console.log('Setting up global event listeners...')
+    log.debug('Setting up global event listeners...')
 
     const unsubscribeSteam = window.api.onSteamSessionEvent((value: SteamSessionEvent) => {
-      console.log('Received Steam session event: ', value)
+      log.debug('Received Steam session event: ', value)
       const steamId = value.user?.id || activeSteamId
 
       switch (value.eventType) {
@@ -105,11 +106,11 @@ function useGlobalEvents(
         case SteamSessionEventType.LOGIN_FAILURE_OTHER_SESSION_ACTIVE:
           setUserSession(UserSessionType.NONE)
           // TODO give option to force logout other session?
-          showToast('Login failed: Another session is active', 'error')
+          showToast('Login failed: Another session is active. Log out there first, then reconnect', 'error')
           if (steamId) loginCache(steamId)
           break
         case SteamSessionEventType.DISCONNECTED_LOGOUT:
-          console.log(activeSteamId, steamId)
+          log.debug(activeSteamId, steamId)
           setUserSession(UserSessionType.CACHE)
           showToast(value.message, 'info')
           break
@@ -126,14 +127,13 @@ function useGlobalEvents(
     })
 
     const unsubscribeGame = window.api.onGameSessionEvent((value: GameSessionEvent) => {
-      console.log('Received Game session event: ', value)
+      log.debug('Received Game session event: ', value)
 
       switch (value.eventType) {
         case GameSessionEventType.CONNECTED:
           showToast('Connected to CS2', 'success')
           setUserSession(UserSessionType.LOGGED_IN_ONLINE)
           // We load inventory every time the user logs in, but only changed containers.
-          // TODO: Could probably optimize a bit, but is it worth it?
           loadInventory(false, true)
           break
         case GameSessionEventType.DISCONNECTED:
@@ -144,7 +144,7 @@ function useGlobalEvents(
     })
 
     return () => {
-      console.log('Cleaning up global event listeners...')
+      log.debug('Cleaning up global event listeners...')
       unsubscribeSteam()
       unsubscribeGame()
     }

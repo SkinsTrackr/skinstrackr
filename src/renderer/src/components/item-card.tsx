@@ -6,6 +6,7 @@ import { Button } from './ui/button'
 import { cn } from '@/lib/utils'
 import { useInventory } from '@/contexts/InventoryContext'
 import { showToast } from './toast'
+import log from 'electron-log/renderer'
 
 interface ItemCardProps {
   items: ConvertedItem[]
@@ -22,6 +23,28 @@ export const ItemCard: FC<ItemCardProps> = ({ items, name, rarity, transfer, set
   const inputRef = useRef<HTMLInputElement>(null)
   const updateTimeoutRef = useRef<NodeJS.Timeout | null>(null)
   const { getRawItem } = useInventory()
+
+  // Split up hashName for better display
+  const sanitizedName = name
+    .replace(/^((?:Souvenir|Sticker|Agent|Patch|Sealed Graffiti|Graffiti|Charm)(?:\s+)?)+/i, '')
+    .replace(/Music Kit/gi, '')
+    .replace(/StatTrak™/gi, '')
+    .replace(/\(Battle-Scarred\)/gi, '')
+    .replace(/\(Well-Worn\)/gi, '')
+    .replace(/\(Field-Tested\)/gi, '')
+    .replace(/\(Minimal Wear\)/gi, '')
+    .replace(/\(Factory New\)/gi, '')
+    .replace(/^\s*\|\s*/, '') // Remove leading "| " if present
+    .replace(/\s{2,}/g, ' ')
+    .trim()
+  // Show wear condition if present, else show item type
+  const wearMatch = name.match(/\b(Factory New|Minimal Wear|Field-Tested|Well-Worn|Battle-Scarred)\b/i)
+  let secondaryInfo = wearMatch !== null ? wearMatch[0] : items[0].type || ''
+
+  // Special case for Sealed Graffiti items
+  if (name.startsWith('Sealed Graffiti')) {
+    secondaryInfo = 'Sealed ' + secondaryInfo
+  }
 
   const allSelectedItems = useMemo(() => Object.values(transfer.selectedItems || {}).flat(), [transfer.selectedItems])
 
@@ -224,7 +247,7 @@ export const ItemCard: FC<ItemCardProps> = ({ items, name, rarity, transfer, set
     try {
       const itemId = items[0].id
       if (itemId === undefined) {
-        console.error('Item ID is undefined')
+        log.error('Item ID is undefined')
         return
       }
 
@@ -233,11 +256,11 @@ export const ItemCard: FC<ItemCardProps> = ({ items, name, rarity, transfer, set
         await navigator.clipboard.writeText(JSON.stringify(rawItem, null, 2))
         showToast('Item data copied to clipboard', 'success')
       } else {
-        console.error('Failed to get raw item data')
+        log.error('Failed to get raw item data')
         showToast('Failed to get raw item data', 'error')
       }
     } catch (error) {
-      console.error('Failed to copy item data:', error)
+      log.error('Failed to copy item data:', error)
       showToast('Failed to get raw item data', 'error')
     }
   }
@@ -251,7 +274,7 @@ export const ItemCard: FC<ItemCardProps> = ({ items, name, rarity, transfer, set
   return (
     <Card
       className={cn(
-        'transition-all duration-200 relative overflow-hidden py-5',
+        'transition-all duration-200 relative overflow-hidden py-[10px]',
         isDisabled && 'opacity-50 cursor-default',
         !isDisabled && transfer.mode !== null && 'cursor-pointer hover:bg-accent hover:shadow-sm',
         !isDisabled && transfer.mode === null && 'cursor-default',
@@ -283,9 +306,9 @@ export const ItemCard: FC<ItemCardProps> = ({ items, name, rarity, transfer, set
         </button>
       )}
 
-      <CardContent className="flex items-center gap-3 px-2 h-20">
+      <CardContent className="flex items-center gap-3 px-2 h-25">
         {/* Item Icon */}
-        <div className="relative w-18 h-18 flex-shrink-0 flex flex-col items-center justify-center gap-1.5">
+        <div className="relative w-18 h-18 flex-shrink-0 flex flex-col justify-center gap-1.5">
           <img
             src={window.env.ICONS_BASE_URL + '/' + (items[0].imagePath || '') + '.png'}
             alt={name || 'Unknown Item'}
@@ -330,11 +353,32 @@ export const ItemCard: FC<ItemCardProps> = ({ items, name, rarity, transfer, set
         </div>
 
         {/* Content Area */}
-        <div className="flex flex-col h-full flex-1 min-w-0 justify-between gap-1">
+        <div className="flex flex-col h-full flex-1 min-w-0 justify-between">
           {/* Item Name - Fixed height for alignment */}
-          <div className="text-center w-full h-[36px] flex items-start justify-center">
-            <span className="text-sm font-medium leading-tight line-clamp-2 break-words" title={name || 'Unknown Item'}>
-              {name || 'Unknown Item'}
+          <div className="w-full h-[36px]">
+            <span className="text-sm font-medium leading-tight block truncate" title={sanitizedName || 'Unknown Item'}>
+              {sanitizedName || 'Unknown Item'}
+            </span>
+            <span
+              className="text-xs font-medium leading-tight block truncate text-muted-foreground"
+              title={secondaryInfo}
+            >
+              {/* Quality prefix if present */}
+              {(name.includes('StatTrak™') || name.includes('Souvenir')) && (
+                <span
+                  className={
+                    'mr-1 ' +
+                    (name.includes('StatTrak™')
+                      ? 'text-orange-500'
+                      : name.includes('Souvenir')
+                        ? 'text-yellow-400'
+                        : '')
+                  }
+                >
+                  {name.includes('StatTrak™') ? 'StatTrak™' : name.includes('Souvenir') ? 'Souvenir' : ''}
+                </span>
+              )}
+              {secondaryInfo || '\u00A0'}
             </span>
           </div>
 
@@ -355,6 +399,24 @@ export const ItemCard: FC<ItemCardProps> = ({ items, name, rarity, transfer, set
               </div>
             </div>
           )}
+
+          {/* Price - Fixed height for alignment */}
+          <div className="flex flex-col h-[36px] justify-center">
+            {items[0].price !== undefined && items[0].price > 0 ? (
+              <div className="flex flex-col">
+                <span className="text-sm font-medium dark:text-green-500/90 tabular-nums">
+                  {usd.format(items[0].price * items.length)}
+                </span>
+                <span className="text-xs font-medium dark:text-green-500/60 tabular-nums">
+                  {items.length > 1 ? usd.format(items[0].price) : '\u00A0'}
+                </span>
+              </div>
+            ) : items[0].tradable ? (
+              <span className="text-xs text-muted-foreground/60">No Price</span>
+            ) : (
+              <span className="text-xs text-muted-foreground/60">N/A</span>
+            )}
+          </div>
 
           {/* Float Value Bar - Fixed height for alignment */}
           <div className="h-[18px] flex items-center">
@@ -381,36 +443,14 @@ export const ItemCard: FC<ItemCardProps> = ({ items, name, rarity, transfer, set
                     }}
                   />
                 </div>
-                <span className="text-xs font-medium text-muted-foreground tabular-nums min-w-[52px] text-right">
+                <span
+                  className="text-xs font-medium text-muted-foreground tabular-nums min-w-[52px] text-right"
+                  title={items[0].float.toString()}
+                >
                   {items[0].float.toFixed(4)}
                 </span>
               </div>
             ) : null}
-          </div>
-
-          {/* Price - Fixed height for alignment */}
-          <div className="h-[18px] flex items-center">
-            <div className="text-center w-full">
-              {items[0].price !== undefined && items[0].price > 0 ? (
-                <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-1.5 w-full px-2">
-                  <span className="text-sm font-medium dark:text-green-500/90 tabular-nums text-right">
-                    {usd.format(items[0].price * items.length)}
-                  </span>
-                  <span className="text-muted-foreground/40">•</span>
-                  {items.length > 1 ? (
-                    <span className="text-sm font-medium dark:text-green-500/60 tabular-nums text-left">
-                      {usd.format(items[0].price)}
-                    </span>
-                  ) : (
-                    <span></span>
-                  )}
-                </div>
-              ) : items[0].tradable ? (
-                <span className="text-xs text-muted-foreground/60">No Price</span>
-              ) : (
-                <span className="text-xs text-muted-foreground/60">N/A</span>
-              )}
-            </div>
           </div>
         </div>
       </CardContent>

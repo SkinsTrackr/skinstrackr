@@ -5,6 +5,7 @@ import { ConvertedInventory, TransferItems } from '@shared/interfaces/inventory.
 import { env } from '@shared/env'
 import { Account, Settings } from '@shared/interfaces/store.types'
 import GlobalOffensive from 'globaloffensive'
+import log from 'electron-log/renderer'
 
 // Custom APIs for renderer
 const api = {
@@ -77,6 +78,11 @@ const api = {
     const listener = (): void => callback()
     ipcRenderer.on('renderer:update-downloaded', listener)
     return () => ipcRenderer.removeListener('renderer:update-downloaded', listener)
+  },
+  onAppInitialized: (callback: () => void) => {
+    const listener = (): void => callback()
+    ipcRenderer.on('renderer:app-initialized', listener)
+    return () => ipcRenderer.removeListener('renderer:app-initialized', listener)
   }
 }
 
@@ -94,7 +100,7 @@ if (process.contextIsolated) {
       GITHUB_REPO_URL: env.GITHUB_REPO_URL
     })
   } catch (error) {
-    console.error(error)
+    log.error(error)
   }
 } else {
   // @ts-ignore (define in dts)

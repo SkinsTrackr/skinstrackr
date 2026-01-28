@@ -12,6 +12,7 @@ import {
   DropdownMenuRadioItem,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
+import log from 'electron-log/renderer'
 
 export default function SettingsPage(): JSX.Element {
   const { settings, saveSettings, accounts } = useClientStore()
@@ -38,7 +39,7 @@ export default function SettingsPage(): JSX.Element {
       await saveSettings({ defaultAccountID: defaultAccountId })
       showToast('Settings saved successfully', 'success')
     } catch (error) {
-      console.error('Failed to save settings:', error)
+      log.error('Failed to save settings:', error)
       showToast('Failed to save settings', 'error')
     } finally {
       setIsSaving(false)

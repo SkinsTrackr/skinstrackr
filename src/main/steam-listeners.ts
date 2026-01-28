@@ -3,15 +3,16 @@ import SteamUser, { EResult } from 'steam-user'
 import { GameSessionEventType, SteamSessionEventType } from '@shared/enums/session-type'
 import { accounts } from './util/client-store-utils'
 import { getMainWindow } from './index'
+import log from 'electron-log/main'
 
 export function setupSteamListeners(): void {
   const user = SteamSession.getInstance().getUser()
 
-  console.log('Setting up Steam listeners...')
+  log.debug('Setting up Steam listeners...')
 
-  user.on('loggedOn', async (response) => {
+  user.on('loggedOn', async (_response) => {
     SteamSession.getInstance().setLoggedIn(true)
-    console.log('🚀 Logged in successfully', response)
+    log.info('Logged in successfully')
 
     // Update client-store account info BEFORE notifying renderer
     await accounts.setAccount(user)
@@ -33,7 +34,7 @@ export function setupSteamListeners(): void {
 
   // Emitted fatal error (Since we have autorelogin=true, else it would emit 'disconnected' event)
   user.on('error', (err: Error & { eresult: EResult }) => {
-    console.error('Steam client error:', err)
+    log.error('Steam client error:', err)
     const session = SteamSession.getInstance()
 
     // Other cs2 session active
@@ -76,7 +77,7 @@ export function setupSteamListeners(): void {
     }
     // We are still logged in, but got some other error
     else {
-      console.log('Some weird error occurred: ', err)
+      log.error('Some weird error occurred: ', err)
       // TODO general event msg toast?
     }
   })
@@ -84,7 +85,7 @@ export function setupSteamListeners(): void {
   // Logged off for some reason
   user.on('disconnected', (eresult: EResult, msg?: string) => {
     SteamSession.getInstance().setLoggedIn(false)
-    console.log(`❌ Disconnected from Steam. Code: ${eresult}, Msg: ${msg}`)
+    log.info(`❌ Disconnected from Steam. Code: ${eresult}, Msg: ${msg}`)
 
     if (eresult === EResult.NoConnection) {
       getMainWindow()?.webContents.send('renderer:steam-session-event', {
@@ -109,13 +110,13 @@ export function setupSteamListeners(): void {
 
   // App launch
   user.on('appLaunched', (appid: unknown) => {
-    console.log('App Launched', appid)
+    log.info('App Launched', appid)
     // 4004 = ClientHello in TF2
     //client.sendToGC(appid, 4004, {}, Buffer.alloc(0));
   })
 
   //   user.on('receivedFromGC', (msgType, appid, payload) => {
-  //     console.log(`Received message ${msgType} from GC ${appid} with ${payload.length} bytes`)
+  //     log.info(`Received message ${msgType} from GC ${appid} with ${payload.length} bytes`)
   //   })
 }
 
@@ -123,10 +124,10 @@ export function setupCsgoListeners(): void {
   const user = SteamSession.getInstance().getUser()
   const csgo = SteamSession.getInstance().getCsgo()!
 
-  console.log('Setting up CSGO listeners...')
+  log.debug('Setting up CSGO listeners...')
 
   csgo.on('connectedToGC', () => {
-    console.log(`🎮 Connected to CSGO Game Coordinator [${csgo.haveGCSession}]`)
+    log.info(`Connected to CSGO Game Coordinator [${csgo.haveGCSession}]`)
 
     getMainWindow()?.webContents.send('renderer:game-session-event', {
       eventType: GameSessionEventType.CONNECTED,
@@ -139,7 +140,7 @@ export function setupCsgoListeners(): void {
   })
 
   csgo.on('disconnectedFromGC', (reason) => {
-    console.log('❌ Disconnected from CSGO GC:', reason)
+    log.info(`❌ Disconnected from CSGO GC: ${reason}`)
 
     getMainWindow()?.webContents.send('renderer:game-session-event', {
       eventType: GameSessionEventType.DISCONNECTED,
@@ -152,6 +153,6 @@ export function setupCsgoListeners(): void {
   })
 
   //   csgo.on('debug', (info) => {
-  //     console.error('CSGO GC debug:', info)
+  //     log.error('CSGO GC debug:', info)
   //   })
 }

@@ -1,5 +1,8 @@
 import { createContext, useContext, useState, ReactNode, JSX, useCallback, useEffect } from 'react'
 import { Account, Settings } from '@shared/interfaces/store.types'
+import log from 'electron-log/renderer'
+import { showToast } from '@/components/toast'
+import { getCleanErrorMessage } from '@/lib/error-utils'
 
 interface ClientStoreContextType {
   settings: Settings
@@ -23,7 +26,8 @@ export function ClientStoreProvider({ children }: { children: ReactNode }): JSX.
       setSettings(result)
       return result
     } catch (error) {
-      console.error('Failed to load settings:', error)
+      log.error('Failed to load settings:', error)
+      showToast('Failed to load settings: ' + getCleanErrorMessage(error), 'error')
       throw error
     }
   }, [])
@@ -33,7 +37,8 @@ export function ClientStoreProvider({ children }: { children: ReactNode }): JSX.
       await window.api.saveSettings(newSettings)
       setSettings(newSettings)
     } catch (error) {
-      console.error('Failed to save settings:', error)
+      log.error('Failed to save settings:', error)
+      showToast('Failed to save settings: ' + getCleanErrorMessage(error), 'error')
       throw error
     }
   }, [])
@@ -45,18 +50,20 @@ export function ClientStoreProvider({ children }: { children: ReactNode }): JSX.
       setAccounts(result)
       return result
     } catch (error) {
-      console.error('Failed to load accounts:', error)
+      log.error('Failed to load accounts:', error)
+      showToast('Failed to load accounts: ' + getCleanErrorMessage(error), 'error')
       throw error
     } finally {
       setAccountsLoaded(true)
     }
   }, [])
 
-  // Load accounts on mount so they're always available
+  // Load accounts on mount so they're always available.
+  // This also avoids race conditions
   useEffect(() => {
-    console.log('ClientStoreProvider mounted, loading accounts...')
-    loadAccounts().catch(console.error)
-  }, [loadAccounts])
+    loadAccounts().catch(log.error)
+    loadSettings().catch(log.error)
+  }, [loadAccounts, loadSettings])
 
   return (
     <ClientStoreContext.Provider

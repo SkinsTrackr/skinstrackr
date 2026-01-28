@@ -7,6 +7,7 @@ import { useInventory } from '@/contexts/InventoryContext'
 import { showToast } from './toast'
 import { cn } from '@/lib/utils'
 import { getCleanErrorMessage } from '@/lib/error-utils'
+import log from 'electron-log/renderer'
 
 const getTransferAreaStyle = (): {
   className: string
@@ -32,12 +33,9 @@ export const ItemTransferArea: FC<ItemTransferAreaProps> = ({ transfer, containe
   const [transferredCount, setTransferredCount] = useState(0)
   const [failedCount, setFailedCount] = useState(0)
   const [isTransferring, setIsTransferring] = useState(false)
-  const [isCancelling, setIsCancelling] = useState(false)
 
   useEffect(() => {
-    const unsubscribe = window.api.onTransferProgress((itemId, success) => {
-      console.log(`Transfer progress for item ${itemId}: ${success ? 'Success' : 'Failure'}`)
-
+    const unsubscribe = window.api.onTransferProgress((_itemId, success) => {
       if (success) {
         setTransferredCount((prev) => prev + 1)
       } else {
@@ -53,37 +51,34 @@ export const ItemTransferArea: FC<ItemTransferAreaProps> = ({ transfer, containe
       return
     }
 
-    console.log('Initiating transfer for items:', allSelectedItems)
+    log.info('Initiating transfer for items:', allSelectedItems)
     setIsTransferring(true)
     setTransferredCount(0)
     setFailedCount(0)
 
     try {
       await window.api.transferItems(transfer)
-      await inventory.loadInventory(false, true)
     } catch (error) {
-      console.log(error)
-      showToast(getCleanErrorMessage(error), 'error')
+      log.error(`Failed to transfer items: ${error}`)
+      showToast('Failed to transfer items: ' + getCleanErrorMessage(error), 'error')
     } finally {
+      // reload inventory after transfer completes
+      await inventory.loadInventory(false, true)
       // Reset selected items after successful transfer
       setTransfer((prev) => ({
         ...prev,
         selectedItems: {}
       }))
       setIsTransferring(false)
-      if (isCancelling) {
-        setIsCancelling(false)
-        showToast('Transfer cancelled', 'info')
-      }
+      log.info('Transfer process completed')
     }
   }
 
   const handleCancel = async (): Promise<void> => {
     try {
-      setIsCancelling(true)
       await window.api.cancelTransfer()
     } catch (error) {
-      console.log(error)
+      log.error(error)
       showToast(String(error), 'error')
     }
   }

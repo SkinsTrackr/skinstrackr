@@ -6,7 +6,7 @@
 
 ### Yet another CS2 Inventory Manager
 
-[Download](#-download) • [Features](#-features) • [Showcase](#-showcase) • [FAQ](#-building-from-source)
+[Download](#download) • [Features](#features) • [Showcase](#showcase) • [Community](#community--support) • [FAQ](#-faq)
 
 </div>
 
@@ -16,16 +16,20 @@ SkinsTrackr is a desktop application designed to help Counter-Strike 2 players m
 
 ---
 
-## Download latest
+## Download
+
+### Latest (1.1.0)
 
 | Platform    | Download                                                                                                    |
 | ----------- | ----------------------------------------------------------------------------------------------------------- |
-| Windows     | [Download](https://github.com/SkinsTrackr/skinstrackr/releases/download/v1.0.2/SkinsTrackr-Setup-1.0.2.exe) |
-| macOS (ARM) | [Download](https://github.com/SkinsTrackr/skinstrackr/releases/download/v1.0.2/SkinsTrackr-1.0.2-arm64.dmg) |
-| macOS (x64) | [Download](https://github.com/SkinsTrackr/skinstrackr/releases/download/v1.0.2/SkinsTrackr-1.0.2.dmg)       |
-| Linux       | [Download](https://github.com/SkinsTrackr/skinstrackr/releases/download/v1.0.2/SkinsTrackr-1.0.2.AppImage)  |
+| Windows     | [Download](https://github.com/SkinsTrackr/skinstrackr/releases/download/v1.1.0/SkinsTrackr-Setup-1.1.0.exe) |
+| macOS (ARM) | [Download](https://github.com/SkinsTrackr/skinstrackr/releases/download/v1.1.0/SkinsTrackr-1.1.0-arm64.dmg) |
+| macOS (x64) | [Download](https://github.com/SkinsTrackr/skinstrackr/releases/download/v1.1.0/SkinsTrackr-1.1.0.dmg)       |
+| Linux       | [Download](https://github.com/SkinsTrackr/skinstrackr/releases/download/v1.1.0/SkinsTrackr-1.1.0.AppImage)  |
 
-**Older versions:** See [Releases](https://github.com/SkinsTrackr/skinstrackr/releases) for version history and changelog.
+### Older versions
+
+See [Releases](https://github.com/SkinsTrackr/skinstrackr/releases)
 
 ### How to run on linux
 
@@ -60,6 +64,14 @@ The .AppImage is a direct executable and will not be installed on your computer.
 ### Multi-Account Management and Caching
 
 [Multi-Account Management and Caching](https://github.com/user-attachments/assets/ab86efda-b637-4a84-a08a-bcab189614b1)
+
+---
+
+## Community / Support
+
+- Join the [Discord](https://discord.com/invite/Rmu3fGKGyu).
+- Create an issue here on [Github](https://github.com/SkinsTrackr/skinstrackr/issues).
+- Alternatively submit feedback/bugs through [Google Forms](https://forms.gle/qxTKNiW6Bra95xnf7).
 
 ---
 

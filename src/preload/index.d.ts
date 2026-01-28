@@ -28,6 +28,7 @@ export interface CustomAPI {
   onTransferProgress: (callback: (itemId: number, success: boolean) => void) => () => void
   onUpdateAvailable: (callback: (version: string) => void) => () => void
   onUpdateDownloaded: (callback: () => void) => () => void
+  onAppInitialized: (callback: () => void) => () => void
 }
 
 declare global {

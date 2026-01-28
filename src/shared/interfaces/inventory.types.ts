@@ -64,6 +64,7 @@ export interface ConvertedItem {
   id?: number
   hashName?: string
   customName?: string
+  type?: string
   rarity?: string // index
   quality?: string // index
   imagePath?: string
@@ -93,6 +94,7 @@ export interface CommonItem {
   index: string
   data_name: string
   name?: string
+  type?: string
   image_path?: string
 }
 

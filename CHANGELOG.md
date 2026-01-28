@@ -31,6 +31,23 @@ Bug fixes
 
 Security updates
 
+## [1.1.0] - 2026-01-28
+
+### Added
+
+- Signed Windows executable
+- Loading screen on app startup
+
+### Changed
+
+- Better logging
+- Toast improvements
+- Layout of item cards
+
+### Fixed
+
+- Item transfer works without errors
+
 ## [1.0.2] - 2026-01-13
 
 ### Changed
@@ -57,7 +74,8 @@ Security updates
 
 - Initial release of SkinsTrackr
 
-[unreleased]: https://github.com/SkinsTrackr/skinstrackr/compare/v1.0.1...HEAD
+[unreleased]: https://github.com/SkinsTrackr/skinstrackr/compare/v1.1.0...HEAD
+[1.1.0]: https://github.com/SkinsTrackr/skinstrackr/releases/tag/v1.1.0
 [1.0.2]: https://github.com/SkinsTrackr/skinstrackr/releases/tag/v1.0.2
 [1.0.1]: https://github.com/SkinsTrackr/skinstrackr/releases/tag/v1.0.1
 [1.0.0]: https://github.com/SkinsTrackr/skinstrackr/releases/tag/v1.0.0

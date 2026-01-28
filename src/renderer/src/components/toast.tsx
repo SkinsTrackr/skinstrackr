@@ -1,8 +1,6 @@
 import { toast } from 'sonner'
-import { Button } from '@/components/ui/button'
-import { JSX } from 'react'
 
-export function showToast(msg: string, severity: 'success' | 'error' | 'info'): JSX.Element {
+export function showToast(msg: string, severity: 'success' | 'error' | 'info'): void {
   switch (severity) {
     case 'success':
       toast.success(msg)
@@ -15,20 +13,20 @@ export function showToast(msg: string, severity: 'success' | 'error' | 'info'): 
       break
   }
 
-  return (
-    <Button
-      variant="outline"
-      onClick={() =>
-        toast.success('Event has been created', {
-          description: 'Sunday, December 03, 2023 at 9:00 AM',
-          action: {
-            label: 'Undo',
-            onClick: () => console.log('Undo')
-          }
-        })
-      }
-    >
-      Show Toast
-    </Button>
-  )
+  //   return (
+  //     <Button
+  //       variant="outline"
+  //       onClick={() =>
+  //         toast.success('Event has been created', {
+  //           description: 'Sunday, December 03, 2023 at 9:00 AM',
+  //           action: {
+  //             label: 'Undo',
+  //             onClick: () => log.info('Undo')
+  //           }
+  //         })
+  //       }
+  //     >
+  //       Show Toast
+  //     </Button>
+  //   )
 }

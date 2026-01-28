@@ -1,6 +1,7 @@
 import SteamUser, { EResult } from 'steam-user'
 import GlobalOffensive from 'globaloffensive'
 import { accounts } from './util/client-store-utils'
+import log from 'electron-log/main'
 
 /**
  * Singleton class to manage Steam session across the application
@@ -92,7 +93,7 @@ class SteamSession {
         this.getUser().once('disconnected', disconnectedListener)
         this.getUser().once('error', errorListener)
 
-        console.log('Logging out from current user before logging in to cached user:', steamId)
+        log.info('Logging out from current user before logging in to cached user:', steamId)
         this.getUser().logOff()
       } else {
         this.cachedSessionUserId = steamId

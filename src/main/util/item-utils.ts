@@ -1,6 +1,7 @@
 import { env } from '@shared/env'
 import { writeFile } from 'fs/promises'
 import GlobalOffensive from 'globaloffensive'
+import log from 'electron-log/main'
 import * as fs from 'fs'
 import {
   Charm,
@@ -49,7 +50,7 @@ const ATTRIBUTE_FREE_REWARD_STATUS = 277 // Used to filter out non-tradable item
 export async function fetchItemData(): Promise<void> {
   const dataDir = path.join(app.getPath('userData'), env.DATA_DIR)
   if (!fs.existsSync(dataDir)) {
-    console.info(`Creating data directory at ${dataDir}`)
+    log.info(`Creating data directory at ${dataDir}`)
     fs.mkdirSync(dataDir, { recursive: true })
   }
 
@@ -63,15 +64,15 @@ export async function fetchItemData(): Promise<void> {
       const prices = await response.json()
 
       await writeFile(path.join(dataDir, fileName), JSON.stringify(prices, null, 2), 'utf-8')
-      console.log('Fetched items: ' + fileName)
+      log.info('Fetched items: ' + fileName)
     } catch (error) {
-      console.error('Error fetching prices from SteamAPIs:', error)
-      console.log('Using existing item data for: ' + fileName)
+      log.error('Error fetching prices from SteamAPIs:', error)
+      log.info('Using existing item data for: ' + fileName)
     }
   }
 
   try {
-    console.log('Loading item data from fetched items')
+    log.info('Loading item data from fetched items')
     qualities = JSON.parse(
       fs.readFileSync(path.join(app.getPath('userData'), env.QUALITY_DATA_PATH), 'utf-8')
     ) as Record<string, Quality>
@@ -107,7 +108,7 @@ export async function fetchItemData(): Promise<void> {
       fs.readFileSync(path.join(app.getPath('userData'), env.HIGHLIGHT_DATA_PATH), 'utf-8')
     ) as Record<string, Highlight>
   } catch (error) {
-    console.error('Failed to load fetched items: ', error)
+    log.error('Failed to load fetched items: ', error)
     throw error
   }
 }
@@ -281,6 +282,7 @@ export function convertInventoryItem(item: GlobalOffensive.InventoryItem): Conve
     id: Number(item.id),
     hashName: hashName,
     customName: item.custom_name ? item.custom_name : undefined,
+    type: commonItem?.type || undefined,
     rarity: rarities[item.rarity?.toString() || ''].index,
     quality: qualities[item.quality?.toString() || ''].index,
     imagePath: imagePath,

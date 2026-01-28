@@ -1,3 +1,4 @@
+import log from 'electron-log'
 import { z } from 'zod'
 
 // Validation of environment variables here
@@ -34,7 +35,7 @@ function parseEnv(): Env {
   try {
     return envSchema.parse(process.env)
   } catch (error) {
-    console.error('Failed to parse environment variables:', error)
+    log.error('Failed to parse environment variables:', error)
     throw error
   }
 }

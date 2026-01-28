@@ -3,6 +3,7 @@ import { ConvertedInventory } from '@shared/interfaces/inventory.types'
 import { showToast } from '@/components/toast'
 import { getCleanErrorMessage } from '@/lib/error-utils'
 import GlobalOffensive from 'globaloffensive'
+import log from 'electron-log/renderer'
 
 interface InventoryContextType {
   inventory: ConvertedInventory
@@ -45,7 +46,8 @@ export function InventoryProvider({ children }: { children: ReactNode }): JSX.El
       const rawItem = await window.api.getRawItemData(itemId)
       return rawItem
     } catch (error) {
-      console.error('Failed to get raw item data:', error)
+      log.error('Failed to get raw item data:', error)
+      showToast('Failed to get raw item data: ' + getCleanErrorMessage(error), 'error')
       return
     }
   }, [])
@@ -58,12 +60,15 @@ export function InventoryProvider({ children }: { children: ReactNode }): JSX.El
       setTotalItems(result.inventory.items.length + result.containers.flatMap((c) => c.items).length)
       setTotalValue(calculateTotalValue(result))
       setLastRefresh(timeAgo(result.lastRefresh))
+
+      if (fromCache === false) {
+        showToast('Inventory up to date', 'success')
+      }
     } catch (error) {
-      const cleanMessage = getCleanErrorMessage(error)
-      console.error('Failed to load inventory:', error)
+      log.error('Failed to load inventory:', error)
       setInventory(defaultInventory)
 
-      showToast(cleanMessage, 'error')
+      showToast('Failed to load inventory: ' + getCleanErrorMessage(error), 'error')
     } finally {
       setIsLoading(false)
     }

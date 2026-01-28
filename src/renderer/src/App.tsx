@@ -1,51 +1,44 @@
-import { Route, Routes, useLocation, Navigate } from 'react-router'
-import { useEffect, useRef } from 'react'
+import { Route, Routes, Navigate } from 'react-router'
+import { useEffect, useState } from 'react'
 import TopNavbar from './components/top-navbar'
 import InventoryPage from './pages/inventory'
 import BottomNavbar from './components/bottom-navbar'
 import { useClientStore } from './contexts/ClientStoreContext'
 import { useSession } from './contexts/SessionContext'
 import SettingsPage from './pages/settings'
+import LoadingScreen from './components/loading-screen'
+import log from 'electron-log/renderer'
+import { showToast } from './components/toast'
 
 function App(): React.JSX.Element {
-  const location = useLocation()
-  const { loadSettings, accounts, accountsLoaded } = useClientStore()
+  const { settings } = useClientStore()
   const { loginCache } = useSession()
-  const hideNavbars = location.pathname === '/'
-  const checkedDefaultAccount = useRef(false)
+  const [appInitialized, setAppInitialized] = useState(false)
 
-  // Login default account if cache exists - wait for accounts to be loaded
+  // Listen for app initialization event from main process
+  // Do ALL initialization logic here on startup
   useEffect(() => {
-    if (checkedDefaultAccount.current) return
-
-    // Wait for accounts to finish loading (regardless of whether they're empty or not)
-    if (!accountsLoaded) {
-      console.log('Waiting for accounts to load...')
-      return
-    }
-
-    checkedDefaultAccount.current = true
-
-    const checkDefaultAccount = async (): Promise<void> => {
+    const unsubscribe = window.api.onAppInitialized(async () => {
       try {
-        const loadedSettings = await loadSettings()
-        if (loadedSettings.defaultAccountID) {
-          console.log('Attempting to login with default account:', loadedSettings.defaultAccountID)
-          await loginCache(loadedSettings.defaultAccountID)
+        if (settings.defaultAccountID) {
+          log.info('Attempting to login with default account:', settings.defaultAccountID)
+          await loginCache(settings.defaultAccountID)
         } else {
-          console.log('No default account configured')
+          log.error('No default account configured. This should not happen.')
+          showToast('No default account configured. Please set a default account in settings.', 'error')
         }
       } catch (error) {
-        console.error('Failed to check default account:', error)
+        log.error('Failed to check default account:', error)
       }
-    }
-
-    checkDefaultAccount()
-  }, [loadSettings, accounts, accountsLoaded, loginCache])
+      setAppInitialized(true)
+    })
+    return unsubscribe
+  }, [settings, loginCache])
 
   return (
     <div className="flex h-full flex-col overflow-hidden">
-      {!hideNavbars && <TopNavbar />}
+      {!appInitialized && <LoadingScreen message="Initializing SkinsTrackr" />}
+      <TopNavbar />
       <main className="flex-1 overflow-hidden bg-muted/10">
         <Routes>
           <Route path="/" element={<Navigate to="/inventory" replace />} />
@@ -54,7 +47,7 @@ function App(): React.JSX.Element {
           <Route path="/settings" element={<SettingsPage />} />
         </Routes>
       </main>
-      {!hideNavbars && <BottomNavbar />}
+      <BottomNavbar />
     </div>
   )
 }
