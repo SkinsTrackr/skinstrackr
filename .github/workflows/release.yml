@@ -64,7 +64,7 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           EP_DRAFT: true
           EP_PRE_RELEASE: false
-        run: npm run build:linux -- --linux AppImage --publish always
+        run: npm run build:linux -- --linux AppImage --publish never
 
       - name: WINDOWS - Build
         if: matrix.platform == 'windows'
@@ -81,7 +81,7 @@ jobs:
         with:
           timeout_minutes: 180 # 3 Hours max per try
           max_attempts: 3
-          command: npm run build:mac -- --publish always
+          command: npm run build:mac -- --publish never
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           EP_DRAFT: true
@@ -156,7 +156,7 @@ jobs:
       - name: Upload signed Windows artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: signed-windows
+          name: release-windows
           path: signed/*.exe
 
   finalize-release:
@@ -198,7 +198,7 @@ jobs:
       - name: Download signed Windows artifacts for release
         uses: actions/download-artifact@v4
         with:
-          name: signed-windows
+          name: released-windows
           path: dist
 
       - name: Update release with notes
@@ -209,5 +209,10 @@ jobs:
           draft: true
           generate_release_notes: ${{ steps.changelog.outputs.HAS_CHANGELOG == 'false' }}
           body_path: ${{ steps.changelog.outputs.HAS_CHANGELOG == 'true' && 'current_changelog.txt' || '' }}
+          files: |
+            dist/*.exe
+            dist/*.dmg
+            dist/*.zip
+            dist/*.AppImage
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
