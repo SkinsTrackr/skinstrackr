@@ -140,7 +140,7 @@ jobs:
           mkdir -p signed
           for f in unsigned/*.exe; do
             base=$(basename "$f")
-            osslsigncode sign \
+            sudo osslsigncode sign \
               -pkcs11module "$PKCS11_MODULE_PATH" \
               -certs "$CERT_PATH" \
               -key "$CERT_KEY" \
