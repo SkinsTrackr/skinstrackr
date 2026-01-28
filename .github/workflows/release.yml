@@ -118,7 +118,7 @@ jobs:
   sign-windows:
     name: Sign Windows on Linux
     needs: release
-    runs-on: [self-hosted, Linux, windows-codesign]
+    runs-on: self-hosted
     steps:
       - name: Checkout
         uses: actions/checkout@v4
