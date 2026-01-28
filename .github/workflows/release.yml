@@ -94,8 +94,9 @@ jobs:
           APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
           APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
 
-      - name: Upload build artifacts (backup)
+      - name: Upload build artifacts (backup LINUX/MAC)
         uses: actions/upload-artifact@v4
+        if: matrix.platform == 'linux' or matrix.platform == 'mac'
         with:
           name: release-${{ matrix.platform }}
           path: |
