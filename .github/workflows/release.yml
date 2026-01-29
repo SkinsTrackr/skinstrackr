@@ -198,7 +198,7 @@ jobs:
       - name: Download signed Windows artifacts for release
         uses: actions/download-artifact@v4
         with:
-          name: released-windows
+          name: release-windows
           path: dist
 
       - name: Update release with notes
