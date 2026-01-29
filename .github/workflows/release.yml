@@ -159,6 +159,12 @@ jobs:
           name: release-windows
           path: signed/*.exe
 
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
       - name: Regenerate blockmap and release.yml for signed .exe (Needed for auto-updates)
         run: |
           npm install -g electron-builder
