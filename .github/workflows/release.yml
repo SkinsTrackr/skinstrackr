@@ -232,5 +232,7 @@ jobs:
           body_path: ${{ steps.changelog.outputs.HAS_CHANGELOG == 'true' && 'current_changelog.txt' || '' }}
           files: |
             dist/*.exe
+            dist/*.exe.blockmap
+            dist/release.yml
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
