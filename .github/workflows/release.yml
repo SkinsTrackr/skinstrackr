@@ -64,7 +64,7 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           EP_DRAFT: true
           EP_PRE_RELEASE: false
-        run: npm run build:linux -- --linux AppImage --publish never
+        run: npm run build:linux -- --linux AppImage --publish always
 
       - name: WINDOWS - Build
         if: matrix.platform == 'windows'
@@ -81,7 +81,7 @@ jobs:
         with:
           timeout_minutes: 180 # 3 Hours max per try
           max_attempts: 3
-          command: npm run build:mac -- --publish never
+          command: npm run build:mac -- --publish always
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           EP_DRAFT: true
