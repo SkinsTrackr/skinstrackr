@@ -55,15 +55,15 @@ The .AppImage is a direct executable and will not be installed on your computer.
 
 ### Inventory View
 
-[Inventory View](https://github.com/user-attachments/assets/b4919360-6464-4d77-9288-de031d26f579)
+![Inventory View](.github/inventory-view.gif)
 
 ### Item Transfer
 
-[Item Transfer](https://github.com/user-attachments/assets/fa523a6f-1093-4318-b3b1-f4711b9acea8)
+![Item Transfer](.github/item-transfer.gif)
 
 ### Multi-Account Management and Caching
 
-[Multi-Account Management and Caching](https://github.com/user-attachments/assets/ab86efda-b637-4a84-a08a-bcab189614b1)
+![Multi-Account Caching](.github/multi-accounts-cache.gif)
 
 ---
 
