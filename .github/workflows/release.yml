@@ -107,11 +107,17 @@ jobs:
 
   # Build and release for Windows (Self-hosted runner)
   release-windows:
-    name: Release and sign Windows
+    name: Release (windows-latest)
     runs-on: self-hosted
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
 
       - name: WINDOWS - Build, sign and release
         env:
