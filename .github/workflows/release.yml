@@ -123,6 +123,13 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      # Need Wine to sign Windows binaries on Linux
+      # - name: Install Wine
+      #   run: |
+      #     sudo dpkg --add-architecture i386
+      #     sudo apt-get update
+      #     sudo apt-get install -y wine64 wine32
+
       - name: WINDOWS - Build, sign and release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
