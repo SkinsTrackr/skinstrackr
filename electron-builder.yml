@@ -25,6 +25,8 @@ win:
   target:
     - nsis # produces an .exe installer
   artifactName: '${productName}-Setup-${version}.${ext}'
+  signToolOptions:
+    sign: './scripts/sign.js'
 nsis:
   oneClick: false
   perMachine: false
