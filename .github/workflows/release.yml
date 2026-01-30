@@ -12,9 +12,8 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  # Release builds for all platforms
-  # Signing for macOS
-  release:
+  # Build and release for macOs and Linux
+  release-mac-linux:
     name: Release (${{ matrix.os }})
     permissions:
       contents: write
@@ -24,8 +23,8 @@ jobs:
         include:
           - os: ubuntu-latest
             platform: linux
-          - os: windows-latest
-            platform: windows
+          # - os: windows-latest
+          #   platform: windows
           - os: macos-latest
             platform: mac
 
@@ -66,7 +65,7 @@ jobs:
           EP_PRE_RELEASE: false
         run: npm run build:linux -- --linux AppImage --publish always
 
-      - name: MAC - Build (signed + notarized)
+      - name: MACOS - Build, sign and release
         if: matrix.platform == 'mac'
         # Use the `nick-fields/retry` to retry the command in case the code signing fails
         uses: nick-fields/retry@v2
@@ -86,7 +85,7 @@ jobs:
           APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
           APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
 
-      - name: Upload build artifacts (backup LINUX/MAC)
+      - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         if: matrix.platform == 'linux' || matrix.platform == 'mac'
         with:
@@ -106,17 +105,15 @@ jobs:
       #     if-no-files-found: error
       #     retention-days: 1
 
-  # Self-hosted Linux runner: Sign Windows
-  sign-windows:
-    name: Sign Windows on Linux
-    needs: release
+  # Build and release for Windows (Self-hosted runner)
+  release-windows:
+    name: Release and sign Windows
     runs-on: self-hosted
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: WINDOWS - Build
-        if: matrix.platform == 'windows'
+      - name: WINDOWS - Build, sign and release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           EP_DRAFT: true
@@ -127,6 +124,14 @@ jobs:
           CERT_TOKEN_PIN: ${{ secrets.CERT_TOKEN_PIN }}
           CERT_TIME_SERVER: ${{ secrets.CERT_TIME_SERVER }}
         run: npm run build:win -- --publish always
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-windows
+          path: |
+            dist/*.exe
+          if-no-files-found: error
 
       # - name: Download unsigned Windows artifacts
       #   uses: actions/download-artifact@v4
@@ -187,7 +192,7 @@ jobs:
 
   finalize-release:
     name: Add Release Notes
-    needs: [release, sign-windows]
+    needs: [release-mac-linux, release-windows]
     runs-on: ubuntu-latest
     permissions:
       contents: write
