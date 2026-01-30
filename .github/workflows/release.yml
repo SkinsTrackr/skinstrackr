@@ -23,8 +23,6 @@ jobs:
         include:
           - os: ubuntu-latest
             platform: linux
-          # - os: windows-latest
-          #   platform: windows
           - os: macos-latest
             platform: mac
 
@@ -97,15 +95,6 @@ jobs:
             dist/*.AppImage
           if-no-files-found: error
 
-      # - name: Upload unsigned Windows artifacts
-      #   if: matrix.platform == 'windows'
-      #   uses: actions/upload-artifact@v4
-      #   with:
-      #     name: unsigned-windows
-      #     path: dist/*.exe
-      #     if-no-files-found: error
-      #     retention-days: 1
-
   # Build and release for Windows (Self-hosted runner)
   release-windows:
     name: Release (windows-latest)
@@ -124,13 +113,6 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
-
-      # Need Wine to sign Windows binaries on Linux
-      # - name: Install Wine
-      #   run: |
-      #     sudo dpkg --add-architecture i386
-      #     sudo apt-get update
-      #     sudo apt-get install -y wine64 wine32
 
       - name: WINDOWS - Build, sign and release
         env:
@@ -151,63 +133,6 @@ jobs:
           path: |
             dist/*.exe
           if-no-files-found: error
-
-      # - name: Download unsigned Windows artifacts
-      #   uses: actions/download-artifact@v4
-      #   with:
-      #     name: unsigned-windows
-      #     path: unsigned
-
-      # - name: Sign Windows artifacts with token
-      #   env:
-      #     PKCS11_MODULE_PATH: ${{ secrets.PKCS11_MODULE_PATH }}
-      #     CERT_PATH: ${{ secrets.CERT_PATH }}
-      #     CERT_KEY: ${{ secrets.CERT_KEY }}
-      #     CERT_TOKEN_PIN: ${{ secrets.CERT_TOKEN_PIN }}
-      #     CERT_TIME_SERVER: ${{ secrets.CERT_TIME_SERVER }}
-      #   run: |
-      #     mkdir -p signed
-      #     for f in unsigned/*.exe; do
-      #       base=$(basename "$f")
-      #       sudo osslsigncode sign \
-      #         -pkcs11module "$PKCS11_MODULE_PATH" \
-      #         -certs "$CERT_PATH" \
-      #         -key "$CERT_KEY" \
-      #         -pass "$CERT_TOKEN_PIN" \
-      #         -h sha256 \
-      #         -n "SkinsTrackr" \
-      #         -i "https://github.com/SkinsTrackr/skinstrackr" \
-      #         -t "$CERT_TIME_SERVER" \
-      #         -in "$f" \
-      #         -out "signed/$base"
-      #     done
-
-      # - name: Upload signed Windows artifacts
-      #   uses: actions/upload-artifact@v4
-      #   with:
-      #     name: release-windows
-      #     path: signed/*.exe
-
-      # - name: Setup Node
-      #   uses: actions/setup-node@v4
-      #   with:
-      #     node-version: 22
-      #     cache: npm
-
-      # - name: Regenerate blockmap and release.yml for signed .exe (Needed for auto-updates)
-      #   run: |
-      #     npm install -g electron-builder
-      #     for f in signed/*.exe; do
-      #       npx electron-builder blockmap --input="$f"
-      #     done
-
-      # - name: Upload signed Windows blockmap and yml (Needed for auto-updates)
-      #   uses: actions/upload-artifact@v4
-      #   with:
-      #     name: release-windows-meta
-      #     path: |
-      #       signed/*.exe.blockmap
-      #       signed/release.yml
 
   finalize-release:
     name: Add Release Notes
@@ -245,18 +170,6 @@ jobs:
             echo "HAS_CHANGELOG=false" >> $GITHUB_OUTPUT
           fi
 
-      # - name: Download signed Windows artifacts for release
-      #   uses: actions/download-artifact@v4
-      #   with:
-      #     name: release-windows
-      #     path: dist
-
-      # - name: Download signed Windows blockmap and yml for release
-      #   uses: actions/download-artifact@v4
-      #   with:
-      #     name: release-windows-meta
-      #     path: dist
-
       - name: Update release with notes
         uses: softprops/action-gh-release@v2
         with:
@@ -265,9 +178,5 @@ jobs:
           draft: true
           generate_release_notes: ${{ steps.changelog.outputs.HAS_CHANGELOG == 'false' }}
           body_path: ${{ steps.changelog.outputs.HAS_CHANGELOG == 'true' && 'current_changelog.txt' || '' }}
-          # files: |
-          #   dist/*.exe
-          #   dist/*.exe.blockmap
-          #   dist/release.yml
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
