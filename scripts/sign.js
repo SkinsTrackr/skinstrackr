@@ -1,8 +1,10 @@
 /* eslint-disable @typescript-eslint/no-require-imports */
 const { execSync } = require('child_process')
+const fs = require('fs')
 
 module.exports = async function (configuration) {
   const path = configuration.path
+  const signedPath = path.replace(/\.exe$/i, '.signed.exe')
   const { PKCS11_MODULE_PATH, CERT_PATH, CERT_KEY, CERT_TOKEN_PIN, CERT_TIME_SERVER } = process.env
 
   if (!path) {
@@ -25,8 +27,11 @@ module.exports = async function (configuration) {
       -i "https://github.com/SkinsTrackr/skinstrackr" \
       -t "${CERT_TIME_SERVER}" \
       -in "${path}" \
-      -out "${path}"
+      -out "${signedPath}"
     `,
     { stdio: 'inherit' }
   )
+
+  // Replace original exe with signed one (osslsign cannot do in-place signing)
+  fs.renameSync(signedPath, path)
 }
