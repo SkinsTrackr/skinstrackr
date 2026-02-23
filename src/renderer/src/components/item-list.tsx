@@ -65,7 +65,7 @@ export const ItemList: FC<ItemListProps> = ({ inventory, transfer, setTransfer }
   // filteredItems: items after all filters, grouping and sorting applied
   // filteredItemsTotal: total number of items after filtering but before grouping and sorting
   // filteredContainerTotal: total number of items after container filtering but before other filtering, grouping and sorting
-  const { filteredItems, filteredItemsTotal, filteredContainerTotal } = useMemo(() => {
+  const { filteredItems, filteredItemsValue, filteredItemsTotal, filteredContainerTotal } = useMemo(() => {
     let invItems = [...inventory.inventory.items, ...inventory.containers.flatMap((container) => container.items)]
 
     // Create a new filter object instead of mutating the state
@@ -103,11 +103,13 @@ export const ItemList: FC<ItemListProps> = ({ inventory, transfer, setTransfer }
     const grouped = applyGrouping(filtered, currentFilter)
     const sorted = applySorting(grouped, currentFilter)
 
+    const filteredValue = filtered.reduce((acc, item) => acc + (item.price || 0), 0)
     const total = filtered.length
     const containerTotal = filteredContainers.length
 
     return {
       filteredItems: sorted,
+      filteredItemsValue: filteredValue,
       filteredItemsTotal: total,
       filteredContainerTotal: containerTotal
     }
@@ -178,7 +180,16 @@ export const ItemList: FC<ItemListProps> = ({ inventory, transfer, setTransfer }
             />
           </div>
         </div>
+        <div className="flex flex-col gap-3 mt-2">
+          <span className="text-sm text-muted-foreground">
+            Showing {filteredItemsTotal} of {filteredContainerTotal} items
+          </span>
+          <span className="text-sm text-muted-foreground">
+            Value: ${new Intl.NumberFormat('en-US', { maximumFractionDigits: 0 }).format(filteredItemsValue)}
+          </span>
+        </div>
       </div>
+
       {/* Cards list or empty state */}
       <div className="flex-1 mt-5 overflow-hidden">
         {!hasAccounts ? (
