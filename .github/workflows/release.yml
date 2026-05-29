@@ -134,7 +134,7 @@ jobs:
           for exe in dist/*.exe; do
             osslsigncode verify \
               -CAfile /etc/ssl/certs/ca-certificates.crt \
-              -TSA /etc/ssl/certs/ca-certificates.crt \
+              -TSA-CAfile /etc/ssl/certs/ca-certificates.crt \
               "$exe"
           done
 
