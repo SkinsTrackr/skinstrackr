@@ -132,7 +132,10 @@ jobs:
       - name: Verify signature
         run: |
           for exe in dist/*.exe; do
-            osslsigncode verify "$exe"
+            osslsigncode verify \
+              -CAfile /etc/ssl/certs/ca-certificates.crt \
+              -TSA /etc/ssl/certs/ca-certificates.crt \
+              "$exe"
           done
 
       - name: Upload build artifacts
