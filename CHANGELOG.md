@@ -31,6 +31,12 @@ Bug fixes
 
 Security updates
 
+## [1.1.1] - 2026-05-29
+
+### Added
+
+- Test123
+
 ## [1.1.0] - 2026-01-28
 
 ### Added
@@ -74,7 +80,8 @@ Security updates
 
 - Initial release of SkinsTrackr
 
-[unreleased]: https://github.com/SkinsTrackr/skinstrackr/compare/v1.1.0...HEAD
+[unreleased]: https://github.com/SkinsTrackr/skinstrackr/compare/v1.1.1...HEAD
+[1.1.0]: https://github.com/SkinsTrackr/skinstrackr/releases/tag/v1.1.1
 [1.1.0]: https://github.com/SkinsTrackr/skinstrackr/releases/tag/v1.1.0
 [1.0.2]: https://github.com/SkinsTrackr/skinstrackr/releases/tag/v1.0.2
 [1.0.1]: https://github.com/SkinsTrackr/skinstrackr/releases/tag/v1.0.1
