@@ -6,7 +6,7 @@
 
 ### Yet another CS2 Inventory Manager
 
-[Download](#download) • [Features](#features) • [Showcase](#showcase) • [Community](#community--support) • [FAQ](#-faq)
+[Install](#install) • [Features](#features) • [Showcase](#showcase) • [Community](#community--support) • [FAQ](#-faq)
 
 </div>
 
@@ -16,9 +16,16 @@ SkinsTrackr is a desktop application designed to help Counter-Strike 2 players m
 
 ---
 
-## Download
+## Install
 
-### Latest (1.1.0)
+### Run as a developer
+Install latest node.js, then:
+```
+npm install
+npm run dev
+```
+
+### Download latest
 
 | Platform    | Download                                                                                                    |
 | ----------- | ----------------------------------------------------------------------------------------------------------- |
@@ -27,11 +34,11 @@ SkinsTrackr is a desktop application designed to help Counter-Strike 2 players m
 | macOS (x64) | [Download](https://github.com/SkinsTrackr/skinstrackr/releases/download/v1.1.0/SkinsTrackr-1.1.0.dmg)       |
 | Linux       | [Download](https://github.com/SkinsTrackr/skinstrackr/releases/download/v1.1.0/SkinsTrackr-1.1.0.AppImage)  |
 
-### Older versions
+#### Older versions
 
 See [Releases](https://github.com/SkinsTrackr/skinstrackr/releases)
 
-### How to run on linux
+#### How to run on linux
 
 The .AppImage is a direct executable and will not be installed on your computer. You need to give it correct executable permissions and probably run it through your shell:
 
