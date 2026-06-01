@@ -39,7 +39,9 @@ Security updates
 
 ### Fixed
 
-- When starting app without network, it hangs on loading screen.
+- Fix when starting app without network, it hangs on loading screen.
+- Fix when changing accounts while a search or filter is active, it does not reset the filter.
+- Fix when transferring items, need to select container as well or else "Transfer" button will stay disabled.
 
 ## [1.1.0] - 2026-01-28
 
