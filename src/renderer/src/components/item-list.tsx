@@ -1,7 +1,7 @@
 import { InfiniteScrollArea } from '@/components/ui-extensions/infinite-scroll-area'
 import { FC, useState, useMemo } from 'react'
 import { InputGroup, InputGroupAddon, InputGroupInput } from './ui/input-group'
-import { Search, Loader2, Gem, DollarSign } from 'lucide-react'
+import { Search, Loader2, Gem, Banknote } from 'lucide-react'
 import { ConvertedInventory, ConvertedItem, TransferItems } from '@shared/interfaces/inventory.types'
 import { applyContainerFilter, applyFilters, applyGrouping, applySorting, ItemListFilter } from '@/lib/item-list-filter'
 import { ItemCard } from './item-card'
@@ -180,19 +180,20 @@ export const ItemList: FC<ItemListProps> = ({ inventory, transfer, setTransfer }
           </div>
         </div>
 
-        {/* Results summary */}
-        <div className="flex flex-col justify-center gap-1.5">
+        {/* Results summary — reflects the active filter/search */}
+        <div className="flex flex-col justify-center gap-1 self-stretch border-l border-border pl-4">
+          <span className="text-xs font-medium text-muted-foreground/60">SHOWING</span>
           <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
             <Gem className="h-3.5 w-3.5 text-muted-foreground/70" />
             <span className="font-medium tabular-nums text-foreground">
               {new Intl.NumberFormat('en-US').format(filteredItemsTotal)}
             </span>
-            of {new Intl.NumberFormat('en-US').format(filteredContainerTotal)}
+            of {new Intl.NumberFormat('en-US').format(filteredContainerTotal)} items
           </span>
           <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
-            <DollarSign className="h-3.5 w-3.5 text-muted-foreground/70" />
+            <Banknote className="h-3.5 w-3.5 text-muted-foreground/70" />
             <span className="font-medium tabular-nums text-foreground">
-              {new Intl.NumberFormat('en-US', { maximumFractionDigits: 0 }).format(filteredItemsValue)}
+              ${new Intl.NumberFormat('en-US', { maximumFractionDigits: 0 }).format(filteredItemsValue)}
             </span>
           </span>
         </div>
