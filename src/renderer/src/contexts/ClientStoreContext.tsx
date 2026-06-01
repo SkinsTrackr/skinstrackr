@@ -11,6 +11,7 @@ interface ClientStoreContextType {
   accounts: Record<string, Account>
   loadAccounts: () => Promise<Record<string, Account>>
   accountsLoaded: boolean
+  settingsLoaded: boolean
 }
 
 const ClientStoreContext = createContext<ClientStoreContextType | undefined>(undefined)
@@ -19,6 +20,7 @@ export function ClientStoreProvider({ children }: { children: ReactNode }): JSX.
   const [settings, setSettings] = useState<Settings>({})
   const [accounts, setAccounts] = useState<Record<string, Account>>({})
   const [accountsLoaded, setAccountsLoaded] = useState(false)
+  const [settingsLoaded, setSettingsLoaded] = useState(false)
 
   const loadSettings = useCallback(async (): Promise<Settings> => {
     try {
@@ -29,6 +31,8 @@ export function ClientStoreProvider({ children }: { children: ReactNode }): JSX.
       log.error('Failed to load settings:', error)
       showToast('Failed to load settings: ' + getCleanErrorMessage(error), 'error')
       throw error
+    } finally {
+      setSettingsLoaded(true)
     }
   }, [])
 
@@ -67,7 +71,7 @@ export function ClientStoreProvider({ children }: { children: ReactNode }): JSX.
 
   return (
     <ClientStoreContext.Provider
-      value={{ settings, loadSettings, saveSettings, accounts, loadAccounts, accountsLoaded }}
+      value={{ settings, loadSettings, saveSettings, settingsLoaded, accounts, loadAccounts, accountsLoaded }}
     >
       {children}
     </ClientStoreContext.Provider>

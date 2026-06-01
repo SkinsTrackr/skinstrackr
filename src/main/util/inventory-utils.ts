@@ -196,6 +196,8 @@ export async function saveInventoryToFile(inventory: RawInventory, userId: strin
 
   const encoded = pack(inventory)
   await fs.writeFileSync(path.join(dataDir, `${userId}_inventory.bin`), encoded)
+
+  await fs.writeFileSync(path.join(dataDir, `${userId}_inventory.json`), JSON.stringify(inventory, null, 2))
 }
 
 export async function loadInventoryFromFile(userId: string): Promise<RawInventory> {

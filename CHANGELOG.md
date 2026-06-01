@@ -37,7 +37,9 @@ Security updates
 
 - UI: Move search results out of search box and show total value of currently shown items
 
-- Test123
+### Fixed
+
+- When starting app without network, it hangs on loading screen.
 
 ## [1.1.0] - 2026-01-28
 
