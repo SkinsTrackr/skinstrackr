@@ -12,7 +12,7 @@ import { showToast } from './components/toast'
 
 function App(): React.JSX.Element {
   const { settings, settingsLoaded } = useClientStore()
-  const { loginCache } = useSession()
+  const { loginCache, activeSteamId } = useSession()
   const [appInitialized, setAppInitialized] = useState(false)
 
   // Listen for app initialization event from main process
@@ -50,7 +50,8 @@ function App(): React.JSX.Element {
         <Routes>
           <Route path="/" element={<Navigate to="/inventory" replace />} />
           {/* <Route path="/overview" element={<DashboardPage />} /> */}
-          <Route path="/inventory" element={<InventoryPage />} />
+          {/* Force remount on account switch to reset inventory state */}
+          <Route path="/inventory" element={<InventoryPage key={activeSteamId} />} />
           <Route path="/settings" element={<SettingsPage />} />
         </Routes>
       </main>
