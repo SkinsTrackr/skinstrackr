@@ -1,7 +1,7 @@
 import { InfiniteScrollArea } from '@/components/ui-extensions/infinite-scroll-area'
 import { FC, useState, useMemo } from 'react'
 import { InputGroup, InputGroupAddon, InputGroupInput } from './ui/input-group'
-import { Search, Loader2 } from 'lucide-react'
+import { Search, Loader2, Gem, DollarSign } from 'lucide-react'
 import { ConvertedInventory, ConvertedItem, TransferItems } from '@shared/interfaces/inventory.types'
 import { applyContainerFilter, applyFilters, applyGrouping, applySorting, ItemListFilter } from '@/lib/item-list-filter'
 import { ItemCard } from './item-card'
@@ -147,7 +147,6 @@ export const ItemList: FC<ItemListProps> = ({ inventory, transfer, setTransfer }
             <InputGroupAddon>
               <Search />
             </InputGroupAddon>
-            <InputGroupAddon align="inline-end">{`${filteredItemsTotal}/${filteredContainerTotal}`}</InputGroupAddon>
           </InputGroup>
 
           <div className="flex gap-3">
@@ -180,12 +179,21 @@ export const ItemList: FC<ItemListProps> = ({ inventory, transfer, setTransfer }
             />
           </div>
         </div>
-        <div className="flex flex-col gap-3 mt-2">
-          <span className="text-sm text-muted-foreground">
-            Showing {filteredItemsTotal} of {filteredContainerTotal} items
+
+        {/* Results summary */}
+        <div className="flex flex-col justify-center gap-1.5">
+          <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
+            <Gem className="h-3.5 w-3.5 text-muted-foreground/70" />
+            <span className="font-medium tabular-nums text-foreground">
+              {new Intl.NumberFormat('en-US').format(filteredItemsTotal)}
+            </span>
+            of {new Intl.NumberFormat('en-US').format(filteredContainerTotal)}
           </span>
-          <span className="text-sm text-muted-foreground">
-            Value: ${new Intl.NumberFormat('en-US', { maximumFractionDigits: 0 }).format(filteredItemsValue)}
+          <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
+            <DollarSign className="h-3.5 w-3.5 text-muted-foreground/70" />
+            <span className="font-medium tabular-nums text-foreground">
+              {new Intl.NumberFormat('en-US', { maximumFractionDigits: 0 }).format(filteredItemsValue)}
+            </span>
           </span>
         </div>
       </div>

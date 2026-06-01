@@ -120,88 +120,85 @@ export default function BottomNavbar(): JSX.Element {
 
   return (
     <div className="border-t border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="flex h-12 items-center px-3">
+      <div className="flex h-12 items-center px-6">
         {/* Left section - User account and stats */}
         <div className="flex items-center gap-3">
           <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
             <PopoverTrigger asChild>
-              <button className="group flex items-center gap-3 rounded-lg border border-border/50 bg-card/50 backdrop-blur-sm px-3 py-1.5 shadow-sm hover:shadow-md hover:border-border hover:bg-accent/50 transition-all cursor-pointer">
-                {/* User Info */}
-                <div className="flex items-center gap-2.5">
-                  <div className="relative">
-                    <Avatar className="h-7 w-7 ring-2 ring-offset-2 ring-offset-background transition-all group-hover:ring-offset-1">
-                      <AvatarImage src={currentAccount?.avatarUrl} alt={currentAccount?.username} />
-                      <AvatarFallback className="bg-muted">
-                        <User className="h-3.5 w-3.5 text-muted-foreground" />
-                      </AvatarFallback>
-                    </Avatar>
-                    {/* Status indicator */}
-                    <div
-                      className={cn(
-                        'absolute -bottom-0.5 -right-0.5 h-2.5 w-2.5 rounded-full border-2 border-background transition-colors',
-                        userSession === UserSessionType.LOGGED_IN_OFFLINE && 'bg-red-500',
-                        userSession === UserSessionType.LOGGED_IN_ONLINE && 'bg-green-500',
-                        userSession === UserSessionType.CACHE && 'bg-yellow-500',
-                        userSession === UserSessionType.NONE && 'bg-muted-foreground/30'
-                      )}
-                    />
-                  </div>
-                  <div className="flex flex-col items-start min-w-0">
-                    <span className="text-xs font-semibold leading-none truncate max-w-[120px]">
-                      {currentAccount?.username || 'No account'}
-                    </span>
-                    <span className="text-[10px] text-muted-foreground/70 leading-none mt-1">
-                      {userSession === UserSessionType.LOGGED_IN_OFFLINE && 'Offline'}
-                      {userSession === UserSessionType.LOGGED_IN_ONLINE && 'Online'}
-                      {userSession === UserSessionType.CACHE && 'Cached'}
-                      {userSession === UserSessionType.NONE && 'Not logged in'}
-                    </span>
-                  </div>
+              <button className="group flex items-center gap-2.5 rounded-lg border border-border/50 bg-card/50 backdrop-blur-sm px-3 py-1.5 shadow-sm hover:shadow-md hover:border-border hover:bg-accent/50 transition-all cursor-pointer">
+                <div className="relative">
+                  <Avatar className="h-7 w-7 ring-2 ring-offset-2 ring-offset-background transition-all group-hover:ring-offset-1">
+                    <AvatarImage src={currentAccount?.avatarUrl} alt={currentAccount?.username} />
+                    <AvatarFallback className="bg-muted">
+                      <User className="h-3.5 w-3.5 text-muted-foreground" />
+                    </AvatarFallback>
+                  </Avatar>
+                  {/* Status indicator */}
+                  <div
+                    className={cn(
+                      'absolute -bottom-0.5 -right-0.5 h-2.5 w-2.5 rounded-full border-2 border-background transition-colors',
+                      userSession === UserSessionType.LOGGED_IN_OFFLINE && 'bg-red-500',
+                      userSession === UserSessionType.LOGGED_IN_ONLINE && 'bg-green-500',
+                      userSession === UserSessionType.CACHE && 'bg-yellow-500',
+                      userSession === UserSessionType.NONE && 'bg-muted-foreground/30'
+                    )}
+                  />
                 </div>
-
-                <Separator orientation="vertical" className="h-8" />
-
-                {/* Stats */}
-                <div className="flex items-center gap-3">
-                  {/* Inventory value */}
-                  <div className="flex flex-col items-start gap-0.5">
-                    <span className="text-[10px] font-semibold text-muted-foreground/60 uppercase tracking-wide leading-none">
-                      Total Value
-                    </span>
-                    <div className="flex items-center gap-1">
-                      <DollarSign className="h-3.5 w-3.5 text-muted-foreground/70" />
-                      <span className="text-sm font-bold tabular-nums text-foreground">
-                        {new Intl.NumberFormat('en-US', { maximumFractionDigits: 0 }).format(totalValue)}
-                      </span>
-                    </div>
-                  </div>
-
-                  <Separator orientation="vertical" className="h-8" />
-
-                  {/* Items count */}
-                  <div className="flex flex-col items-start gap-0.5">
-                    <span className="text-[10px] font-semibold text-muted-foreground/60 uppercase tracking-wide leading-none">
-                      Items
-                    </span>
-                    <div className="flex items-center gap-1">
-                      <Gem className="h-3.5 w-3.5 text-muted-foreground/70" />
-                      <span className="text-sm font-bold tabular-nums text-foreground">
-                        {new Intl.NumberFormat('en-US').format(totalItems)}
-                      </span>
-                    </div>
-                  </div>
+                <div className="flex flex-col items-start min-w-0">
+                  <span className="text-xs font-semibold leading-none truncate max-w-[120px]">
+                    {currentAccount?.username || 'No account'}
+                  </span>
+                  <span className="text-[10px] text-muted-foreground/70 leading-none mt-1">
+                    {userSession === UserSessionType.LOGGED_IN_OFFLINE && 'Offline'}
+                    {userSession === UserSessionType.LOGGED_IN_ONLINE && 'Online'}
+                    {userSession === UserSessionType.CACHE && 'Cached'}
+                    {userSession === UserSessionType.NONE && 'Not logged in'}
+                  </span>
                 </div>
-
                 <ChevronDown className="h-3 w-3 text-muted-foreground/50 ml-0.5 transition-transform group-hover:text-muted-foreground" />
               </button>
             </PopoverTrigger>
             <PopoverContent align="start" className="p-3">
               <div className="space-y-2">
-                {/* Cached Accounts */}
+                {/* Login Form */}
+                <form onSubmit={handleLogin}>
+                  <FieldGroup className="gap-2">
+                    <Field>
+                      <FieldContent>
+                        <FieldLabel htmlFor="token">Login via Steam Web Token</FieldLabel>
+                        <FieldDescription>Open the link below, copy the token and paste it here.</FieldDescription>
+                      </FieldContent>
+
+                      <div className="flex w-full items-center gap-1 py-1">
+                        <Input
+                          id="token"
+                          placeholder='{"logged_in":true, "steamid": ...}'
+                          required
+                          value={token}
+                          onChange={(e) => setToken(e.target.value)}
+                          className="h-8 text-xs"
+                        />
+                        <Button variant="outline" size="icon" className="h-8 w-8" asChild>
+                          <a href="https://steamcommunity.com/chat/clientjstoken" target="_blank" rel="noreferrer">
+                            <ExternalLink className="h-3 w-3" />
+                          </a>
+                        </Button>
+                      </div>
+                    </Field>
+                    <Field>
+                      <Button type="submit" size="sm" className="w-full h-7 text-xs">
+                        Login
+                      </Button>
+                    </Field>
+                  </FieldGroup>
+                </form>
+
+                {/* Saved Accounts */}
                 {Object.entries(accounts).length > 0 && (
                   <>
+                    <Separator />
                     <div className="space-y-2">
-                      <FieldLabel>Cached accounts</FieldLabel>
+                      <FieldLabel htmlFor="token">Cached accounts</FieldLabel>
                       {Object.entries(accounts).map(([steamId, account]) => (
                         <div
                           key={steamId}
@@ -218,32 +215,15 @@ export default function BottomNavbar(): JSX.Element {
                             }}
                             className="flex items-center gap-2.5 flex-1 min-w-0"
                           >
-                            <div className="flex items-center gap-2.5 w-[180px]">
-                              <Avatar className="h-6 w-6 flex-shrink-0">
-                                <AvatarImage src={account.avatarUrl} alt={account.username} />
-                                <AvatarFallback className="bg-muted text-xs">
-                                  <User className="h-3 w-3" />
-                                </AvatarFallback>
-                              </Avatar>
-                              <div className="flex-1 text-left min-w-0">
-                                <div className="font-medium leading-none truncate">{account.username || steamId}</div>
-                                {account.username && (
-                                  <div className="text-xs text-muted-foreground mt-1 truncate">{steamId}</div>
-                                )}
-                              </div>
-                            </div>
-
-                            <Separator orientation="vertical" className="h-full mx-1" />
-
-                            <div className="flex items-center gap-2">
-                              <div className="flex items-center gap-1">
-                                <DollarSign className="h-3 w-3 text-muted-foreground/70" />
-                                <span className="text-xs font-semibold tabular-nums">0</span>
-                              </div>
-                              <div className="flex items-center gap-1">
-                                <Gem className="h-3 w-3 text-muted-foreground/70" />
-                                <span className="text-xs font-semibold tabular-nums">0</span>
-                              </div>
+                            <Avatar className="h-6 w-6">
+                              <AvatarImage src={account.avatarUrl} alt={account.username} />
+                              <AvatarFallback className="bg-muted text-xs">
+                                <User className="h-3 w-3" />
+                              </AvatarFallback>
+                            </Avatar>
+                            <div className="flex-1 text-left">
+                              <div className="font-medium leading-none">{account.username || steamId}</div>
+                              {account.username && <div className="text-xs text-muted-foreground mt-1">{steamId}</div>}
                             </div>
                           </button>
                           <div className="flex gap-1.5">
@@ -256,7 +236,7 @@ export default function BottomNavbar(): JSX.Element {
                                       : ''
                                   }
                                 >
-                                  {/* <Button
+                                  <Button
                                     variant="secondary"
                                     size="icon"
                                     onClick={handleForceReload}
@@ -267,7 +247,7 @@ export default function BottomNavbar(): JSX.Element {
                                     <IconWrapper>
                                       <RotateCw />
                                     </IconWrapper>
-                                  </Button> */}
+                                  </Button>
                                 </div>
                                 <Button
                                   variant="secondary"
@@ -296,6 +276,37 @@ export default function BottomNavbar(): JSX.Element {
               </div>
             </PopoverContent>
           </Popover>
+
+          {/* Stats */}
+          <div className="flex items-center gap-3">
+            {/* Inventory value */}
+            <div className="flex flex-col items-end gap-0.5">
+              <span className="text-[10px] font-semibold text-muted-foreground/60 uppercase tracking-wide leading-none">
+                Total Value
+              </span>
+              <div className="flex items-center gap-1">
+                <DollarSign className="h-3.5 w-3.5 text-muted-foreground/70" />
+                <span className="text-sm font-bold tabular-nums text-foreground">
+                  {new Intl.NumberFormat('en-US', { maximumFractionDigits: 0 }).format(totalValue)}
+                </span>
+              </div>
+            </div>
+
+            <div className="h-6 w-px bg-border/50" />
+
+            {/* Items count */}
+            <div className="flex flex-col items-end gap-0.5">
+              <span className="text-[10px] font-semibold text-muted-foreground/60 uppercase tracking-wide leading-none">
+                Items
+              </span>
+              <div className="flex items-center gap-1">
+                <Gem className="h-3.5 w-3.5 text-muted-foreground/70" />
+                <span className="text-sm font-bold tabular-nums text-foreground">
+                  {new Intl.NumberFormat('en-US').format(totalItems)}
+                </span>
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* Right section - Version and Update button */}

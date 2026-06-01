@@ -33,7 +33,9 @@ Security updates
 
 ## [1.1.1] - 2026-05-29
 
-### Added
+### Changed
+
+- UI: Move search results out of search box and show total value of currently shown items
 
 - Test123
 
@@ -81,7 +83,7 @@ Security updates
 - Initial release of SkinsTrackr
 
 [unreleased]: https://github.com/SkinsTrackr/skinstrackr/compare/v1.1.1...HEAD
-[1.1.0]: https://github.com/SkinsTrackr/skinstrackr/releases/tag/v1.1.1
+[1.1.1]: https://github.com/SkinsTrackr/skinstrackr/releases/tag/v1.1.1
 [1.1.0]: https://github.com/SkinsTrackr/skinstrackr/releases/tag/v1.1.0
 [1.0.2]: https://github.com/SkinsTrackr/skinstrackr/releases/tag/v1.0.2
 [1.0.1]: https://github.com/SkinsTrackr/skinstrackr/releases/tag/v1.0.1
