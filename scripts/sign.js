@@ -10,6 +10,11 @@ module.exports = async function (configuration) {
     throw new Error('electron-builder did not provide a path to sign.js')
   }
 
+  if (process.env.SKIP_WIN_SIGN === 'true') {
+    console.log('SKIP_WIN_SIGN set — skipping Windows code signing')
+    return
+  }
+
   const { PKCS11_MODULE_PATH, CERT_PATH, CERT_KEY, CERT_TOKEN_PIN, CERT_TIME_SERVER } = process.env
   if (!PKCS11_MODULE_PATH || !CERT_PATH || !CERT_KEY || !CERT_TOKEN_PIN || !CERT_TIME_SERVER) {
     throw new Error('Missing signing secrets. CI misconfigured.')
