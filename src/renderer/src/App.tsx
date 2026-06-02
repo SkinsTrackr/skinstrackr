@@ -11,14 +11,21 @@ import log from 'electron-log/renderer'
 import { showToast } from './components/toast'
 
 function App(): React.JSX.Element {
-  const { settings } = useClientStore()
-  const { loginCache } = useSession()
+  const { settings, settingsLoaded } = useClientStore()
+  const { loginCache, activeSteamId } = useSession()
   const [appInitialized, setAppInitialized] = useState(false)
 
   // Listen for app initialization event from main process
   // Do ALL initialization logic here on startup
   useEffect(() => {
-    const unsubscribe = window.api.onAppInitialized(async () => {
+    // Wait until settings are loaded before completing the handshake,
+    // otherwise the onMainReady handler runs with stale (empty) settings
+    if (!settingsLoaded) return
+
+    // Tell main the renderer is ready for accepting ipc messages
+    window.api.rendererReady()
+
+    const unsubscribe = window.api.onMainReady(async () => {
       try {
         if (settings.defaultAccountID) {
           log.info('Attempting to login with default account:', settings.defaultAccountID)
@@ -33,7 +40,7 @@ function App(): React.JSX.Element {
       setAppInitialized(true)
     })
     return unsubscribe
-  }, [settings, loginCache])
+  }, [settingsLoaded, settings, loginCache])
 
   return (
     <div className="flex h-full flex-col overflow-hidden">
@@ -43,7 +50,8 @@ function App(): React.JSX.Element {
         <Routes>
           <Route path="/" element={<Navigate to="/inventory" replace />} />
           {/* <Route path="/overview" element={<DashboardPage />} /> */}
-          <Route path="/inventory" element={<InventoryPage />} />
+          {/* Force remount on account switch to reset inventory state */}
+          <Route path="/inventory" element={<InventoryPage key={activeSteamId} />} />
           <Route path="/settings" element={<SettingsPage />} />
         </Routes>
       </main>

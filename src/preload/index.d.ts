@@ -19,6 +19,7 @@ export interface CustomAPI {
   downloadUpdate: () => Promise<void>
   installUpdate: () => Promise<void>
   getAppVersion: () => Promise<string>
+  rendererReady: () => void
 
   /**
    * Main --->>> Renderer
@@ -28,7 +29,7 @@ export interface CustomAPI {
   onTransferProgress: (callback: (itemId: number, success: boolean) => void) => () => void
   onUpdateAvailable: (callback: (version: string) => void) => () => void
   onUpdateDownloaded: (callback: () => void) => () => void
-  onAppInitialized: (callback: () => void) => () => void
+  onMainReady: (callback: () => void) => () => void
 }
 
 declare global {

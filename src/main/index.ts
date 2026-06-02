@@ -1,4 +1,4 @@
-import { app, shell, BrowserWindow } from 'electron'
+import { app, shell, BrowserWindow, ipcMain } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
@@ -72,12 +72,16 @@ app.whenReady().then(async () => {
     optimizer.watchWindowShortcuts(window)
   })
 
+  // Handshake: resolves once the renderer has registered its listeners
+  const rendererReady = new Promise<void>((resolve) => {
+    ipcMain.once('main:renderer-ready', () => resolve())
+  })
+
   createWindow()
 
-  // Initialize auto-updater after window is created
+  // Initialize auto-updater
   if (mainWindow) {
     initializeUpdater(mainWindow)
-
     if (settings.getSettings().devConsoleOnStart === true) {
       mainWindow.webContents.openDevTools({ mode: 'detach' })
     }
@@ -97,16 +101,19 @@ app.whenReady().then(async () => {
   setupInventoryIPC()
   setupClientStoreIPC()
 
-  // Fetch item data in background and notify renderer when complete
+  // Fetch item data and
   try {
     await fetchItemData()
     log.info('Items fetched successfully')
   } catch (error) {
-    log.error('Failed to fetch items during app initialization:', error)
-  } finally {
-    if (mainWindow && !mainWindow.isDestroyed()) {
-      mainWindow.webContents.send('renderer:app-initialized')
-    }
+    log.error('Failed to fetch items during main initialization:', error)
+  }
+
+  // WAIT FOR HANDSHAKE BEFORE SENDING ANY IPC MESSAGES!
+  await rendererReady
+
+  if (mainWindow && !mainWindow.isDestroyed()) {
+    mainWindow.webContents.send('renderer:main-ready')
   }
 
   app.on('activate', function () {

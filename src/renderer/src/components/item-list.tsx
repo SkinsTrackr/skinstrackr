@@ -1,7 +1,7 @@
 import { InfiniteScrollArea } from '@/components/ui-extensions/infinite-scroll-area'
 import { FC, useState, useMemo } from 'react'
 import { InputGroup, InputGroupAddon, InputGroupInput } from './ui/input-group'
-import { Search, Loader2 } from 'lucide-react'
+import { Search, Loader2, Gem, Banknote } from 'lucide-react'
 import { ConvertedInventory, ConvertedItem, TransferItems } from '@shared/interfaces/inventory.types'
 import { applyContainerFilter, applyFilters, applyGrouping, applySorting, ItemListFilter } from '@/lib/item-list-filter'
 import { ItemCard } from './item-card'
@@ -65,7 +65,7 @@ export const ItemList: FC<ItemListProps> = ({ inventory, transfer, setTransfer }
   // filteredItems: items after all filters, grouping and sorting applied
   // filteredItemsTotal: total number of items after filtering but before grouping and sorting
   // filteredContainerTotal: total number of items after container filtering but before other filtering, grouping and sorting
-  const { filteredItems, filteredItemsTotal, filteredContainerTotal } = useMemo(() => {
+  const { filteredItems, filteredItemsValue, filteredItemsTotal, filteredContainerTotal } = useMemo(() => {
     let invItems = [...inventory.inventory.items, ...inventory.containers.flatMap((container) => container.items)]
 
     // Create a new filter object instead of mutating the state
@@ -103,11 +103,13 @@ export const ItemList: FC<ItemListProps> = ({ inventory, transfer, setTransfer }
     const grouped = applyGrouping(filtered, currentFilter)
     const sorted = applySorting(grouped, currentFilter)
 
+    const filteredValue = filtered.reduce((acc, item) => acc + (item.price || 0), 0)
     const total = filtered.length
     const containerTotal = filteredContainers.length
 
     return {
       filteredItems: sorted,
+      filteredItemsValue: filteredValue,
       filteredItemsTotal: total,
       filteredContainerTotal: containerTotal
     }
@@ -145,7 +147,6 @@ export const ItemList: FC<ItemListProps> = ({ inventory, transfer, setTransfer }
             <InputGroupAddon>
               <Search />
             </InputGroupAddon>
-            <InputGroupAddon align="inline-end">{`${filteredItemsTotal}/${filteredContainerTotal}`}</InputGroupAddon>
           </InputGroup>
 
           <div className="flex gap-3">
@@ -178,7 +179,26 @@ export const ItemList: FC<ItemListProps> = ({ inventory, transfer, setTransfer }
             />
           </div>
         </div>
+
+        {/* Results summary — reflects the active filter/search */}
+        <div className="flex flex-col justify-center gap-1 self-stretch border-l border-border pl-4">
+          <span className="text-xs font-medium text-muted-foreground/60">SHOWING</span>
+          <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
+            <Gem className="h-3.5 w-3.5 text-muted-foreground/70" />
+            <span className="font-medium tabular-nums text-foreground">
+              {new Intl.NumberFormat('en-US').format(filteredItemsTotal)}
+            </span>
+            of {new Intl.NumberFormat('en-US').format(filteredContainerTotal)} items
+          </span>
+          <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
+            <Banknote className="h-3.5 w-3.5 text-muted-foreground/70" />
+            <span className="font-medium tabular-nums text-foreground">
+              ${new Intl.NumberFormat('en-US', { maximumFractionDigits: 0 }).format(filteredItemsValue)}
+            </span>
+          </span>
+        </div>
       </div>
+
       {/* Cards list or empty state */}
       <div className="flex-1 mt-5 overflow-hidden">
         {!hasAccounts ? (

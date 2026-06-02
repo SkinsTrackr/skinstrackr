@@ -49,6 +49,10 @@ const api = {
     return ipcRenderer.invoke('main:get-app-version')
   },
 
+  rendererReady: (): void => {
+    ipcRenderer.send('main:renderer-ready')
+  },
+
   /**
    * Main --->>> Renderer
    */
@@ -79,10 +83,10 @@ const api = {
     ipcRenderer.on('renderer:update-downloaded', listener)
     return () => ipcRenderer.removeListener('renderer:update-downloaded', listener)
   },
-  onAppInitialized: (callback: () => void) => {
+  onMainReady: (callback: () => void) => {
     const listener = (): void => callback()
-    ipcRenderer.on('renderer:app-initialized', listener)
-    return () => ipcRenderer.removeListener('renderer:app-initialized', listener)
+    ipcRenderer.on('renderer:main-ready', listener)
+    return () => ipcRenderer.removeListener('renderer:main-ready', listener)
   }
 }
 

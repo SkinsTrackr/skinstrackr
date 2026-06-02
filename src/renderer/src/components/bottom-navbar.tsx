@@ -5,7 +5,7 @@ import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 import { Popover, PopoverContent, PopoverTrigger } from './ui/popover'
 import { Input } from './ui/input'
 import { Field, FieldContent, FieldDescription, FieldGroup, FieldLabel } from './ui/field'
-import { User, DollarSign, ChevronDown, ExternalLink, Gem, RotateCw, LogOut, Download } from 'lucide-react'
+import { User, ChevronDown, ExternalLink, Gem, RotateCw, LogOut, Download, Banknote } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useInventory } from '@/contexts/InventoryContext'
 import { useSession } from '@/contexts/SessionContext'
@@ -284,10 +284,10 @@ export default function BottomNavbar(): JSX.Element {
               <span className="text-[10px] font-semibold text-muted-foreground/60 uppercase tracking-wide leading-none">
                 Total Value
               </span>
-              <div className="flex items-center gap-1">
-                <DollarSign className="h-3.5 w-3.5 text-muted-foreground/70" />
+              <div className="flex items-center gap-1.5">
+                <Banknote className="h-3.5 w-3.5 text-muted-foreground/70" />
                 <span className="text-sm font-bold tabular-nums text-foreground">
-                  {new Intl.NumberFormat('en-US', { maximumFractionDigits: 0 }).format(totalValue)}
+                  ${new Intl.NumberFormat('en-US', { maximumFractionDigits: 0 }).format(totalValue)}
                 </span>
               </div>
             </div>
@@ -299,7 +299,7 @@ export default function BottomNavbar(): JSX.Element {
               <span className="text-[10px] font-semibold text-muted-foreground/60 uppercase tracking-wide leading-none">
                 Items
               </span>
-              <div className="flex items-center gap-1">
+              <div className="flex items-center gap-1.5">
                 <Gem className="h-3.5 w-3.5 text-muted-foreground/70" />
                 <span className="text-sm font-bold tabular-nums text-foreground">
                   {new Intl.NumberFormat('en-US').format(totalItems)}

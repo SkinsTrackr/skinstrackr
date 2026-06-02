@@ -60,6 +60,8 @@ jobs:
 
       - name: WINDOWS - Build packages
         if: runner.os == 'Windows'
+        env:
+          SKIP_WIN_SIGN: true # skip code signing
         run: npm run build:win -- --publish never
 
       - name: MAC - Build packages
