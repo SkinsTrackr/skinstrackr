@@ -1,5 +1,11 @@
 import { createContext, useContext, ReactNode, JSX, useEffect, useState, useCallback, Dispatch } from 'react'
-import { GameSessionEvent, SteamSessionEvent, SteamLoginRequest } from '@shared/interfaces/session.types'
+import {
+  CredentialsGuardResponse,
+  CredentialsLoginRequest,
+  GameSessionEvent,
+  SteamSessionEvent,
+  SteamLoginRequest
+} from '@shared/interfaces/session.types'
 import { GameSessionEventType, SteamSessionEventType, UserSessionType } from '@shared/enums/session-type'
 import { showToast } from '../components/toast'
 import { useInventory } from './InventoryContext'
@@ -9,8 +15,13 @@ import { getCleanErrorMessage } from '@/lib/error-utils'
 import log from 'electron-log/renderer'
 
 interface SessionContextType {
-  loginSteam: (tokenDetails: SteamLoginRequest) => Promise<void>
+  tokenLogin: (tokenDetails: SteamLoginRequest) => Promise<void>
   loginCache: (steamId: string) => Promise<void>
+  startQrLogin: () => Promise<string>
+  cancelQrLogin: () => Promise<void>
+  startCredentialsLogin: (data: CredentialsLoginRequest) => Promise<CredentialsGuardResponse>
+  submitCredentialsGuard: (code: string) => Promise<void>
+  cancelCredentialsLogin: () => Promise<void>
   activeSteamId?: string
   userSession: UserSessionType
 }
@@ -24,9 +35,9 @@ export function SessionProvider({ children }: { children: ReactNode }): JSX.Elem
   const [activeSteamId, setActiveSteamId] = useState<string | undefined>(undefined)
   const [userSession, setUserSession] = useState<UserSessionType>(UserSessionType.NONE)
 
-  const loginSteam = useCallback(async (tokenDetails: SteamLoginRequest): Promise<void> => {
+  const tokenLogin = useCallback(async (tokenDetails: SteamLoginRequest): Promise<void> => {
     try {
-      const returnedSteamId = await window.api.loginSteam(tokenDetails)
+      const returnedSteamId = await window.api.tokenLogin(tokenDetails)
       setActiveSteamId(returnedSteamId)
       // Inventory will be loaded when we receive CONNECTED game session event
     } catch (error) {
@@ -59,10 +70,77 @@ export function SessionProvider({ children }: { children: ReactNode }): JSX.Elem
     [accounts, loadInventory]
   )
 
-  useGlobalEvents(loadInventory, loginCache, loadSettings, loadAccounts, setUserSession, activeSteamId)
+  const startQrLogin = useCallback(async (): Promise<string> => {
+    try {
+      return await window.api.startQrLogin()
+    } catch (error) {
+      log.error('Failed to start QR login: ', error)
+      showToast('Failed to start QR login: ' + getCleanErrorMessage(error), 'error')
+      throw error
+    }
+  }, [])
+
+  const cancelQrLogin = useCallback(async (): Promise<void> => {
+    try {
+      await window.api.cancelQrLogin()
+    } catch (error) {
+      log.error('Failed to cancel QR login: ', error)
+    }
+  }, [])
+
+  const startCredentialsLogin = useCallback(
+    async (data: CredentialsLoginRequest): Promise<CredentialsGuardResponse> => {
+      try {
+        return await window.api.startCredentialsLogin(data)
+      } catch (error) {
+        log.error('Failed to start credentials login: ', error)
+        throw error
+      }
+    },
+    []
+  )
+
+  const submitCredentialsGuard = useCallback(async (code: string): Promise<void> => {
+    try {
+      await window.api.submitCredentialsGuard(code)
+    } catch (error) {
+      log.error('Failed to submit Steam Guard code: ', error)
+      throw error
+    }
+  }, [])
+
+  const cancelCredentialsLogin = useCallback(async (): Promise<void> => {
+    try {
+      await window.api.cancelCredentialsLogin()
+    } catch (error) {
+      log.error('Failed to cancel credentials login: ', error)
+    }
+  }, [])
+
+  useGlobalEvents(
+    loadInventory,
+    loginCache,
+    loadSettings,
+    loadAccounts,
+    setUserSession,
+    setActiveSteamId,
+    activeSteamId
+  )
 
   return (
-    <SessionContext.Provider value={{ loginSteam, loginCache, activeSteamId, userSession }}>
+    <SessionContext.Provider
+      value={{
+        tokenLogin,
+        loginCache,
+        startQrLogin,
+        cancelQrLogin,
+        startCredentialsLogin,
+        submitCredentialsGuard,
+        cancelCredentialsLogin,
+        activeSteamId,
+        userSession
+      }}
+    >
       {children}
     </SessionContext.Provider>
   )
@@ -82,6 +160,7 @@ function useGlobalEvents(
   loadSettings: () => Promise<Settings>,
   loadAccounts: () => Promise<Record<string, Account>>,
   setUserSession: Dispatch<React.SetStateAction<UserSessionType>>,
+  setActiveSteamId: Dispatch<React.SetStateAction<string | undefined>>,
   activeSteamId: string | undefined
 ): void {
   useEffect(() => {
@@ -93,6 +172,7 @@ function useGlobalEvents(
 
       switch (value.eventType) {
         case SteamSessionEventType.LOGIN_SUCCESS:
+          if (value.user?.id) setActiveSteamId(value.user.id)
           setUserSession(UserSessionType.LOGGED_IN_OFFLINE) // Game coordinator will decide online status
           showToast('Logged in to Steam', 'success')
           loadSettings()
@@ -148,5 +228,5 @@ function useGlobalEvents(
       unsubscribeSteam()
       unsubscribeGame()
     }
-  }, [loadInventory, loginCache, activeSteamId, loadSettings, loadAccounts, setUserSession])
+  }, [loadInventory, loginCache, activeSteamId, loadSettings, loadAccounts, setUserSession, setActiveSteamId])
 }

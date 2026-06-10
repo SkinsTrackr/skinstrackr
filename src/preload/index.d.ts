@@ -1,14 +1,27 @@
 import { ElectronAPI } from '@electron-toolkit/preload'
 import { ConvertedInventory, TransferItems } from '@shared/interfaces/inventory.types'
-import { GameSessionEvent, SteamLoginRequest, SteamSessionEvent } from '@shared/interfaces/session.types'
+import {
+  CredentialsGuardResponse,
+  CredentialsLoginEvent,
+  CredentialsLoginRequest,
+  GameSessionEvent,
+  QrLoginEvent,
+  SteamLoginRequest,
+  SteamSessionEvent
+} from '@shared/interfaces/session.types'
 import { Settings, Account } from '@shared/interfaces/store.types'
 
 export interface CustomAPI {
   /**
    * Renderer --->>> Main
    */
-  loginSteam: (data: SteamLoginRequest) => Promise<string>
+  tokenLogin: (data: SteamLoginRequest) => Promise<string>
   loginCache: (userId: string) => Promise<string>
+  startQrLogin: () => Promise<string>
+  cancelQrLogin: () => Promise<void>
+  startCredentialsLogin: (data: CredentialsLoginRequest) => Promise<CredentialsGuardResponse>
+  submitCredentialsGuard: (code: string) => Promise<void>
+  cancelCredentialsLogin: () => Promise<void>
   loadInventory: (fromCache: boolean, onlyChangedContainers: boolean) => Promise<ConvertedInventory>
   loadSettings: () => Promise<Settings>
   saveSettings: (settings: Settings) => Promise<void>
@@ -26,6 +39,8 @@ export interface CustomAPI {
    */
   onSteamSessionEvent: (callback: (value: SteamSessionEvent) => void) => () => void
   onGameSessionEvent: (callback: (value: GameSessionEvent) => void) => () => void
+  onQrLoginEvent: (callback: (value: QrLoginEvent) => void) => () => void
+  onCredentialsLoginEvent: (callback: (value: CredentialsLoginEvent) => void) => () => void
   onTransferProgress: (callback: (itemId: number, success: boolean) => void) => () => void
   onUpdateAvailable: (callback: (version: string) => void) => () => void
   onUpdateDownloaded: (callback: () => void) => () => void

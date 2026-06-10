@@ -1,4 +1,10 @@
-import { GameSessionEventType, SteamSessionEventType } from '@shared/enums/session-type'
+import {
+  CredentialsGuardType,
+  CredentialsLoginEventType,
+  GameSessionEventType,
+  QrLoginEventType,
+  SteamSessionEventType
+} from '@shared/enums/session-type'
 
 export interface SteamLoginRequest {
   account_name: string
@@ -13,6 +19,27 @@ export interface SteamSessionEvent {
     id: string
     username: string
   }
+}
+
+export interface QrLoginEvent {
+  eventType: QrLoginEventType
+  message?: string
+}
+
+export interface CredentialsLoginRequest {
+  accountName: string
+  password: string
+}
+
+export interface CredentialsGuardResponse {
+  guard: CredentialsGuardType
+  detail?: string
+  mobileConfirmation: boolean
+}
+
+export interface CredentialsLoginEvent {
+  eventType: CredentialsLoginEventType
+  message?: string
 }
 
 export interface GameSessionEvent {

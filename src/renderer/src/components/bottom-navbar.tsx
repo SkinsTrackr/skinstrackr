@@ -1,4 +1,4 @@
-import { JSX, useState, useEffect } from 'react'
+import { JSX, useState, useEffect, useCallback } from 'react'
 import { Button } from './ui/button'
 import { Separator } from './ui/separator'
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
@@ -14,14 +14,17 @@ import { SteamLoginRequest } from '@shared/interfaces/session.types'
 import { UserSessionType } from '@shared/enums/session-type'
 import { IconWrapper } from '@/styles/icon-wrapper'
 import { showToast } from './toast'
+import QrLogin from './qr-login'
+import CredentialsLogin from './credentials-login'
 import log from 'electron-log/renderer'
 import { getCleanErrorMessage } from '@/lib/error-utils'
 
 export default function BottomNavbar(): JSX.Element {
   const { totalItems, totalValue, loadInventory, isLoading } = useInventory()
-  const { activeSteamId, loginSteam, loginCache, userSession } = useSession()
+  const { activeSteamId, tokenLogin, loginCache, userSession } = useSession()
   const { accounts } = useClientStore()
   const [popoverOpen, setPopoverOpen] = useState(false)
+  const [method, setMethod] = useState<'qr' | 'credentials' | 'token'>('qr')
   const [token, setToken] = useState('')
   const [updateAvailable, setUpdateAvailable] = useState(false)
   const [updateVersion, setUpdateVersion] = useState('')
@@ -30,6 +33,8 @@ export default function BottomNavbar(): JSX.Element {
   const [currentVersion, setCurrentVersion] = useState('')
 
   const currentAccount = activeSteamId ? accounts[activeSteamId] : undefined
+  const isLoggedIn =
+    userSession === UserSessionType.LOGGED_IN_ONLINE || userSession === UserSessionType.LOGGED_IN_OFFLINE
 
   useEffect(() => {
     // Get current app version
@@ -85,7 +90,7 @@ export default function BottomNavbar(): JSX.Element {
 
     try {
       const tokenDetails = JSON.parse(token) as SteamLoginRequest
-      await loginSteam(tokenDetails)
+      await tokenLogin(tokenDetails)
       setPopoverOpen(false)
     } catch (err) {
       log.error('Login error:', err)
@@ -94,6 +99,10 @@ export default function BottomNavbar(): JSX.Element {
       setToken('')
     }
   }
+
+  const handleLoginSuccess = useCallback((): void => {
+    setPopoverOpen(false)
+  }, [])
 
   const handleForceReload = async (e: React.MouseEvent): Promise<void> => {
     e.stopPropagation()
@@ -160,38 +169,98 @@ export default function BottomNavbar(): JSX.Element {
             </PopoverTrigger>
             <PopoverContent align="start" className="p-3">
               <div className="space-y-2">
-                {/* Login Form */}
-                <form onSubmit={handleLogin}>
-                  <FieldGroup className="gap-2">
-                    <Field>
-                      <FieldContent>
-                        <FieldLabel htmlFor="token">Login via Steam Web Token</FieldLabel>
-                        <FieldDescription>Open the link below, copy the token and paste it here.</FieldDescription>
-                      </FieldContent>
+                <div className="relative">
+                  <div className={cn('space-y-2', isLoggedIn && 'pointer-events-none select-none')}>
+                    {/* Login method toggle */}
+                    <div className="flex gap-1 rounded-md bg-muted p-0.5">
+                      <button
+                        type="button"
+                        onClick={() => setMethod('qr')}
+                        className={cn(
+                          'flex-1 rounded-sm px-2 py-1 text-xs font-medium transition-colors',
+                          method === 'qr' ? 'bg-background shadow-sm' : 'text-muted-foreground hover:text-foreground'
+                        )}
+                      >
+                        QR Code
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setMethod('credentials')}
+                        className={cn(
+                          'flex-1 rounded-sm px-2 py-1 text-xs font-medium transition-colors',
+                          method === 'credentials'
+                            ? 'bg-background shadow-sm'
+                            : 'text-muted-foreground hover:text-foreground'
+                        )}
+                      >
+                        Password
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setMethod('token')}
+                        className={cn(
+                          'flex-1 rounded-sm px-2 py-1 text-xs font-medium transition-colors line-through',
+                          method === 'token' ? 'bg-background shadow-sm' : 'text-muted-foreground hover:text-foreground'
+                        )}
+                      >
+                        Web Token
+                      </button>
+                    </div>
 
-                      <div className="flex w-full items-center gap-1 py-1">
-                        <Input
-                          id="token"
-                          placeholder='{"logged_in":true, "steamid": ...}'
-                          required
-                          value={token}
-                          onChange={(e) => setToken(e.target.value)}
-                          className="h-8 text-xs"
-                        />
-                        <Button variant="outline" size="icon" className="h-8 w-8" asChild>
-                          <a href="https://steamcommunity.com/chat/clientjstoken" target="_blank" rel="noreferrer">
-                            <ExternalLink className="h-3 w-3" />
-                          </a>
-                        </Button>
-                      </div>
-                    </Field>
-                    <Field>
-                      <Button type="submit" size="sm" className="w-full h-7 text-xs">
-                        Login
-                      </Button>
-                    </Field>
-                  </FieldGroup>
-                </form>
+                    {/* Login Form */}
+                    {method === 'token' ? (
+                      <form onSubmit={handleLogin}>
+                        <FieldGroup className="gap-2">
+                          <Field>
+                            <FieldContent>
+                              <FieldLabel className="text-yellow-500" htmlFor="token">
+                                Warning: Might not work
+                              </FieldLabel>
+                              <FieldLabel htmlFor="token">Login via Steam Web Token</FieldLabel>
+                              <FieldDescription>
+                                Open the link below, copy the token and paste it here.
+                              </FieldDescription>
+                            </FieldContent>
+
+                            <div className="flex w-full items-center gap-1 py-1">
+                              <Input
+                                id="token"
+                                placeholder='{"logged_in":true, "steamid": ...}'
+                                required
+                                value={token}
+                                onChange={(e) => setToken(e.target.value)}
+                                className="h-8 text-xs"
+                              />
+                              <Button variant="outline" size="icon" className="h-8 w-8" asChild>
+                                <a
+                                  href="https://steamcommunity.com/chat/clientjstoken"
+                                  target="_blank"
+                                  rel="noreferrer"
+                                >
+                                  <ExternalLink className="h-3 w-3" />
+                                </a>
+                              </Button>
+                            </div>
+                          </Field>
+                          <Field>
+                            <Button type="submit" size="sm" className="w-full h-7 text-xs">
+                              Login
+                            </Button>
+                          </Field>
+                        </FieldGroup>
+                      </form>
+                    ) : method === 'qr' ? (
+                      <QrLogin onSuccess={handleLoginSuccess} />
+                    ) : method === 'credentials' ? (
+                      <CredentialsLogin onSuccess={handleLoginSuccess} />
+                    ) : null}
+                  </div>
+                  {isLoggedIn && (
+                    <div className="absolute inset-0 z-10 flex items-center justify-center rounded-md bg-background/50 backdrop-blur-sm">
+                      <span className="text-sm font-medium text-foreground">Logged in</span>
+                    </div>
+                  )}
+                </div>
 
                 {/* Saved Accounts */}
                 {Object.entries(accounts).length > 0 && (

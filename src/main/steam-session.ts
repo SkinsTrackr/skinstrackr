@@ -43,7 +43,7 @@ class SteamSession {
    * Eventually "logs out" cached user if different.
    * @returns SteamID of logged in user
    */
-  async loginUserToSteam(details: SteamUser.LogOnDetailsNameToken): Promise<string> {
+  async loginUserToSteam(details: SteamUser.LogOnDetailsNameToken | SteamUser.LogOnDetailsRefresh): Promise<string> {
     return new Promise<string>((resolve, reject) => {
       const loggedOnListener = (_response): void => {
         this.cachedSessionUserId = null

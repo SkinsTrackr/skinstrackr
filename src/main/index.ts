@@ -20,6 +20,14 @@ if (!is.dev) {
   log.transports.console.level = false
 }
 
+process.on('uncaughtException', (err) => {
+  log.error('Uncaught exception in main process:', err)
+})
+
+process.on('unhandledRejection', (reason) => {
+  log.error('Unhandled rejection in main process:', reason)
+})
+
 let mainWindow: BrowserWindow | null = null
 
 export function getMainWindow(): BrowserWindow | null {
