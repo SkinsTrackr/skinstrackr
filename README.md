@@ -91,7 +91,7 @@ Short answer: No
 Long answer:
 
 1. This tool does not interact with any of your game files, nor the CS2 game servers. It is not even required to have the game installed to use skinstrackr.
-2. As most other inventory managers, this app uses DoctorMcKay's [node-steamuser](https://github.com/DoctorMcKay/node-steam-user) + [node-globaloffensive](https://github.com/DoctorMcKay/node-globaloffensive). Both are mature libraries to interact with the Steam network and CS2 Game Coordinator.
+2. As most other inventory managers, this app uses DoctorMcKay's [node-steamuser](https://github.com/DoctorMcKay/node-steam-user) + [node-globaloffensive](https://github.com/DoctorMcKay/node-globaloffensive) + [node-steam-session](https://github.com/DoctorMcKay/node-steam-session). All are mature and popular libraries to interact with the Steam network and CS2 Game Coordinator.
 
 ### How often does my inventory sync?
 
@@ -102,9 +102,9 @@ You can also manually trigger a sync at any time using the refresh button in the
 
 ### Is all my data private? Where is it stored?
 
-Since SkinsTrackr currently only supports the Steam Web token for login (which is a one-time-use), no credentials or sensitive info is stored at all. The only stored data are logged in users with their cached inventories.
+The only stored data are your inventory items for offline viewing and settings. Everything is stored on your computer. 
 
-Nothing is ever sent to external servers except for the necessary Steam API calls to retrieve your profile and inventory.
+No credentials or sensitive info are ever stored or sent to an external server. The only exceptions are the necessary Steam requests to login and retrieve your profile/inventory.
 
 ---
 
