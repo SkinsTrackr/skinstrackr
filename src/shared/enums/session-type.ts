@@ -8,6 +8,24 @@ export enum SteamSessionEventType {
   LOGIN_CACHE_SUCCESS = 6
 }
 
+export enum QrLoginEventType {
+  SCANNED = 0,
+  TIMEOUT = 1,
+  ERROR = 2
+}
+
+export enum CredentialsGuardType {
+  NONE = 0,
+  EMAIL_CODE = 1,
+  DEVICE_CODE = 2,
+  CONFIRMATION = 3
+}
+
+export enum CredentialsLoginEventType {
+  TIMEOUT = 0,
+  ERROR = 1
+}
+
 export enum GameSessionEventType {
   CONNECTED = 0,
   DISCONNECTED = 1,

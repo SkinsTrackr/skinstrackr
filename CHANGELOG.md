@@ -31,6 +31,13 @@ Bug fixes
 
 Security updates
 
+## [1.1.2] - 2026-06-10
+
+### Changed
+
+- UI: Added two new login methods: QR (Recommended) and password
+- UI: Login with Web Token is marked as deprecated, until Valve decides to fix it
+
 ## [1.1.1] - 2026-05-29
 
 ### Changed
@@ -86,7 +93,8 @@ Security updates
 
 - Initial release of SkinsTrackr
 
-[unreleased]: https://github.com/SkinsTrackr/skinstrackr/compare/v1.1.1...HEAD
+[unreleased]: https://github.com/SkinsTrackr/skinstrackr/compare/v1.1.2...HEAD
+[1.1.2]: https://github.com/SkinsTrackr/skinstrackr/releases/tag/v1.1.2
 [1.1.1]: https://github.com/SkinsTrackr/skinstrackr/releases/tag/v1.1.1
 [1.1.0]: https://github.com/SkinsTrackr/skinstrackr/releases/tag/v1.1.0
 [1.0.2]: https://github.com/SkinsTrackr/skinstrackr/releases/tag/v1.0.2

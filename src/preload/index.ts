@@ -1,6 +1,14 @@
 import { contextBridge, ipcRenderer } from 'electron'
 import { electronAPI } from '@electron-toolkit/preload'
-import { GameSessionEvent, SteamLoginRequest, SteamSessionEvent } from '@shared/interfaces/session.types'
+import {
+  CredentialsGuardResponse,
+  CredentialsLoginEvent,
+  CredentialsLoginRequest,
+  GameSessionEvent,
+  QrLoginEvent,
+  SteamLoginRequest,
+  SteamSessionEvent
+} from '@shared/interfaces/session.types'
 import { ConvertedInventory, TransferItems } from '@shared/interfaces/inventory.types'
 import { env } from '@shared/env'
 import { Account, Settings } from '@shared/interfaces/store.types'
@@ -12,11 +20,26 @@ const api = {
   /**
    * Renderer --->>> Main
    */
-  loginSteam: (data: SteamLoginRequest): Promise<string> => {
-    return ipcRenderer.invoke('main:steam-session-login', data)
+  tokenLogin: (data: SteamLoginRequest): Promise<string> => {
+    return ipcRenderer.invoke('main:steam-token-login', data)
   },
   loginCache: (userId: string): Promise<string> => {
     return ipcRenderer.invoke('main:cache-session-login', userId)
+  },
+  startQrLogin: (): Promise<string> => {
+    return ipcRenderer.invoke('main:steam-qr-login-start')
+  },
+  cancelQrLogin: (): Promise<void> => {
+    return ipcRenderer.invoke('main:steam-qr-login-cancel')
+  },
+  startCredentialsLogin: (data: CredentialsLoginRequest): Promise<CredentialsGuardResponse> => {
+    return ipcRenderer.invoke('main:steam-credentials-login-start', data)
+  },
+  submitCredentialsGuard: (code: string): Promise<void> => {
+    return ipcRenderer.invoke('main:steam-credentials-submit-guard', code)
+  },
+  cancelCredentialsLogin: (): Promise<void> => {
+    return ipcRenderer.invoke('main:steam-credentials-cancel')
   },
   loadInventory: (fromCache: boolean, onlyChangedContainers: boolean): Promise<ConvertedInventory> => {
     return ipcRenderer.invoke('main:load-inventory', fromCache, onlyChangedContainers)
@@ -65,6 +88,16 @@ const api = {
     const listener = (_event, value: GameSessionEvent): void => callback(value)
     ipcRenderer.on('renderer:game-session-event', listener)
     return () => ipcRenderer.removeListener('renderer:game-session-event', listener)
+  },
+  onQrLoginEvent: (callback) => {
+    const listener = (_event, value: QrLoginEvent): void => callback(value)
+    ipcRenderer.on('renderer:qr-login-event', listener)
+    return () => ipcRenderer.removeListener('renderer:qr-login-event', listener)
+  },
+  onCredentialsLoginEvent: (callback) => {
+    const listener = (_event, value: CredentialsLoginEvent): void => callback(value)
+    ipcRenderer.on('renderer:credentials-login-event', listener)
+    return () => ipcRenderer.removeListener('renderer:credentials-login-event', listener)
   },
   onTransferProgress: (callback: (itemId, success) => void) => {
     // This function returns an unsubscribe function
